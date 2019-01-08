@@ -19,8 +19,8 @@ class CreateLivesTable extends Migration
             $table->unsignedTinyInteger('status')->default(0)->comment('直播状态 1.直播中 2.未开始 3.已结束');
             $table->string('image')->default('')->comment('封面');
             $table->unsignedInteger('disease_id')->default(0)->comment('病种');
-            $table->timestamp('start_at')->default(null)->comment('开始时间');
-            $table->timestamp('end_at')->default(null)->comment('结束时间');
+            $table->timestamp('start_at')->default(null)->nullable()->comment('开始时间');
+            $table->timestamp('end_at')->default(null)->nullable()->comment('结束时间');
             $table->string('link')->default('')->comment('直播地址');
             $table->string('playback')->default('')->comment('回放ID');
             $table->text('brief')->default(null)->comment('简介');

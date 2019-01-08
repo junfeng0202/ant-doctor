@@ -4,5 +4,5 @@
     cd /home/patient
     git checkout .
     git pull origin master
-    php artisan migrate
+    /usr/local/php/bin/php artisan migrate
 @endtask

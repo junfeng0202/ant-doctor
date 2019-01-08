@@ -17,8 +17,8 @@ class CreateVideoSectionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('video_id')->comment('音频id');
             $table->string('title',100)->default('')->comment('名称');
-            $table->string('video_id',100)->default('')->comment('音频id');
-            $table->unsignedSmallInteger('duration',100)->default('')->comment('时长(秒)');
+            $table->string('url',200)->default('')->comment('音频地址');
+            $table->unsignedSmallInteger('duration')->default(0)->comment('时长(秒)');
 	        $table->float('sort',5,2)->default(0)->comment('排序');
             $table->timestamps();
         });
