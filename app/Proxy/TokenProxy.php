@@ -35,7 +35,7 @@ class TokenProxy
 		}
 		$params = [
 			'grant_type' => $grantType,
-			'username' => $data['username'],
+			'email' => $data['username'],
 			'password' => $data['password'],
 			'scope' => '',
 		];
