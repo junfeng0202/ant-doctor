@@ -19,7 +19,6 @@ class TokenProxy
 	public function proxy($grantType, Array $data=[])
 	{
 
-
 		$response = $this->client->post(config('app.url').'/oauth/token', [
 			'form_params' => array_merge(['grant_type' => $grantType], $data)
 		]);

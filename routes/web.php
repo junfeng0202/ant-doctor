@@ -5,6 +5,10 @@
 });*/
 
 //
-Route::get('/', 'HomeController@index')->name('home');
+/*Route::get('/', 'HomeController@index')->name('home');
 
-Auth::routes();
+Auth::routes();*/
+
+Route::get('/', function () {
+    return 111;
+});

@@ -31,6 +31,11 @@ class User extends Authenticatable
 
 	public function username()
 	{
-		return 'email';
+		return 'name';
+	}
+
+
+	public function findForPassport($username) {
+		return $this->Where('name', $username)->first();
 	}
 }
