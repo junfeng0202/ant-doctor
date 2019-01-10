@@ -26,7 +26,7 @@ class LoginController extends ApiController
 				'client_id' => $oauth->id,
 				'client_secret' => $oauth->secret,
 				'username' => $request->username,
-				'password' => bcrypt($request->password),
+				'password' => $request->password,
 				'scope' => '',
 			];
 			//dd($params);
