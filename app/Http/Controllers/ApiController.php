@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Dingo\Api\Routing\Helpers;
+use Symfony\Component\HttpFoundation\Response as FoundationResponse;
 
 class ApiController extends Controller
 {
-    use Helpers;
+
+
 }

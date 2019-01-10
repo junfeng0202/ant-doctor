@@ -3,12 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class Member extends Model
 {
+	use HasApiTokens,Notifiable;
+
+
 	const INTERESTED = 0;
 	const COMBINE = 1;
 	const COMPLICATION = 2;
+
+	protected $fillable = ['phone', 'password'];
+
+	protected $hidden = ['password'];
+
+	public function findForPassport($username) {
+		return $this->Where('phone', $username)->first();
+	}
 
 
 	/**

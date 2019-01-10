@@ -9,6 +9,4 @@
 
 Auth::routes();*/
 
-Route::get('/', function () {
-    return 111;
-});
+

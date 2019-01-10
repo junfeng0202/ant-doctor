@@ -2,41 +2,35 @@
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
-use App\Models\OauthClient;
-use App\Proxy\TokenProxy;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\MemberInfoRequest;
+use App\Http\Requests\MemberRequest;
+use App\Service\MemberService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends ApiController
 {
-	use AuthenticatesUsers;
+	protected $memberService;
 
-	public function __construct()
+	public function __construct(MemberService $memberService)
 	{
 		//$this->middleware('guest')->except('logout');
+		$this->memberService = $memberService;
+
 	}
 
-	public function login(TokenProxy $tokenProxy, Request $request)
+	public function login(MemberRequest $request)
 	{
-		if(Auth::attempt(['name'=>$request->username,'password'=>$request->password])){
+		return $this->memberService->login($request);
+	}
 
-			$oauth = OauthClient::find(2);
-			$params = [
-				'client_id' => $oauth->id,
-				'client_secret' => $oauth->secret,
-				'username' => $request->username,
-				'password' => $request->password,
-				'scope' => '',
-			];
-			//dd($params);
-			$token = $tokenProxy->proxy('password', $params);
-			if(isset($token->error)){
-				return $this->response->errorForbidden($token->error);
-			}
-			return $this->response->item($token);
-		}else{
-			return $this->response->errorUnauthorized('用户名或密码错误');
-		}
+
+	public function register(MemberRequest $request)
+	{
+		return $this->memberService->register($request);
+	}
+
+	public function info(MemberInfoRequest $request)
+	{
+		return $this->memberService->updateInfo($request);
 	}
 }
