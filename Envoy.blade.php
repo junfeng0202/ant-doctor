@@ -2,7 +2,7 @@
 
 @task('deploy')
     cd /home/patient
-    composer update
+    /usr/local/bin/composer update
     git checkout .
     git pull origin master
     /usr/local/php/bin/php artisan migrate
