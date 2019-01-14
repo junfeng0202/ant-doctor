@@ -5,8 +5,10 @@
 });*/
 
 //
-/*Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', function(){
+    return phpinfo();
+});
 
-Auth::routes();*/
+//Auth::routes();
 
 

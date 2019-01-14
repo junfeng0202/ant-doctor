@@ -32,15 +32,15 @@ class MemberService extends Service
 	public function register($request)
 	{
 		try {
-			$this->memberRepository->create([
+			$user= $this->memberRepository->create([
 				'phone' => $request->username,
 				'password' => bcrypt($request->password)
 			]);
 
-			return $this->getToken($request->username, $request->password);
+			return ['success'=>true,'obj'=>$user];
 
 		} catch (\Exception $e) {
-			$this->response->error('系统错误', 502);
+			return ['success' => false, 'obj' => null];
 		}
 	}
 

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Member extends Model
+class Member extends Authenticatable  implements JWTSubject
 {
-	use HasApiTokens,Notifiable;
+	use Notifiable;
 
 
 	const INTERESTED = 0;
@@ -19,8 +19,14 @@ class Member extends Model
 
 	protected $hidden = ['password'];
 
-	public function findForPassport($username) {
-		return $this->Where('phone', $username)->first();
+	public function getJWTIdentifier()
+	{
+		return $this->getKey();
+	}
+
+	public function getJWTCustomClaims()
+	{
+		return [];
 	}
 
 

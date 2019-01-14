@@ -2,11 +2,10 @@
 namespace App\Transform;
 
 use App\Models\Disease;
-use League\Fractal\TransformerAbstract;
 
-class DiseaseTranform extends TransformerAbstract
+class DiseaseTranform extends TranformAbstract
 {
-	public function transform(Disease $disease)
+	public function item($disease)
 	{
 		return [
 			'id'=> $disease->id,
