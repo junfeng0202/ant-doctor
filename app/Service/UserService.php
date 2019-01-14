@@ -27,7 +27,7 @@ class UserService
 		];
 
 		$payload = $request->only('username', 'password');
-
+		dd($payload);
 		$validator = app('validator')->make($payload, $rules);
 
 		if ($validator->fails()) {

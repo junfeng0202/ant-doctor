@@ -21,4 +21,20 @@ class Course extends Model
 	{
 		return $this->hasMany(CourseSection::class)->where('parent_id',0);
 	}
+
+    //前台api格式化数据
+    public static function parseRow($item){
+        $res = [];
+        foreach ($item as $k=>$v){
+            $res[] = [
+                'course_id' =>$v->id,
+                'videoTitle' => $v->title,
+                'videoImg' =>$v->image,
+                'videoCount' =>$v->hits,
+                'videoNumber' =>100,
+                'videoDuration' =>19,
+            ];
+        }
+        return $res;
+    }
 }
