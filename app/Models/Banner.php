@@ -18,4 +18,20 @@ class Banner extends Model
     {
 		return $query->where('position', $position);
     }
+
+
+    //格式化数据
+    public static function parseRow($item){
+        $res = [];
+        foreach ($item as $k=>$v){
+            $res[] = [
+                'banner_id' =>$v->id,
+                'url' => $v->link,
+                'image' => $v->image,
+                'positionStr' =>'首页'
+            ];
+        }
+        return $res;
+    }
+
 }

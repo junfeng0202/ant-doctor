@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PageRequest;
 use App\Service\AreaService;
+use App\Service\ArticleService;
 use App\Service\DiseaseService;
 
 class CommonController extends Controller
@@ -17,4 +19,8 @@ class CommonController extends Controller
 	{
 		return $areaService->province();
 	}
+
+	public function articlesList(PageRequest $pageRequest,ArticleService $articleService){
+        return $articleService->articleList($pageRequest);
+    }
 }

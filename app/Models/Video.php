@@ -21,4 +21,18 @@ class Video extends Model
 	{
 		return $this->hasMany(VideoSection::class)->where('parent_id',0);
 	}
+
+    //前台api格式化数据
+    public static function parseRow($item){
+        $res = [];
+        foreach ($item as $k=>$v){
+            $res[] = [
+                'live_id' =>$v->id,
+                'audioTitle' => $v->title,
+                'audioImg' =>$v->image,
+                'audioCount' =>$v->hits,
+            ];
+        }
+        return $res;
+    }
 }
