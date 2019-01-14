@@ -16,7 +16,7 @@ class AlertMembers extends Migration
         Schema::table('members', function (Blueprint $table){
         	$table->date('birth')->nullable()->default(null)->change();
         	$table->date('diagnosis_at')->nullable()->default(null)->change();
-        	$table->addColumn('Integer','inventor')->default(0)->comment('邀请人id');
+        	$table->addColumn('integer','inventor')->default(0)->comment('邀请人id');
         });
     }
 
