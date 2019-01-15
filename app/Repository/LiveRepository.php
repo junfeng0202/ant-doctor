@@ -2,8 +2,6 @@
 
 namespace App\Repository;
 
-
-use App\Models\Article;
 use App\Models\Live;
 
 class LiveRepository
@@ -11,9 +9,7 @@ class LiveRepository
 
 	public function liveList()
 	{
-	    $live = Live::query();
-	    $live = $live->with(['disease:id,name','doctor']);
-        return $live;
+	    return Live::where('created_at','>',now()->subDays(2))->get();
 	}
 
 	//首页推荐直播
@@ -30,4 +26,5 @@ class LiveRepository
         $live = $live->where('id','=',$id);
         return $live->get();
     }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Http\Resources\LiveResource;
 use App\Repository\LiveRepository;
 
 class LiveService extends Service
@@ -17,7 +18,10 @@ class LiveService extends Service
 
 	public function info($id)
 	{
-		return $this->liveRepository->info($id);
-	}
+		$info = $this->liveRepository->info($id);
+        $info =LiveResource::collection($info)->toArray(null);
+        return $info;
+
+    }
 
 }

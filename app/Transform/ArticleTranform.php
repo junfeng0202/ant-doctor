@@ -1,12 +1,9 @@
 <?php
 namespace App\Transform;
 
-use App\Models\Article;
-use League\Fractal\TransformerAbstract;
-
-class ArticleTranform extends TransformerAbstract
+class ArticleTranform extends TransformAbstract
 {
-	public function transform(Article $article)
+	public function transform($article)
 	{
 		return [
 		    'article_title'=>$article->title,

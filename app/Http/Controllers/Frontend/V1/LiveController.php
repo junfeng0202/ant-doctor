@@ -18,12 +18,8 @@ class LiveController extends ApiController
 	public function info($id)
 	{
         $info = $this->liveService->info($id);
-        $res = [
-            'msg'=>'success',
-            'code' =>200,
-            'data' =>$info->toArray()
-        ];
-        return json_encode($res);
+
+        return $this->apiReturn($info);
 	}
 
 

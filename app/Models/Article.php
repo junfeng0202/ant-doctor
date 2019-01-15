@@ -11,6 +11,11 @@ class Article extends Model
         return $this->hasOne(Disease::class,'id','disease_id');
     }
 
+    public function getHitsAttribute()
+    {
+    	return \Redis::get(config('redisKeys.articleHits')) ?? $this->attributes['hits'];
+    }
+
     //格式化数据
     public static function parseRow($item){
         $res = [];

@@ -3,68 +3,55 @@
 namespace App\Service;
 
 
+use App\Http\Resources\ArticleResource;
+use App\Http\Resources\BannerResource;
+use App\Http\Resources\CourseResource;
+use App\Http\Resources\LiveResource;
+use App\Http\Resources\VideoResource;
 use App\Models\Article;
-use App\Models\Banner;
 use App\Models\Course;
 use App\Models\Live;
-use App\Models\Member;
 use App\Models\Video;
-use App\Proxy\ProxyService;
 use App\Repository\ArticleRepository;
 use App\Repository\BannersRepository;
 use App\Repository\CourseRepository;
 use App\Repository\LiveRepository;
-use App\Repository\MemberRepository;
-use App\Repository\OauthRepository;
 use App\Repository\VideoRepository;
-use App\Transform\BannersTranform;
-use Illuminate\Support\Facades\Auth;
 
 class IndexService extends Service
 {
 
 
-    public function __construct()
-    {
-    }
-
-    public function index()
-    {
-        //首页数据
+	public function index(){
         //首页banner
-        $bannersRep = new BannersRepository();
-        $banners = $bannersRep->getBanners()->get();
-        $banners = Banner::parseRow($banners);
+        $banners = (new BannersRepository)->getBanners();
+		$banners = BannerResource::collection($banners)->toArray(null);
 
         //首页直播课推荐
-        $liveRep = new LiveRepository();
-        $lives = $liveRep->livesOfIndex();
-        $lives = Live::parseRow($lives);
+        $lives = (new LiveRepository)->liveList();
+        $lives =LiveResource::collection($lives)->toArray(null);
 
         //首页蚂蚁信息
-        $articleRep = new ArticleRepository();
-        $articles = $articleRep->articleList()->limit(3)->orderBy('created_at', 'desc')->get();
-        $articles = Article::parseRow($articles);
+
+        $articles = (new ArticleRepository)->paginate(3);
+        $articles = ArticleResource::collection($articles)->toArray(null);
 
         //首页课程
-        $courseRep = new CourseRepository();
-        $courses = $courseRep->listOfItem();
-        $courses = Course::parseRow($courses);
-
+        $courses = (new CourseRepository)->paginate(4);
+        $courses = CourseResource::collection($courses)->toArray(null);
 
         //首页音频
         $vedioRep = new VideoRepository();
-        $video = $vedioRep->listOfIndex();
-        $video = Video::parseRow($video);
-
+        $videos = (new VideoRepository)->paginate(3);
+        $videos = VideoResource::collection($videos)->toArray(null);
         $res = [
             'mimeInfoList' => $articles,
             'indexBanner' => $banners,
             'mimeLiveList' => $lives,
-            'mimeVideoList' => $courses,
-            'mimeAudioList' => $video
+            'mimeVideoList' =>$courses,
+            'mimeAudioList' => $videos
         ];
-        return $this->response->array($res);
+        return $res;
     }
 
 }

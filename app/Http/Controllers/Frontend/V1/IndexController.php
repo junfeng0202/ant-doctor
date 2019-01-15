@@ -2,11 +2,7 @@
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\MemberInfoRequest;
-use App\Http\Requests\MemberRequest;
 use App\Service\IndexService;
-use App\Service\MemberService;
-use Illuminate\Http\Request;
 
 class IndexController extends ApiController
 {
@@ -20,7 +16,8 @@ class IndexController extends ApiController
 
 	public function index()
 	{
-		return $this->indexService->index();
+		$data = $this->indexService->index();
+		return $this->apiReturn($data);
 	}
 
 

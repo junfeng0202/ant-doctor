@@ -8,10 +8,8 @@ use App\Models\Article;
 class ArticleRepository
 {
 
-	public function articleList()
+	public function paginate($page=10)
 	{
-	    $Article = Article::query();
-	    $Article = $Article->with('disease:id,name');
-        return $Article;
+		return Article::latest('sort')->paginate($page);
 	}
 }

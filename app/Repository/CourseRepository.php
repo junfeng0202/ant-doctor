@@ -3,18 +3,16 @@
 namespace App\Repository;
 
 
-use App\Models\Article;
-use App\Models\Live;
+use App\Models\Course;
 
 class CourseRepository
 {
     //首页课程
-	public function listOfItem()
+	public function paginate($page)
 	{
-	    $live = Live::query();
-	    $live = $live->limit(4);
-	    $live = $live->orderBy('created_at');
-        return $live->get();
+        return Course::withCount(['section'=>function($query){
+        	$query->where('source_id','<>','');
+        }])->with(['section:course_id,duration'])->paginate($page);
 	}
 
 }

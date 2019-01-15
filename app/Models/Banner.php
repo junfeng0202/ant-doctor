@@ -19,6 +19,11 @@ class Banner extends Model
 		return $query->where('position', $position);
     }
 
+    public function scopeEnable($query)
+    {
+    	return $query->where('enable', 1);
+    }
+
 
     //格式化数据
     public static function parseRow($item){

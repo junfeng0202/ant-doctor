@@ -1,11 +1,9 @@
 <?php
 namespace App\Transform;
 
-use App\Models\Disease;
-
-class DiseaseTranform extends TranformAbstract
+class DiseaseTransform extends TransformAbstract
 {
-	public function item($disease)
+	public function transform($disease)
 	{
 		return [
 			'id'=> $disease->id,
