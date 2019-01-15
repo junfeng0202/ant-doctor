@@ -134,7 +134,7 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => array(
 
         /*
          * Laravel Framework Service Providers...
@@ -178,7 +178,7 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
 
 
-    ],
+    ),
 
     /*
     |--------------------------------------------------------------------------

@@ -27,4 +27,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	//首页获取数据
 	Route::get('index', 'IndexController@index');
 
+	//获取直播详情，根据id
+    Route::get('live/{id}', 'LiveController@info');
+
+
 });

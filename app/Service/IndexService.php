@@ -24,12 +24,13 @@ class IndexService extends Service
 {
 
 
+    public function __construct()
+    {
+    }
 
-	public function __construct()
-	{
-	}
-
-	public function index(){
+    public function index()
+    {
+        //首页数据
         //首页banner
         $bannersRep = new BannersRepository();
         $banners = $bannersRep->getBanners()->get();
@@ -42,7 +43,7 @@ class IndexService extends Service
 
         //首页蚂蚁信息
         $articleRep = new ArticleRepository();
-        $articles = $articleRep->articleList()->limit(3)->orderBy('created_at','desc')->get();
+        $articles = $articleRep->articleList()->limit(3)->orderBy('created_at', 'desc')->get();
         $articles = Article::parseRow($articles);
 
         //首页课程
@@ -57,10 +58,10 @@ class IndexService extends Service
         $video = Video::parseRow($video);
 
         $res = [
-            'mimeInfoList' =>$articles,
+            'mimeInfoList' => $articles,
             'indexBanner' => $banners,
             'mimeLiveList' => $lives,
-            'mimeVideoList' =>$courses,
+            'mimeVideoList' => $courses,
             'mimeAudioList' => $video
         ];
         return $this->response->array($res);
