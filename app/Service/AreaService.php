@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Http\Resources\AreaResource;
 use App\Repository\AreaRepository;
 use App\Transform\AreaTranform;
 
@@ -19,7 +20,7 @@ class AreaService extends Service
 	public function province()
 	{
 		$items = $this->areaRepository->province();
-		return $this->response->collection($items, new AreaTranform());
+		return AreaResource::collection($items)->toArray(null);
 	}
 
 }

@@ -19,7 +19,7 @@ class Course extends Model
 
 	public function section()
 	{
-		return $this->hasMany(CourseSection::class)->where('parent_id',0);
+		return $this->hasMany(CourseSection::class)->orderBy('sort');
 	}
 
     //前台api格式化数据

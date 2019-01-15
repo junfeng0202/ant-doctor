@@ -22,6 +22,15 @@ class Video extends Model
 		return $this->hasMany(VideoSection::class)->where('parent_id',0);
 	}
 
+	public function scopeEnable($query)
+	{
+		return $query->where('enable',1);
+	}
+
+	public function scopeSort($query)
+	{
+		return $query->orderByDesc('sort');
+	}
     //前台api格式化数据
     public static function parseRow($item){
         $res = [];

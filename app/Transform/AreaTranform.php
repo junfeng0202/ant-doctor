@@ -4,9 +4,9 @@ namespace App\Transform;
 use App\Models\Area;
 use League\Fractal\TransformerAbstract;
 
-class AreaTranform extends TransformerAbstract
+class AreaTranform extends TransformAbstract
 {
-	public function transform(Area $area)
+	public function transform($area)
 	{
 		return $area->toArray();
 	}

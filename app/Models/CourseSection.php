@@ -10,4 +10,9 @@ class CourseSection extends Model
     {
     	return $this->hasMany(self::class, 'pid');
     }
+
+    public function getDurationAttribute()
+    {
+		return numberToTime($this->attributes['duration']);
+    }
 }

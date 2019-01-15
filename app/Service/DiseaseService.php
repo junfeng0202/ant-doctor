@@ -3,11 +3,12 @@
 namespace App\Service;
 
 
+use App\Http\Resources\DiseaseResource;
 use App\Proxy\ProxyService;
 use App\Repository\DiseaseRepository;
 use App\Repository\MemberRepository;
 use App\Repository\OauthRepository;
-use App\Transform\DiseaseTranform;
+use App\Transform\DiseaseTransform;
 use Illuminate\Support\Facades\Auth;
 
 class DiseaseService extends Service
@@ -24,7 +25,7 @@ class DiseaseService extends Service
 	public function disease()
 	{
 		$items = $this->diseaseRepository->getAll();
-		return $this->response->collection($items, new DiseaseTranform());
+		return DiseaseResource::collection($items)->toArray(null);
 	}
 
 }
