@@ -16,7 +16,6 @@ class LiveService extends Service
 		$this->liveRepository = $liveRepository;
 	}
 
-
 	public function index()
 	{
 		$items = $this->liveRepository->liveList();

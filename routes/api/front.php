@@ -40,5 +40,4 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	Route::get('video/{id}', 'VideoController@info')->name('video.info');
 
 
-
 });

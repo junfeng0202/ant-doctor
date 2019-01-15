@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\CourseResource;
@@ -13,7 +12,6 @@ use App\Repository\BannersRepository;
 use App\Repository\CourseRepository;
 use App\Repository\LiveRepository;
 use App\Repository\VideoRepository;
-use Illuminate\Auth\AuthenticationException;
 
 class IndexService extends Service
 {
@@ -29,6 +27,7 @@ class IndexService extends Service
         $lives =LiveResource::collection($lives);
 
         //首页蚂蚁信息
+
         $articles = (new ArticleRepository)->paginate(3);
         $articles = ArticleResource::collection($articles);
 
@@ -37,12 +36,11 @@ class IndexService extends Service
         $courses = CourseResource::collection($courses);
 
         //首页音频
-        $vedioRep = new VideoRepository();
         $videos = (new VideoRepository)->paginate(3);
         $videos = VideoResource::collection($videos);
 
         $res = [
-            'mimeInfoList' =>$articles,
+            'mimeInfoList' => $articles,
             'indexBanner' => $banners,
             'mimeLiveList' => $lives,
             'mimeVideoList' =>$courses,
