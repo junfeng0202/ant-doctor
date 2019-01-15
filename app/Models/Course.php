@@ -22,19 +22,8 @@ class Course extends Model
 		return $this->hasMany(CourseSection::class)->orderBy('sort');
 	}
 
-    //前台api格式化数据
-    public static function parseRow($item){
-        $res = [];
-        foreach ($item as $k=>$v){
-            $res[] = [
-                'course_id' =>$v->id,
-                'videoTitle' => $v->title,
-                'videoImg' =>$v->image,
-                'videoCount' =>$v->hits,
-                'videoNumber' =>100,
-                'videoDuration' =>19,
-            ];
-        }
-        return $res;
-    }
+	public function getHitsAttribute()
+	{
+		return \Redis::hget(config('redisKeys.courseHits'), $this->attributes['id']) ?? $this->attributes['hits'];
+	}
 }

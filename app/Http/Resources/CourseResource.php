@@ -27,6 +27,7 @@ class CourseResource extends Resource
 				return $this->section()->where('source_id','<>','')->value('duration');
 	        }),
         	'created_at'=>(string)$this->created_at,
+	        'link'=>route('course.info',['id'=>$this->id])
         ];
     }
 }

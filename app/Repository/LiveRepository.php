@@ -9,7 +9,12 @@ class LiveRepository
 
 	public function liveList()
 	{
-	    return Live::where('created_at','>',now()->subDays(2))->get();
+	    return Live::where('status','<',Live::END)->isIndex()->get();
+	}
+
+	public function getById($id)
+	{
+		return Live::find($id);
 	}
 
 }

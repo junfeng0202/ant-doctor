@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
+	protected $fillable = ['hits', 'title', 'disease_id', 'doctor_id', 'image', 'content'];
     //
     public function disease(){
         return $this->hasOne(Disease::class,'id','disease_id');
@@ -13,20 +15,12 @@ class Article extends Model
 
     public function getHitsAttribute()
     {
-    	return \Redis::get(config('redisKeys.articleHits')) ?? $this->attributes['hits'];
+    	return \Redis::hget(config('redisKeys.articleHits'), $this->attributes['id']) ?? $this->attributes['hits'];
     }
 
-    //格式化数据
-    public static function parseRow($item){
-        $res = [];
-        foreach ($item as $k=>$v){
-            $res[] = [
-                'article_id' =>$v->id,
-                'infoTitle' => $v->title,
-                'infoImg' =>$v->image,
-                'infoCount' =>$v->hits
-            ];
-        }
-        return $res;
+    public function scopeIsIndex($query)
+    {
+	    return $query->select(DB::raw('1 as `index`'), 'id', 'hits', 'title', 'disease_id', 'doctor_id', 'image', 'content');
     }
+
 }

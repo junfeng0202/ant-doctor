@@ -27,21 +27,14 @@ class Video extends Model
 		return $query->where('enable',1);
 	}
 
+	public function getHitsAttribute()
+	{
+		return \Redis::hget(config('redisKeys.videoHits'), $this->attributes['id']) ?? $this->attributes['hits'];
+	}
+
 	public function scopeSort($query)
 	{
 		return $query->orderByDesc('sort');
 	}
-    //前台api格式化数据
-    public static function parseRow($item){
-        $res = [];
-        foreach ($item as $k=>$v){
-            $res[] = [
-                'live_id' =>$v->id,
-                'audioTitle' => $v->title,
-                'audioImg' =>$v->image,
-                'audioCount' =>$v->hits,
-            ];
-        }
-        return $res;
-    }
+
 }

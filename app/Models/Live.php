@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Live extends Model
 {
@@ -13,7 +14,7 @@ class Live extends Model
 
     protected $table = 'lives';
 
-    protected $fillable = ['title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'playback', 'brief'];
+    protected $fillable = ['title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief'];
 
 	protected $dates = ['start_at', 'end_at'];
 
@@ -28,18 +29,14 @@ class Live extends Model
 		return $this->belongsTo(Disease::class);
 	}
 
-    //前台api格式化数据
-    public static function parseRow($item){
-        $res = [];
-        foreach ($item as $k=>$v){
-            $res[] = [
-                'live_id' =>$v->id,
-                'liveTitle' => $v->title,
-                'liveImg' =>$v->image,
-                'liveStartDate' =>date('Y/m/d',strtotime($v->start_at)),
-                'liveEndDate' =>date('Y/m/d',strtotime($v->end_at)),
-            ];
-        }
-        return $res;
-    }
+	public function getHitsAttribute()
+	{
+		return \Redis::hget(config('redisKeys.liveHits'), $this->attributes['id']) ?? $this->attributes['hits'];
+	}
+
+	public function scopeIsIndex($query)
+	{
+		return $query->select(DB::raw('1 as isIndex'), 'id', 'title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief');
+	}
+
 }

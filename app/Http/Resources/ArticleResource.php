@@ -18,7 +18,9 @@ class ArticleResource extends JsonResource
 	        'article_id' =>$this->id,
 	        'infoTitle' => $this->title,
 	        'infoImg' =>$this->image,
-	        'infoCount' =>$this->hits
+	        'infoCount' =>$this->hits,
+	        'content' =>$this->when(!$this->index, $this->content),
+	        'link'=>route('article.info',['id'=>$this->id])
         ];
     }
 }

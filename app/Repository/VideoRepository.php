@@ -12,4 +12,9 @@ class VideoRepository
 		return Video::enable()->sort()->paginate($page);
 	}
 
+	public function getById($id)
+	{
+		return Video::enable()->with('section')->find($id);
+	}
+
 }

@@ -27,4 +27,18 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	//首页获取数据
 	Route::get('index', 'IndexController@index');
 
+	Route::get('article', 'ArticleController@index');
+	Route::get('article/{id}', 'ArticleController@info')->name('article.info');
+
+	Route::get('course', 'CourseController@index');
+	Route::get('course/{id}', 'CourseController@info')->name('course.info');
+
+	Route::get('live', 'LiveController@index');
+	Route::get('live/{id}', 'LiveController@info')->name('live.info');
+
+	Route::get('video', 'VideoController@index');
+	Route::get('video/{id}', 'VideoController@info')->name('video.info');
+
+
+
 });
