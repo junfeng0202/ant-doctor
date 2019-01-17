@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Video extends Model
 {
 
+	protected $fillable = ['hits','title','disease_id','image','brief','sort','enable'];
 	public function doctor()
 	{
 		return $this->belongsToMany(Doctor::class);
@@ -19,7 +21,7 @@ class Video extends Model
 
 	public function section()
 	{
-		return $this->hasMany(VideoSection::class)->where('parent_id',0);
+		return $this->hasMany(VideoSection::class)->latest('sort');
 	}
 
 	public function scopeEnable($query)
@@ -27,9 +29,14 @@ class Video extends Model
 		return $query->where('enable',1);
 	}
 
-	public function getHitsAttribute()
+	public function scopeIsIndex($query)
 	{
-		return \Redis::hget(config('redisKeys.videoHits'), $this->attributes['id']) ?? $this->attributes['hits'];
+		return $query->select(DB::raw('1 as `index`'),'id','hits','title','disease_id','image','brief','sort','enable','created_at');
+	}
+
+	public function getClicksAttribute()
+	{
+		return \Redis::hget(config('redisKeys.videoHits'), $this->attributes['id']) ?: $this->attributes['hits'];
 	}
 
 	public function scopeSort($query)

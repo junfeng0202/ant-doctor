@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
+use App\Events\ArticleHit;
 use App\Http\Resources\ArticleResource;
 use App\Repository\ArticleRepository;
-use App\Transform\ArticleTranform;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ArticleService extends Service
@@ -18,9 +18,9 @@ class ArticleService extends Service
 	}
 
 
-	public function paginate($page=10)
+	public function index($request)
 	{
-		$items = $this->articleRepository->paginate($page);
+		$items = $this->articleRepository->paginate(8, $request->get('sort','sort'));
 		return ArticleResource::collection($items);
 	}
 
@@ -30,6 +30,7 @@ class ArticleService extends Service
 		if(!$item){
 			throw new ModelNotFoundException();
 		}
+		event(new ArticleHit($item));
 		return new ArticleResource($item);
 	}
 

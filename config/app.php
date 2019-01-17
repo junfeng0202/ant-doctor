@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\Cors\ServiceProvider::class,
+	    Mrgoon\AliSms\ServiceProvider::class,
 
 
     ),

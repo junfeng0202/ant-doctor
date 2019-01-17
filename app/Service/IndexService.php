@@ -40,11 +40,11 @@ class IndexService extends Service
         $videos = VideoResource::collection($videos);
 
         $res = [
-            'mimeInfoList' => $articles,
-            'indexBanner' => $banners,
-            'mimeLiveList' => $lives,
-            'mimeVideoList' =>$courses,
-            'mimeAudioList' => $videos
+	        'bannerList' => $banners,
+	        'liveList' => $lives,
+	        'articleList' => $articles,
+            'CourseList' =>$courses,
+            'videoList' => $videos
         ];
         return $res;
     }

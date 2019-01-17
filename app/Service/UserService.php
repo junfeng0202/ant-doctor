@@ -2,8 +2,7 @@
 
 namespace App\Service;
 
-
-use App\Proxy\ProxyService;
+use App\Proxy\OtherService;
 use App\Repository\OauthRepository;
 use App\Repository\UserRepository;
 use Dingo\Api\Exception\StoreResourceFailedException;
@@ -45,7 +44,7 @@ class UserService
 				'scope' => '',
 			];
 
-			$tokenProxy = new ProxyService();
+			$tokenProxy = new OtherService();
 			$token = $tokenProxy->proxy('password', $params);
 
 			if(isset($token->error)){

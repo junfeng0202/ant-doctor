@@ -20,4 +20,9 @@ class MemberRepository
 	{
 		return Member::whereId($id)->update($data);
 	}
+
+	public function phoneExist($phone)
+	{
+		return Member::where('phone', $phone)->exists();
+	}
 }

@@ -29,14 +29,34 @@ class Live extends Model
 		return $this->belongsTo(Disease::class);
 	}
 
-	public function getHitsAttribute()
+	public function getClicksAttribute()
 	{
 		return \Redis::hget(config('redisKeys.liveHits'), $this->attributes['id']) ?? $this->attributes['hits'];
 	}
 
 	public function scopeIsIndex($query)
 	{
-		return $query->select(DB::raw('1 as isIndex'), 'id', 'title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief');
+		return $query->select(DB::raw('1 as `index`'), 'id', 'title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief');
+	}
+
+	public function getStatus($key=null)
+	{
+		$arr = [
+			['value'=>self::BEGINING, 'label'=>'直播中'],
+			['value'=>self::WAITING, 'label'=>'未开始'],
+			['value'=>self::END, 'label'=>'已结束'],
+		];
+		if(is_null($key)) return $arr;
+
+		$index = collect($arr)->search(function ($item) use($key) {
+			return $item['value'] == $key;
+		});
+		if($index !== false){
+			return '';
+		}else{
+			return $arr[$index]['label'];
+		}
+
 	}
 
 }

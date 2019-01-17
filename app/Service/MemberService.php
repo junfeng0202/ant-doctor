@@ -3,11 +3,13 @@
 namespace App\Service;
 
 
+use App\Exceptions\ApiException;
 use App\Models\Member;
-use App\Proxy\ProxyService;
+use App\Proxy\OtherService;
 use App\Repository\MemberRepository;
 use App\Repository\OauthRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class MemberService extends Service
 {
@@ -31,17 +33,28 @@ class MemberService extends Service
 
 	public function register($request)
 	{
-		try {
-			$user= $this->memberRepository->create([
-				'phone' => $request->username,
-				'password' => bcrypt($request->password)
-			]);
+		$phone = $request->username;
+		if($code = Cache::get('reg-'.$phone)){
 
-			return ['success'=>true,'obj'=>$user];
+			if(!$code){
+				throw new ApiException('验证码已过期，请重新获取',420);
+			}
 
-		} catch (\Exception $e) {
-			return ['success' => false, 'obj' => null];
+			if($code != $request->code){
+				throw new ApiException('验证码错误',420);
+			}
 		}
+
+		if($this->memberRepository->phoneExist($phone)){
+			throw new ApiException('手机号已被注册',419);
+		}
+
+		return $this->memberRepository->create([
+			'phone' => $phone,
+			'password' => bcrypt($request->password)
+		]);
+
+
 	}
 
 
@@ -70,7 +83,7 @@ class MemberService extends Service
 			'scope' => '',
 		];
 
-		$tokenProxy = new ProxyService;
+		$tokenProxy = new OtherService;
 		$token = $tokenProxy->proxy('password', $params);
 		if (isset($token->error)) {
 			$this->response->errorForbidden($token->error);

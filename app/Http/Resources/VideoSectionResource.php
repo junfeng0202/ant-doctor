@@ -14,14 +14,15 @@ class VideoSectionResource extends Resource
      */
     public function toArray($request)
     {
-        //return $this->map(function(){
-        	return [
-        		'id'=>$this->id,
-        		'title'=>$this->title,
-        		'audio_url'=>$this->url,
-        		'timer'=>$this->duration,
-        		'created_at'=>(string)$this->created_at,
-	        ];
-       // });
+
+        return [
+            'id'=>$this->id,
+            'title'=>$this->title,
+            'clicks'=>(int)$this->clicks,
+            //'audio_url'=>$this->url,
+            'timer'=>$this->duration,
+            'created_at'=>(string)$this->created_at,
+	        'link'=>route('video.section',['id'=>$this->id])
+        ];
     }
 }

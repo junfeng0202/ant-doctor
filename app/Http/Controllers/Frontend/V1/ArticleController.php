@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Service\ArticleService;
-use App\Service\IndexService;
+use Illuminate\Http\Request;
 
 class ArticleController extends ApiController
 {
@@ -15,9 +15,9 @@ class ArticleController extends ApiController
 
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
-		$data = $this->articleService->paginate();
+		$data = $this->articleService->index($request);
 		return $this->apiReturn($data);
 	}
 

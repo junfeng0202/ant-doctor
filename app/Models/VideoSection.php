@@ -15,4 +15,9 @@ class VideoSection extends Model
 	{
 		return numberToTime($this->attributes['duration']);
 	}
+
+	public function getClicksAttribute()
+	{
+		return \Redis::hget(config('redisKeys.videoSectionHits'), $this->attributes['id']) ?: $this->attributes['hits'];
+	}
 }

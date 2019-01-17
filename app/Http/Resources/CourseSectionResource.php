@@ -14,14 +14,12 @@ class CourseSectionResource extends Resource
      */
     public function toArray($request)
     {
-        //return $this->map(function(){
-        	return [
-        		'id'=>$this->id,
-        		'title'=>$this->title,
-        		'audio_id'=>$this->source_id,
-        		'timer'=>$this->duration,
-        		'section'=>$this->whenLoaded('children'),
-	        ];
-       // });
+        return [
+            'id'=>$this->id,
+            'title'=>$this->title,
+            //'audio_id'=>$this->when($this->source_id, $this->source_id),
+            'timer'=>$this->when($this->source_id, $this->duration),
+            'section'=>self::collection($this->whenLoaded('children')),
+        ];
     }
 }

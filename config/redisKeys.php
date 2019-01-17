@@ -7,4 +7,9 @@ return [
 	'courseHits'=>'course:hitNumber',
 	//音频点击数键名前缀
 	'videoHits'=>'video:hitNumber',
+	//音频点击数键名前缀
+	'videoSectionHits'=>'videoSection:hitNumber',
+
+	//某IP下短信发送的次数/天
+	'smsIPSendTime'=>'sms:'.date('m-d').':',
 ];

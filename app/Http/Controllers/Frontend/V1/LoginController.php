@@ -2,10 +2,8 @@
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\MemberInfoRequest;
 use App\Http\Requests\MemberRequest;
 use App\Service\MemberService;
-use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends ApiController
@@ -30,10 +28,7 @@ class LoginController extends ApiController
 		return $this->memberService->register($request);
 	}
 
-	public function info(MemberInfoRequest $request)
-	{
-		return $this->memberService->updateInfo($request);
-	}*/
+	*/
 
 	/**
 	 * Get a JWT via given credentials.
@@ -56,9 +51,9 @@ class LoginController extends ApiController
 
 	public function register(MemberRequest $request)
 	{
-		$res = $this->memberService->register($request);
-		if($res['success']){
-			return $this->apiReturn(['token'=>JWTAuth::fromUser($res['obj'])]);
+		$user = $this->memberService->register($request);
+		if($user){
+			return $this->apiReturn(['token'=>JWTAuth::fromUser($user)]);
 		}else{
 			return $this->setIndex(101)->apiReturn();
 		}

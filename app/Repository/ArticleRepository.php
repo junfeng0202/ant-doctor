@@ -7,9 +7,12 @@ use App\Models\Article;
 class ArticleRepository
 {
 
-	public function paginate($page=10)
+	public function paginate($page=10,$sort='sort',$disease=0)
 	{
-		return Article::latest('sort')->isIndex()->paginate($page);
+		$article = Article::query();
+		$article->latest($sort);
+		$disease && $article->where('disease_id', $disease);
+		return $article->isIndex()->paginate($page);
 	}
 
 	public function getById($id)

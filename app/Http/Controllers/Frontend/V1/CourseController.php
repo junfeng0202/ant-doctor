@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
-use App\Service\ArticleService;
 use App\Service\CourseService;
+use Illuminate\Http\Request;
 
 class CourseController extends ApiController
 {
@@ -15,9 +15,9 @@ class CourseController extends ApiController
 
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
-		$data = $this->courseService->index();
+		$data = $this->courseService->index($request);
 		return $this->apiReturn($data);
 	}
 
@@ -26,6 +26,10 @@ class CourseController extends ApiController
 		return $this->apiReturn($this->courseService->info($id));
 	}
 
+	public function audio($id)
+	{
+		return $this->apiReturn($this->courseService->audio($id));
+	}
 
 
 }

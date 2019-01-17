@@ -26,6 +26,12 @@ class VideoController extends ApiController
 		return $this->apiReturn($item);
 	}
 
+	public function section($id)
+	{
+		$item = $this->videoService->section($id);
+		return $this->apiReturn($item);
+	}
+
 
 
 }

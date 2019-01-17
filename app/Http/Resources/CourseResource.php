@@ -18,7 +18,7 @@ class CourseResource extends Resource
         return [
         	'id'=>$this->id,
         	'title'=>$this->title,
-        	'hits'=>$this->hits,
+        	'clicks'=>(int)$this->clicks,
         	'disease'=>$this->whenLoaded('disease',function(){
         		return $this->disease->name;
 	        }),
@@ -32,10 +32,12 @@ class CourseResource extends Resource
             }),
             'sort'=>$this->sort,
         	'image'=>$this->image,
+        	'brief'=>$this->when(!$this->index, $this->brief),
 	        'count'=>$this->section_count,
 	        'timer'=>$this->whenLoaded('section',function(){
-				return $this->section()->where('source_id','<>','')->value('duration');
+				return $this->section()->where('source_id','<>','')->value('duration') ?? '00:00:00';
 	        }),
+	        'chapters'=>$this->when($this->chapters,$this->chapters),
         	'created_at'=>(string)$this->created_at,
 	        'link'=>route('course.info',['id'=>$this->id])
         ];

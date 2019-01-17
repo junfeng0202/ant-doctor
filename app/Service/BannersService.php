@@ -4,7 +4,7 @@ namespace App\Service;
 
 
 use App\Models\Member;
-use App\Proxy\ProxyService;
+use App\Proxy\OtherService;
 use App\Repository\MemberRepository;
 use App\Repository\OauthRepository;
 use Illuminate\Support\Facades\Auth;

@@ -13,7 +13,7 @@ class Article extends Model
         return $this->hasOne(Disease::class,'id','disease_id');
     }
 
-    public function getHitsAttribute()
+    public function getClicksAttribute()
     {
     	return \Redis::hget(config('redisKeys.articleHits'), $this->attributes['id']) ?? $this->attributes['hits'];
     }
