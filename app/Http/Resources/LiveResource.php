@@ -22,7 +22,8 @@ class LiveResource extends JsonResource
 	        'brief' =>$this->when(!$this->index,$this->brief),
 	        'start_time' =>(string)$this->start_at->format('n/j H:i'),
 	        'end_time' =>(string)$this->end_at->format('n/j H:i'),
-	        'link'=>route('live.info',['id'=>$this->id])
+	        'live_url'=>$this->when(!$this->index,$this->link),
+	        'link'=>$this->when($this->index,route('live.info',['id'=>$this->id])),
         ];
     }
 }

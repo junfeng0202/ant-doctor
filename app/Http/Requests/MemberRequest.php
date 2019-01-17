@@ -24,8 +24,9 @@ class MemberRequest extends BaseRequest
     public function rules()
     {
         return [
-	        'username' => ['required'],
-	        'password' => ['required']
+	        'username' => 'required',
+	        'password' => 'required',
+	        'code' => 'required|numeric',
         ];
     }
 
@@ -34,6 +35,9 @@ class MemberRequest extends BaseRequest
 	    return [
 	    	'username.required'=>'用户名不能为空',
 	    	'password.required'=>'密码不能为空',
+	    	'code.required'=>'请输入验证码',
+	    	'code.numeric'=>'验证码错误',
+	    	'code.size'=>'验证码错误',
 	    ];
     }
 }

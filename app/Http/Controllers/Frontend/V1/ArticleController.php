@@ -3,7 +3,6 @@ namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Service\ArticleService;
-use App\Service\IndexService;
 use Illuminate\Http\Request;
 
 class ArticleController extends ApiController

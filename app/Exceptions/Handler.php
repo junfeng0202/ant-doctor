@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -68,6 +69,12 @@ class Handler extends ExceptionHandler
 			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
 		}
 
+		if ($e instanceof MethodNotAllowedHttpException) {
+			$message = $e->getMessage() ?: 'http method error';
+			$code = $e->getCode() ?: 405;
+			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
+		}
+
 		// FirstOrFail 和 FindOrFail 异常处理
 		if ($e instanceof ModelNotFoundException) {
 			// 如果删除的内容已经不存在了，就没必要报错了，直接成功处理
@@ -77,6 +84,10 @@ class Handler extends ExceptionHandler
 
 			return response()->json(['msg' => '页面未找到', 'code' => 404, 'data' => []], 404);
 
+		}
+
+		if ($e instanceof ApiException) {
+			return response()->json(['msg' => $e->getMessage(), 'code' => 419, 'data' => []]);
 		}
 
 		return response()->json(['msg' => $e->getMessage(), 'code' => 500, 'data' => []], 500);
