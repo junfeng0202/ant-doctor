@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
-use App\Http\Resources\ArticleResource;
+use App\Events\VideoHit;
+use App\Events\VideoSectionHit;
 use App\Http\Resources\VideoResource;
-use App\Repository\ArticleRepository;
 use App\Repository\VideoRepository;
-use App\Transform\ArticleTranform;
+use App\Repository\VideoSectionRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class VideoService extends Service
@@ -32,7 +32,19 @@ class VideoService extends Service
 		if(!$item){
 			throw new ModelNotFoundException();
 		}
+		event(new VideoHit($item));
 		return new VideoResource($item);
+	}
+
+	public function section($id)
+	{
+		$section = (new VideoSectionRepository())->getById($id);
+		if(!$section){
+			throw new ModelNotFoundException();
+		}
+
+		event(new VideoSectionHit($section));
+		return ['video_url'=>$section->url];
 	}
 
 }

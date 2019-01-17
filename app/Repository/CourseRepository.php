@@ -2,22 +2,41 @@
 
 namespace App\Repository;
 
-
 use App\Models\Course;
 
 class CourseRepository
 {
     //首页课程
-	public function paginate($page=10)
+	public function paginate($page=10, $sort='sort')
 	{
-        return Course::withCount(['section'=>function($query){
+		$course = Course::query();
+		$course->latest($sort);
+        return $course->isIndex()->withCount(['section'=>function($query){
         	$query->where('source_id','<>','');
         }])->with(['section:course_id,duration'])->paginate($page);
 	}
 
 	public function getById($id)
 	{
-		return Course::with('section.children')->find($id);
+		return Course::with(['section'=>function($query){
+			$query->with('children')->where('pid',0);
+		}])->withCount(['section'=>function($query){
+			$query->where('source_id','<>','');
+		}])->find($id);
+	}
+
+	public function recommend($except_id,$disease,$limit=4)
+	{
+		return Course::where('disease_id',$disease)
+			->where('id','<>',$except_id)
+			->isIndex()
+			->withCount(['section'=>function($query){
+			$query->where('source_id','<>','');
+			}])
+			->with(['section:course_id,duration'])
+			->latest()
+			->limit($limit)
+			->get();
 	}
 
 }

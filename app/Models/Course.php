@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Course extends Model
 {
+
+	protected $fillable = ['hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable'];
 
 	public function doctor()
 	{
@@ -22,7 +25,12 @@ class Course extends Model
 		return $this->hasMany(CourseSection::class)->orderBy('sort');
 	}
 
-	public function getHitsAttribute()
+	public function scopeIsIndex($query)
+	{
+		return $query->select(DB::raw('1 as `index`'),'id','hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'created_at');
+	}
+
+	public function getClicksAttribute()
 	{
 		return \Redis::hget(config('redisKeys.courseHits'), $this->attributes['id']) ?? $this->attributes['hits'];
 	}

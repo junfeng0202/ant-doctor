@@ -17,13 +17,15 @@ class VideoResource extends Resource
         return [
         	'id'=>$this->id,
         	'title'=>$this->title,
-        	'hits'=>$this->hits,
+        	'clicks'=>(int)$this->clicks,
         	'disease'=>$this->whenLoaded('disease',function(){
         		return $this->disease->name;
 	        }),
-        	'brief'=>$this->brief,
+        	'brief'=>$this->when(!$this->index,$this->brief),
         	'image'=>$this->image,
+	        'section'=>VideoSectionResource::collection($this->whenLoaded('section')),
         	'created_at'=>(string)$this->created_at,
+        	'link'=>route('video.info',['id'=>$this->id]),
         ];
     }
 }

@@ -7,4 +7,6 @@ return [
 	'courseHits'=>'course:hitNumber',
 	//音频点击数键名前缀
 	'videoHits'=>'video:hitNumber',
+	//音频点击数键名前缀
+	'videoSectionHits'=>'videoSection:hitNumber',
 ];

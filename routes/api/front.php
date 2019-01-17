@@ -32,12 +32,15 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 
 	Route::get('course', 'CourseController@index');
 	Route::get('course/{id}', 'CourseController@info')->name('course.info');
+	Route::get('course-section/{id}', 'CourseController@section')->name('course.section');
+	Route::get('course-audio/{id}', 'CourseController@audio')->name('course.audio');
 
 	Route::get('live', 'LiveController@index');
 	Route::get('live/{id}', 'LiveController@info')->name('live.info');
 
 	Route::get('video', 'VideoController@index');
 	Route::get('video/{id}', 'VideoController@info')->name('video.info');
+	Route::get('video-section/{id}', 'VideoController@section')->name('video.section');
 
 
 });

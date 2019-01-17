@@ -15,12 +15,12 @@ class ArticleResource extends JsonResource
     public function toArray($request)
     {
         return [
-	        'article_id' =>$this->id,
-	        'infoTitle' => $this->title,
-	        'infoImg' =>$this->image,
-	        'infoCount' =>$this->hits,
-	        'content' =>$this->when(!$this->index, $this->content),
-	        'link'=>route('article.info',['id'=>$this->id])
+	        'id'     => $this->id,
+	        'title'  => $this->title,
+	        'image'  => $this->image,
+	        'clicks' => (int)$this->clicks,
+	        'content'=> $this->when(!$this->index, $this->content),
+	        'link'   => route('article.info',['id'=>$this->id])
         ];
     }
 }
