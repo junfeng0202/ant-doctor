@@ -28,4 +28,10 @@ class CourseService extends Service
 		return new CourseResource($item);
 	}
 
+	public function BackList($limit){
+	    $items = $this->courseRepository->paginate($limit);
+//	    dd($items->toArray());
+        return CourseResource::collection($items);
+	}
+
 }

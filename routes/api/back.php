@@ -10,5 +10,6 @@ $api->version('v1', ['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'b
 
 Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], function (){
 	Route::post('login', 'LoginController@login');
-	Route::post('test', 'LoginController@test');
+	Route::get('/material/video/list', 'CourseController@list');
+	Route::get('/doctor/list', 'CourseController@list');
 });

@@ -14,6 +14,7 @@ class CourseResource extends Resource
      */
     public function toArray($request)
     {
+
         return [
         	'id'=>$this->id,
         	'title'=>$this->title,
@@ -21,6 +22,15 @@ class CourseResource extends Resource
         	'disease'=>$this->whenLoaded('disease',function(){
         		return $this->disease->name;
 	        }),
+            'doctor'=>$this->whenLoaded('doctor',function(){
+                $name = [];
+                foreach ($this->doctor as $v){
+                    $name[] = $v->name;
+                }
+
+                return implode('，',$name);
+            }),
+            'sort'=>$this->sort,
         	'image'=>$this->image,
 	        'count'=>$this->section_count,
 	        'timer'=>$this->whenLoaded('section',function(){

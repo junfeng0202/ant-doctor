@@ -12,10 +12,9 @@ class Course extends Model
 		return $this->belongsToMany(Doctor::class);
 	}
 
-	public function disease()
-	{
-		return $this->belongsTo(Disease::class);
-	}
+    public function disease(){
+        return $this->hasOne(Disease::class,'id','disease_id');
+    }
 
 	public function section()
 	{
