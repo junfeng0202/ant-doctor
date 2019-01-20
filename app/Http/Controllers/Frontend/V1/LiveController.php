@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Service\LiveService;
+use Illuminate\Http\Request;
 
 class LiveController extends ApiController
 {
@@ -14,9 +15,9 @@ class LiveController extends ApiController
 
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
-		$data = $this->liveService->index();
+		$data = $this->liveService->index($request);
 		return $this->apiReturn($data);
 	}
 

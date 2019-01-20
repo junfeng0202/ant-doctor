@@ -20,9 +20,9 @@ class VideoService extends Service
 	}
 
 
-	public function paginate($page=10)
+	public function paginate($request)
 	{
-		$items = $this->videoRepository->paginate($page);
+		$items = $this->videoRepository->paginate($request->get('show_num',8));
 		return VideoResource::collection($items);
 	}
 

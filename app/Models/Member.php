@@ -10,12 +10,18 @@ class Member extends Authenticatable  implements JWTSubject
 {
 	use Notifiable;
 
-
+	//疾病类型
 	const INTERESTED = 0;
 	const COMBINE = 1;
 	const COMPLICATION = 2;
 
-	protected $fillable = ['phone', 'password'];
+	//身份 1.患者 2.家属 3.医疗从业者 4.非医疗从业者
+	const PATIENT = 1;
+	const FAMILY = 2;
+	const PRACTITIONER = 3;
+	const UNPRACTITIONER = 4;
+
+	protected $fillable = ['phone', 'password', 'avatar', 'nickname', 'identify', 'gender','birth', 'diagnosis_at', 'province_id', 'city_id', 'company'];
 
 	protected $hidden = ['password'];
 
@@ -31,30 +37,14 @@ class Member extends Authenticatable  implements JWTSubject
 
 
 	/**
-	 * 感兴趣的疾病
+	 * 用户关注的疾病
+	 * @param $type 0.感兴趣 1.合并症 2.并发症
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-	public function interest()
+	public function disease($type)
 	{
-		return $this->belongsToMany(Disease::class)->wherePivot('type', self::INTERESTED);
-	}
-
-	/**
-	 * 合并症
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-	 */
-	public function combine()
-	{
-		return $this->belongsToMany(Disease::class)->wherePivot('type', self::COMBINE);
+		return $this->belongsToMany(Disease::class)->wherePivot('type', $type);
 	}
 
 
-	/**
-	 * 并发症
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-	 */
-	public function complication()
-	{
-		return $this->belongsToMany(Disease::class)->wherePivot('type', self::COMPLICATION);
-	}
 }

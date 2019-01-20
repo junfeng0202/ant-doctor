@@ -18,16 +18,22 @@ class MemberController extends ApiController
 
 	public function user()
 	{
-		$data = auth('member')->user();
+		$data = $this->memberService->getUser();
 		return $this->apiReturn($data);
 	}
 
 
 	public function editInfo(MemberInfoRequest $request)
 	{
-		return $this->memberService->updateInfo($request);
+		$this->memberService->updateInfo($request);
+		return $this->apiReturn();
 	}
 
 
+	public function studyHistory(Request $request)
+	{
+
+		return $this->apiReturn($this->memberService->studyHistory($request));
+	}
 
 }

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Service\VideoService;
+use Illuminate\Http\Request;
 
 class VideoController extends ApiController
 {
@@ -14,9 +15,9 @@ class VideoController extends ApiController
 
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
-		$data = $this->videoService->paginate();
+		$data = $this->videoService->paginate($request);
 		return $this->apiReturn($data);
 	}
 

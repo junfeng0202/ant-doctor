@@ -4,12 +4,17 @@ namespace App\Service;
 
 
 use App\Exceptions\ApiException;
+use App\Http\Resources\MemberResource;
+use App\Http\Resources\StudyLogResource;
 use App\Models\Member;
 use App\Proxy\OtherService;
+use App\Repository\MemberStudyRepository;
 use App\Repository\MemberRepository;
 use App\Repository\OauthRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class MemberService extends Service
 {
@@ -23,7 +28,7 @@ class MemberService extends Service
 
 	public function login($request)
 	{
-		if (Auth::guard('member')->attempt(['phone' => $request->username, 'password' => $request->password])) {
+		if (JWTAuth::attempt(['phone' => $request->username, 'password' => $request->password])) {
 
 			return $this->getToken($request->username, $request->password);
 		} else {
@@ -57,18 +62,57 @@ class MemberService extends Service
 
 	}
 
+	public function getUser()
+	{
+		$member = JWTAuth::parseToken()->touser();
+		$member->interest = $member->disease(Member::INTERESTED)->get(['id','name']);
+		$member->combine = $member->disease(Member::COMBINE)->get(['id','name']);
+		$member->complication = $member->disease(Member::COMPLICATION)->get(['id','name']);
+		return new MemberResource($member);
+	}
 
 	public function updateInfo($request)
 	{
-		//感兴趣疾病
-		$interest = (array)$request->interest;
-		$interest = array_map(function($v){ return [$v=>['type'=>Member::INTERESTED]];}, $interest);
+		DB::transaction(function () use($request) {
+			$member = JWTAuth::parseToken()->touser();
+			//感兴趣疾病
+			$interest = (array)$request->interest;
+			$this->memberDisease($member, $interest, Member::INTERESTED);
 
-		dd($interest);
-		$data = $request->only('identify', 'gender','birth', 'diagnosis_at', 'province_id', 'city_id', 'company');
+			//合并症
+			$combine = (array)$request->combine;
+			$this->memberDisease($member, $combine, Member::COMBINE);
+
+			//并发症
+			$complication = (array)$request->complication;
+			$this->memberDisease($member, $complication, Member::COMPLICATION);
+
+			$data = $request->only('avatar', 'nickname', 'identify', 'gender','birth', 'diagnosis_at', 'province_id', 'city_id', 'company');
+			$data = array_filter($data, function ($v){ return !is_null($v); });
+			$member->fill($data);
+			$member->save();
+		});
+
+	}
 
 
-		$this->memberRepository->update($request->user()->id, $data);
+	public function studyHistory($request)
+	{
+
+		$member = JWTAuth::parseToken()->touser();
+
+		$study = (new MemberStudyRepository())->memberStudyLog($member->id,$request->get('show_num',8));
+		return StudyLogResource::collection($study);
+
+	}
+
+
+	protected function memberDisease($member, $disease, $type)
+	{
+		$data = collect($disease)->mapWithKeys(function($v) use($type) {
+			return [$v=>['type'=>$type]];
+		});
+		$member->disease($type)->sync($data->toArray());
 	}
 
 
