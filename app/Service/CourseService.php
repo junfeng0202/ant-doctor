@@ -44,6 +44,17 @@ class CourseService extends Service
 		return ['info'=>$info, 'recommend'=>$recommends];
 	}
 
+	public function BackInfo($id){
+	    $item = $this->courseRepository->BackById($id);
+
+        if(!$item){
+            throw new ModelNotFoundException();
+        }
+        $info = new CourseResource($item);
+
+        return $info;
+    }
+
 	public function audio($audio_id)
 	{
 		$audio = (new CourseSectionRepository)->getById($audio_id);
@@ -62,7 +73,7 @@ class CourseService extends Service
 	}
 
 	public function BackList($limit){
-	    $items = $this->courseRepository->paginate($limit);
+	    $items = $this->courseRepository->BackPaginate($limit);
 //	    dd($items->toArray());
         return CourseResource::collection($items);
 	}

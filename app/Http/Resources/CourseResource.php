@@ -19,9 +19,20 @@ class CourseResource extends Resource
         	'id'=>$this->id,
         	'title'=>$this->title,
         	'clicks'=>(int)$this->clicks,
+            'disease_id' =>$this->whenLoaded('disease',function(){
+                return $this->disease->id;
+            }),
         	'disease'=>$this->whenLoaded('disease',function(){
         		return $this->disease->name;
 	        }),
+            'doctor_ids' =>$this->whenLoaded('doctor',function(){
+                $ids = [];
+                foreach ($this->doctor as $v){
+                    $ids[] = $v->id;
+                }
+
+                return $ids;
+            }),
             'doctor'=>$this->whenLoaded('doctor',function(){
                 $name = [];
                 foreach ($this->doctor as $v){
@@ -30,7 +41,7 @@ class CourseResource extends Resource
 
                 return implode('，',$name);
             }),
-            'sort'=>$this->sort,
+            'sort'=>(int)$this->sort,
         	'image'=>$this->image,
         	'brief'=>$this->when(!$this->index, $this->brief),
 	        'count'=>$this->section_count,

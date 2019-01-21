@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Http\Resources\CourseResource;
 use App\Models\Course;
 
 class CourseRepository
@@ -15,7 +16,19 @@ class CourseRepository
         	$query->where('source_id','<>','');
         }])->with(['section:course_id,duration','disease:id,name','doctor:id,name'])->paginate($page);
 	}
-
+    //后台课程列表
+    public function BackPaginate($page=10, $sort='sort')
+    {
+        $course = Course::query();
+        $course->latest($sort);
+        return $course->withCount(['section'=>function($query){
+            $query->where('source_id','<>','');
+        }])->with(['section:course_id,duration','disease:id,name','doctor:id,name'])->paginate($page);
+    }
+    //后台课程基本信息
+    public function BackById($id){
+	   return Course::with(['section:course_id,duration','disease:id,name','doctor:id,name'])->find($id);
+    }
 	public function getById($id)
 	{
 		return Course::with(['section'=>function($query){
