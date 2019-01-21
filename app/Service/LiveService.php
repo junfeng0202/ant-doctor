@@ -16,9 +16,9 @@ class LiveService extends Service
 		$this->liveRepository = $liveRepository;
 	}
 
-	public function index()
+	public function index($request)
 	{
-		$items = $this->liveRepository->liveList();
+		$items = $this->liveRepository->liveList($request->get('show_num',8));
 		return LiveResource::collection($items);
 	}
 

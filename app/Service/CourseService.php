@@ -7,8 +7,10 @@ use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseSectionResource;
 use App\Repository\CourseRepository;
 use App\Repository\CourseSectionRepository;
+use App\Repository\MemberStudyRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CourseService extends Service
 {
@@ -23,7 +25,7 @@ class CourseService extends Service
 
 	public function index($request)
 	{
-		$items = $this->courseRepository->paginate(8, $request->get('sort','sort'));
+		$items = $this->courseRepository->paginate($request->get('show_num',8), $request->get('sort','sort'));
 		return CourseResource::collection($items);
 	}
 
@@ -63,6 +65,17 @@ class CourseService extends Service
 		}
 
 		return ['source'=>$audio->source_id];
+	}
+
+
+	public function study($request)
+	{
+		$data = $request->only('course_id', 'course_section_id', 'time', 'end');
+		$data['member_id'] = JWTAuth::parseToken()->touser()->id;
+		$collection = collect($data);
+		$memberStudy = new MemberStudyRepository;
+		$memberStudy->createStudyLog($data);
+		$memberStudy->update($collection->only(['member_id','course_id'])->all(),$collection->except(['member_id','course_id'])->all());
 	}
 
 	protected function cacheSections($course_id, $section)

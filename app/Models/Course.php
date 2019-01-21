@@ -24,6 +24,7 @@ class Course extends Model
 		return $this->hasMany(CourseSection::class)->orderBy('sort');
 	}
 
+
 	public function scopeIsIndex($query)
 	{
 		return $query->select(DB::raw('1 as `index`'),'id','hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'created_at');

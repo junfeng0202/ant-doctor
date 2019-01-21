@@ -12,7 +12,7 @@ class LoginController extends ApiController
 
 	public function __construct(MemberService $memberService)
 	{
-		$this->middleware('auth:member', ['except' => ['login','register']]);
+		//$this->middleware('auth:member', ['except' => ['login','register']]);
 		$this->memberService = $memberService;
 
 	}
@@ -42,11 +42,11 @@ class LoginController extends ApiController
 			'password' =>request( 'password')
 		];
 
-		if (! $token = auth('member')->attempt($credentials)) {
+		if (! $token = JWTAuth::attempt($credentials)) {
 			return $this->setIndex(100)->apiReturn();
 		}
 
-		return $this->apiReturn(['token'=>$token]);
+		return $this->apiReturn($this->respondWithToken($token));
 	}
 
 	public function register(MemberRequest $request)
@@ -66,7 +66,7 @@ class LoginController extends ApiController
 	 */
 	public function me()
 	{
-		return response()->json(auth('member')->user());
+		return $this->apiReturn(JWTAuth::parseToken()->touser());
 	}
 
 	/**
@@ -76,9 +76,9 @@ class LoginController extends ApiController
 	 */
 	public function logout()
 	{
-		auth('api')->logout();
+		JWTAuth::parseToken()->invalidate();
 
-		return response()->json(['message' => 'Successfully logged out']);
+		return $this->apiReturn(['message' => 'Successfully logged out']);
 	}
 
 	/**
@@ -89,7 +89,8 @@ class LoginController extends ApiController
 	 */
 	public function refresh()
 	{
-		return $this->respondWithToken(auth('member')->refresh());
+		$token = JWTAuth::parseToken()->refresh();
+		return $this->apiReturn($this->respondWithToken($token));
 	}
 
 	/**
@@ -101,10 +102,10 @@ class LoginController extends ApiController
 	 */
 	protected function respondWithToken($token)
 	{
-		return response()->json([
+		return [
 			'access_token' => $token,
 			'token_type' => 'bearer',
-			'expires_in' => auth('member')->factory()->getTTL() * 60
-		]);
+			'expires_in' => JWTAuth::factory()->getTTL() * 60
+		];
 	}
 }

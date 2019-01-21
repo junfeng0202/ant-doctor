@@ -7,12 +7,21 @@
 Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'], function () {
 
 	Route::post('login', 'LoginController@login');
-	Route::any('register', 'LoginController@register');
-	Route::post('logout', 'LoginController@logout');
-	Route::post('refresh', 'LoginController@refresh');
+	Route::post('register', 'LoginController@register');
 
-	Route::post('user', 'MemberController@user');
-	Route::post('edit-info', 'MemberController@editInfo');
+	Route::group(['middleware'=>'jwt.auth'],function (){
+		Route::post('logout', 'LoginController@logout');
+		Route::post('refresh', 'LoginController@refresh');
+
+		Route::any('course-study', 'CourseController@study');
+
+		Route::post('edit-info', 'MemberController@editInfo');
+		Route::post('study-history', 'MemberController@studyHistory');
+		Route::post('user', 'MemberController@user');
+
+
+	});
+
 
 
 	//首页获取数据

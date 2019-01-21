@@ -12,6 +12,7 @@ class ApiController extends Controller
 
 		'102'=>['code'=>200, 'msg'=>'发送成功'],
 		'103'=>['code'=>501, 'msg'=>'发送失败'],
+		'104'=>['code'=>200, 'msg'=>'logout Successfully'],
 	];
 
 	protected $index=1;

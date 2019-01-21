@@ -25,4 +25,6 @@ class MemberRepository
 	{
 		return Member::where('phone', $phone)->exists();
 	}
+
+
 }

@@ -17,7 +17,7 @@ class DiseaseResource extends JsonResource
 	    return [
 		    'id'=> $this->id,
 		    'disease_name'=>$this->name,
-		    'parent_id'=>$this->pid,
+		    'parent_id'=>$this->when($this->pid,$this->pid),
 	    ];
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class MemberInfoRequest extends FormRequest
+class MemberInfoRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +11,7 @@ class MemberInfoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +27,7 @@ class MemberInfoRequest extends FormRequest
             'birth'=>'required',
             'province_id'=>'required|numeric',
             'city_id'=>'required|numeric',
-            'disease'=>'required|array',
+            'interest'=>'required|array',
         ];
     }
 
@@ -42,7 +40,7 @@ class MemberInfoRequest extends FormRequest
 	    	'birth.required'=>'请选择出生日期',
 	    	'province_id.required'=>'请选择省市',
 	    	'city_id.required'=>'请选择城市',
-	    	'disease.required'=>'请选择感兴趣的疾病',
+	    	'interest.required'=>'请选择感兴趣的疾病',
 	    ];
     }
 
