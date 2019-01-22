@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 
-class WechatController
+class WeChatController
 {
 	public function serve()
 	{
