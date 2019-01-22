@@ -39,16 +39,16 @@ class MemberService extends Service
 	public function register($request)
 	{
 		$phone = $request->username;
-		if($code = Cache::get('reg-'.$phone)){
+		$code = Cache::get('reg-'.$phone);
 
-			if(!$code){
-				throw new ApiException('验证码已过期，请重新获取',420);
-			}
-
-			if($code != $request->code){
-				throw new ApiException('验证码错误',420);
-			}
+		if(!$code){
+			throw new ApiException('验证码已失效，请重新获取',420);
 		}
+
+		if($code != $request->code){
+			throw new ApiException('验证码错误',420);
+		}
+
 
 		if($this->memberRepository->phoneExist($phone)){
 			throw new ApiException('手机号已被注册',419);

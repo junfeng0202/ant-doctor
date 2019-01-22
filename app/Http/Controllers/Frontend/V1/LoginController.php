@@ -53,7 +53,8 @@ class LoginController extends ApiController
 	{
 		$user = $this->memberService->register($request);
 		if($user){
-			return $this->apiReturn(['token'=>JWTAuth::fromUser($user)]);
+			$token=JWTAuth::fromUser($user);
+			return $this->apiReturn($this->respondWithToken($token));
 		}else{
 			return $this->setIndex(101)->apiReturn();
 		}

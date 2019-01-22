@@ -39,7 +39,7 @@ class ApiController extends Controller
 	public function apiReturn($data=[])
 	{
 		$msg = self::result[$this->getIndex()];
-		return response()->json(array_merge($msg,['data'=>$data]),$msg['code']);
+		return response()->json(array_merge($msg,['data'=>$data]));
 	}
 
 }
