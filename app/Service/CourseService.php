@@ -3,11 +3,14 @@
 namespace App\Service;
 
 use App\Events\CourseHit;
+use App\Http\Controllers\ApiController;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseSectionResource;
+use App\Repository\CourseDoctorRepository;
 use App\Repository\CourseRepository;
 use App\Repository\CourseSectionRepository;
 use App\Repository\MemberStudyRepository;
+use Barryvdh\Debugbar\Controllers\BaseController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -56,6 +59,37 @@ class CourseService extends Service
 
         return $info;
     }
+
+    public function BackUpdateOreCreate($param){
+
+	    $data = array(
+	        'title' => $param['title'],
+            'disease_id' => $param['disease_id'],
+            'brief' => $param['brief'],
+            'image' => $param['image'],
+            'sort' => $param['sort'],
+            'enable' => isset($param['enable'])?$param['enable']:1,
+            'hits' => isset($param['hits'])?$param['hits']:0
+        );
+	    if(isset($param['id']) && $param['id'] != ''){
+	        $data['id'] = $param['id'];
+        }else{
+            $data['id'] = 0;
+        }
+        //更新基本信息
+	    $corse = $this->courseRepository->BackUpdateOreCreate($data);
+	    //删除医生
+	    if(isset($param['id']) && !empty($param['id'])){
+            (new CourseDoctorRepository())->BackDeletDoctorByCourseId($param['id']);
+        }
+        //添加医生
+        foreach($param['doctor_ids'] as $item){
+            (new CourseDoctorRepository())->creat(['course_id'=>$corse->id,'doctor_id'=>$item]);
+        }
+
+    }
+
+
 
 	public function audio($audio_id)
 	{

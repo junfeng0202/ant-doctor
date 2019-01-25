@@ -14,6 +14,7 @@ use App\Http\Resources\BackDiseaseResource;
 use App\Http\Resources\BackDoctorResource;
 use App\Repository\DiseaseRepository;
 use App\Repository\DoctorRepository;
+use App\Service\UploadService;
 
 class CommonController extends ApiController
 {
@@ -29,5 +30,11 @@ class CommonController extends ApiController
        $item = (new DiseaseRepository())->getAll(false);
        $data = BackDiseaseResource::collection($item);
        return $this->apiReturn($data);
+    }
+
+    //获取上传的临时秘钥
+    public function getTempKeys(){
+       $token = (new UploadService())->getTempKeys();
+       return $this->apiReturn($token);
     }
 }

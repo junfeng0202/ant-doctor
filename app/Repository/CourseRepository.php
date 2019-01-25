@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
+use App\Models\CourseDoctor;
 
 class CourseRepository
 {
@@ -51,5 +52,15 @@ class CourseRepository
 			->limit($limit)
 			->get();
 	}
+
+	public function BackUpdateOreCreate($data){
+        return Course::updateOrCreate(['id'=>$data['id']],$data);
+    }
+
+
+
+    public function BackEdit(){
+
+    }
 
 }
