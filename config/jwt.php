@@ -301,4 +301,6 @@ return [
 
     ],
 
+	'user' => 'App\Models\Member',
+
 ];

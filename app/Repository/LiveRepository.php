@@ -7,7 +7,7 @@ use App\Models\Live;
 class LiveRepository
 {
 
-	public function liveList($page)
+	public function liveList($page=8)
 	{
 	    return Live::where('status','<',Live::END)->isIndex()->paginate($page);
 	}

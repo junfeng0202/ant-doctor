@@ -9,8 +9,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -60,21 +59,11 @@ class Handler extends ExceptionHandler
 
 		}elseif ($e instanceof ValidationException) {
 			$message = $e->getMessage() ?: 'validation failed';
-			$code = $e->getCode() ?: 406;
+			$code = $e->getCode() ?: 419;
 			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
 
-		}elseif ($e instanceof TokenExpiredException) {
+		}elseif ($e instanceof UnauthorizedHttpException) {
 			$message = $e->getMessage() ?: 'token_expired';
-			$code = $e->getCode() ?: 401;
-			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
-
-		}elseif ($e instanceof JWTException) {
-			$message = $e->getMessage() ?: 'token_invalid';
-			$code = $e->getCode() ?: 401;
-			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
-
-		}elseif ($e instanceof AuthenticationException) {
-			$message = $e->getMessage() ?: 'Unauthenticated';
 			$code = $e->getCode() ?: 401;
 			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
 
