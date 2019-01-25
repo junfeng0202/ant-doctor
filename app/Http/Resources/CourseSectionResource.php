@@ -19,6 +19,7 @@ class CourseSectionResource extends Resource
             'title'=>$this->title,
             //'audio_id'=>$this->when($this->source_id, $this->source_id),
             'timer'=>$this->when($this->source_id, $this->duration),
+            'section_num'=>$this->section_num,
             'section'=>self::collection($this->whenLoaded('children')),
         ];
     }

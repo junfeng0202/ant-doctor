@@ -22,7 +22,7 @@ class  StudyLogResource extends JsonResource
 		        'course_count'=> $this->studyCourse->audio_count,
 	        ]),
 	        $this->mergeWhen($this->studyCourseSection, [
-		        'section_id '=> ($this->studyCourseSection->pid ? ($this->studyCourseSection->pid.'-') : '').$this->studyCourseSection->id,
+		        'section_id '=> ($this->studyCourseSection->pid ? ($this->studyCourseSection->parent->section_num.'-') : '').$this->studyCourseSection->section_num,
 		        'section_title'=> $this->studyCourseSection->title,
 		        'section_timer'=> $this->studyCourseSection->duration,
 	        ]),

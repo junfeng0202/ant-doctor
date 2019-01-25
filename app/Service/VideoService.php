@@ -44,7 +44,7 @@ class VideoService extends Service
 		}
 
 		event(new VideoSectionHit($section));
-		return ['video_url'=>$section->url];
+		return ['title'=>$section->title,'video_url'=>$section->url];
 	}
 
 }

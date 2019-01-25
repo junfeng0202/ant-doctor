@@ -21,7 +21,7 @@ class Video extends Model
 
 	public function section()
 	{
-		return $this->hasMany(VideoSection::class)->latest('sort');
+		return $this->hasMany(VideoSection::class)->orderBy('section_num');
 	}
 
 	public function scopeEnable($query)

@@ -12,7 +12,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	Route::group(['middleware'=>'jwt.auth'],function (){
 		Route::post('logout', 'LoginController@logout');
 
-		Route::any('course-study', 'CourseController@study');
+		Route::post('course-study', 'CourseController@study');
 
 		Route::post('edit-info', 'MemberController@editInfo');
 		Route::post('study-history', 'MemberController@studyHistory');

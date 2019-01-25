@@ -23,10 +23,10 @@ class MemberStudyRepository
 		return MemberStudy::updateOrCreate($up,$create);
 	}
 
-	public function memberStudyLog($member_id,$page=8)
+	public function memberStudyLog($member_id, $page=8)
 	{
 		return MemberStudy::where('member_id',$member_id)
-			->with(['studyCourse:id,title,image,audio_count','studyCourseSection:id,title,duration,pid'])
+			->with(['studyCourse:id,title,image,audio_count','studyCourseSection:id,title,duration,pid,section_num'])
 			->latest()->paginate($page);
 	}
 
