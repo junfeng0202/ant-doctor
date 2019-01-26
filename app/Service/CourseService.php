@@ -53,7 +53,7 @@ class CourseService extends Service
 			throw new ModelNotFoundException();
 		}
 
-		return ['title'=>$audio->title,'source'=>$audio->source_id];
+		return ['title'=>$audio->title,'fileID'=>$audio->source_id,'appID'=>config('config.appID')];
 	}
 
 
