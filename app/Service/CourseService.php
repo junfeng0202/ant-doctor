@@ -64,6 +64,7 @@ class CourseService extends Service
 
 	    $data = array(
 	        'title' => $param['title'],
+            'havesection' => (int)$param['havesection'],
             'disease_id' => $param['disease_id'],
             'brief' => $param['brief'],
             'image' => $param['image'],
@@ -87,6 +88,37 @@ class CourseService extends Service
             (new CourseDoctorRepository())->creat(['course_id'=>$corse->id,'doctor_id'=>$item]);
         }
 
+    }
+
+    //后天添加章节
+    public function BackAddSection($course_id,$param){
+	    if($param['pid'] == 0){
+	        //编辑章
+            $data = array(
+                'id' => $param['id'],
+                'pid' => 0,
+                'title' => $param['title'],
+                'course_id' => $course_id
+            );
+        }else{
+	        //编辑节
+            $data = array(
+                'id' => $param['id'],
+                'pid' => $param['pid'],
+                'title' => $param['title'],
+                'source_id' => $param['source_id'],
+                'duration' => $param['duration'],
+                'course_id' => $course_id
+            );
+        }
+        $res = (new CourseSectionRepository())->BackUpdateOreCreate($data);
+
+
+    }
+    public function BackSections($id){
+        $items = (new CourseSectionRepository())->BackById($id);
+        return $items;
+        return CourseSectionResource::collection($items);
     }
 
 

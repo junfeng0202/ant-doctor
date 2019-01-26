@@ -6,7 +6,7 @@
 
 //
 Route::get('/', function(){
-    return phpinfo();
+    return view('dist.backIndex');
 });
 
 //Auth::routes();
