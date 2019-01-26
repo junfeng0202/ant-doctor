@@ -69,9 +69,12 @@ class CourseService extends Service
 
 	protected function cacheSections($course_id, $section)
 	{
-		return Cache::rememberForever(config('course_section_key').$course_id,function ()use($section){
+		/*return Cache::rememberForever(config('course_section_key').$course_id,function ()use($section){
 			return CourseSectionResource::collection($section);
-		});
+		});*/
+
+		//todo 开发阶段，暂时不缓存
+		return CourseSectionResource::collection($section);
 	}
 
 }
