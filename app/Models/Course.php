@@ -21,7 +21,7 @@ class Course extends Model
 
 	public function section()
 	{
-		return $this->hasMany(CourseSection::class)->orderBy('sort');
+		return $this->hasMany(CourseSection::class)->orderBy('section_num');
 	}
 
 

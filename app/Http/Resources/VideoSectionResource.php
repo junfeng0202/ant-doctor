@@ -21,6 +21,7 @@ class VideoSectionResource extends Resource
             'clicks'=>(int)$this->clicks,
             //'audio_url'=>$this->url,
             'timer'=>$this->duration,
+	        'section_num'=>$this->section_num,
             'created_at'=>(string)$this->created_at,
 	        'link'=>route('video.section',['id'=>$this->id])
         ];
