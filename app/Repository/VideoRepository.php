@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Models\back\Video as BackVideo;
-use App\models\Video;
+use App\Models\Video;
 class VideoRepository
 {
 
