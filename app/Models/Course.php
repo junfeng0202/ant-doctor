@@ -30,6 +30,11 @@ class Course extends Model
 		return $query->select(DB::raw('1 as `index`'),'id','hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'created_at');
 	}
 
+	public function scopeEnable($query)
+	{
+		return $query->where('enable', 1);
+	}
+
 	public function getClicksAttribute()
 	{
 		return \Redis::hget(config('redisKeys.courseHits'), $this->attributes['id']) ?? $this->attributes['hits'];

@@ -13,7 +13,7 @@ class CourseRepository
 	{
 		$course = Course::query();
 		$course->latest($sort);
-        return $course->isIndex()->withCount(['section'=>function($query){
+        return $course->isIndex()->enable()->withCount(['section'=>function($query){
         	$query->where('source_id','<>','');
         }])->with(['section:course_id,duration','disease:id,name','doctor:id,name'])->paginate($page);
 	}

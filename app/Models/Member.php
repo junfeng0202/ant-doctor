@@ -46,5 +46,15 @@ class Member extends Authenticatable  implements JWTSubject
 		return $this->belongsToMany(Disease::class)->wherePivot('type', $type);
 	}
 
+	public function province()
+	{
+		return $this->belongsTo(Area::class,'province_id');
+	}
+
+	public function city()
+	{
+		return $this->belongsTo(Area::class,'city_id');
+	}
+
 
 }
