@@ -26,7 +26,8 @@ class CourseController extends ApiController
     public function list(Request $request)
     {
         $limit = $request->get('limit');
-        return $items = $this->courseService->BackList($limit);
+        $kw = $request->all();
+        return $items = $this->courseService->BackList($limit,$kw);
     }
 
     public function info($id)

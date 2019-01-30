@@ -18,7 +18,7 @@ class CourseRepository
         }])->with(['section:course_id,duration','disease:id,name','doctor:id,name'])->paginate($page);
 	}
     //后台课程列表
-    public function BackPaginate($page=10, $sort='sort')
+    public function BackPaginate($page=10, $sort='sort',$kw=null)
     {
         $course = Course::query();
         $course->latest($sort);

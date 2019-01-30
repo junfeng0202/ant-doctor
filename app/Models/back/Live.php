@@ -84,5 +84,11 @@ class Live extends Model
     public function getliveTimeAttribute(){
         return date('Y/m/d H:i',strtotime($this->start_at)).' 至 '.date('Y/m/d H:i',strtotime($this->end_at));
     }
+    public function getStartAtAttribute(){
+	    return date('Y-m-d H:i',strtotime($this->attributes['start_at']));
+    }
+    public function getEndAtAttribute(){
+        return date('Y-m-d H:i',strtotime($this->attributes['end_at']));
+    }
 
 }

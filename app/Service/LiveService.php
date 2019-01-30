@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Http\Resources\LiveResource;
+use App\Models\back\DoctorLive;
+use App\Models\back\DoctorVideo;
 use App\Repository\LiveRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -56,12 +58,15 @@ class LiveService extends Service
         $data = array(
             'title' => $param['title'],
             'disease_id' => $param['disease_id'],
-            'content' => $param['content'],
+            'brief' => $param['brief'],
             'image' => $param['image'],
-            'sort' => $param['sort'],
+            'link' => $param['link'],
+            'start_at' => $param['live_time'][0].':00',
+            'end_at' => $param['live_time'][1].':00',
 //            'enable' => isset($param['enable'])?$param['enable']:1,
             'hits' => isset($param['hits'])?$param['hits']:0
         );
+//        dd($data);
         if(isset($param['id']) && $param['id'] != ''){
             $data['id'] = $param['id'];
         }else{
@@ -69,14 +74,14 @@ class LiveService extends Service
         }
         //更新基本信息
         $corse = $this->liveRepository->BackUpdateOreCreate($data);
-        //删除医生
-//        if(isset($param['id']) && !empty($param['id'])){
-//            DoctorVideo::where('video_id',$param['id'])->delete();
-//        }
-//        //添加医生
-//        foreach($param['doctor_ids'] as $item){
-//            DoctorVideo::insert(['video_id'=>$corse->id,'doctor_id'=>$item]);
-//        }
+//        删除医生
+        if(isset($param['id']) && !empty($param['id'])){
+            DoctorLive::where('live_id',$param['id'])->delete();
+        }
+        //添加医生
+        foreach($param['doctor_ids'] as $item){
+            DoctorLive::insert(['live_id'=>$corse->id,'doctor_id'=>$item]);
+        }
 
     }
 }
