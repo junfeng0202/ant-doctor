@@ -154,8 +154,8 @@ class CourseService extends Service
 		return CourseSectionResource::collection($section);
 	}
 
-	public function BackList($limit){
-	    $items = $this->courseRepository->BackPaginate($limit);
+	public function BackList($limit,$kw){
+	    $items = $this->courseRepository->BackPaginate($limit,null,$kw);
 //	    dd($items->toArray());
         return CourseResource::collection($items);
 	}

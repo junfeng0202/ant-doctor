@@ -19,6 +19,7 @@ class CourseResource extends Resource
         	'id'=>$this->id,
         	'title'=>$this->title,
             'havesection' => (string)$this->havesection,
+            'enable' => (string)$this->enable,
         	'clicks'=>(int)$this->clicks,
             'disease_id' =>$this->whenLoaded('disease',function(){
                 return $this->disease->id;

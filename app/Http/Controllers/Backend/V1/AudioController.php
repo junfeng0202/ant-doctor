@@ -10,48 +10,50 @@ namespace App\Http\Controllers\Backend\V1;
 
 
 use App\Http\Controllers\ApiController;
+use App\Models\Video;
 use App\Service\CourseService;
+use App\Service\VideoService;
 use Illuminate\Http\Request;
 
-class CourseController extends ApiController
+class AudioController extends ApiController
 {
-    protected $courseService;
+    protected $audioService;
 
-    public function __construct(CourseService $courseService)
+    public function __construct(VideoService $audioService)
     {
-        $this->courseService = $courseService;
+        $this->audioService = $audioService;
 
     }
 
     public function list(Request $request)
     {
         $limit = $request->get('limit');
-        $kw = $request->all();
-        return $items = $this->courseService->BackList($limit,$kw);
+        $res =  $items = $this->audioService->BackList($limit);
+        return $this->apiReturn($res);
     }
 
     public function info($id)
     {
-        $item = $this->courseService->BackInfo($id);
+        $item = $this->audioService->BackInfo($id);
         return $this->apiReturn($item);
     }
 
     public function create(Request $request)
     {
         $param = $request->all();
-        $res = $this->courseService->BackUpdateOreCreate($param);
+        $res = $this->audioService->BackUpdateOreCreate($param);
         return $this->apiReturn();
     }
 
     public function sections($id)
     {
-        $items = $this->courseService->BackSections($id);
+        $items = $this->audioService->BackSections($id);
         return $this->apiReturn($items);
     }
 
-    public function addSection($course_id,Request $request){
+    public function addSection($audio,Request $request){
         $param = $request->all();
-        $res = $this->courseService->BackAddSection($course_id,$param);
+        $res = $this->audioService->BackAddSection($audio,$param);
         return $this->apiReturn();
 
     }
