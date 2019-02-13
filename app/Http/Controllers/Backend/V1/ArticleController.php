@@ -26,7 +26,8 @@ class ArticleController extends ApiController
     public function list(Request $request)
     {
         $limit = $request->get('limit');
-        $res =  $items = $this->articleService->BackList($limit);
+        $kw = $request->all();
+        $res =  $items = $this->articleService->BackList($limit,$kw);
         return $this->apiReturn($res);
     }
 

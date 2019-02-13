@@ -22,6 +22,22 @@ class CourseRepository
     {
         $course = Course::query();
         $course->latest($sort);
+        //搜索条件
+        //标题
+        if(isset($kw['kw_title'])){
+            $course->where('title', 'like', '%'.$kw['kw_title'].'%');
+        }
+        //病种
+        if(isset($kw['kw_disease'])){
+            $course->where('disease_id','=',$kw['kw_disease']);
+        }
+        //讲者
+        if(isset($kw['kw_doctor'])){
+            $course->whereHas('doctor',
+                function($query) use($kw){
+                    $query->where('id', '=',$kw['kw_doctor']);
+            });
+        }
         return $course->withCount(['section'=>function($query){
             $query->where('source_id','<>','');
         }])->with(['section:course_id,duration','disease:id,name','doctor:id,name'])->paginate($page);

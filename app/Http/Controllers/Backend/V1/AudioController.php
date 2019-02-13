@@ -28,7 +28,8 @@ class AudioController extends ApiController
     public function list(Request $request)
     {
         $limit = $request->get('limit');
-        $res =  $items = $this->audioService->BackList($limit);
+        $kw = $request->all();
+        $res =  $items = $this->audioService->BackList($limit,$kw);
         return $this->apiReturn($res);
     }
 
