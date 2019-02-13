@@ -21,6 +21,11 @@ class MemberRepository
 		return Member::whereId($id)->update($data);
 	}
 
+	public function updateByPhone($phone, $data)
+	{
+		return Member::where(['phone'=> $phone])->update($data);
+	}
+
 	public function phoneExist($phone)
 	{
 		return Member::where('phone', $phone)->exists();

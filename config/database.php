@@ -56,6 +56,22 @@ return [
 	        'engine' => 'InnoDB',
         ],
 
+	    'mysql_doc' => [
+            'driver' => 'mysql',
+            'host' => env('DOCTOR_DB_HOST', '127.0.0.1'),
+            'port' => env('DOCTOR_DB_PORT', '3306'),
+            'database' => env('DOCTOR_DB_DATABASE', 'forge'),
+            'username' => env('DOCTOR_DB_USERNAME', 'forge'),
+            'password' => env('DOCTOR_DB_PASSWORD', ''),
+            'unix_socket' => env('DOCTOR_DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+	        'engine' => 'InnoDB',
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
