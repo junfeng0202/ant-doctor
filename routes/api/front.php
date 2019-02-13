@@ -7,6 +7,7 @@
 Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'], function () {
 
 	Route::post('login', 'LoginController@login');
+	Route::post('forget', 'LoginController@forget');
 	Route::post('register', 'LoginController@register');
 	Route::post('refresh', 'LoginController@refresh');
 	Route::group(['middleware'=>'jwt.auth'],function (){

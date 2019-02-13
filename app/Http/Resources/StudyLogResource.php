@@ -17,12 +17,12 @@ class  StudyLogResource extends JsonResource
         return [
         	'course_id'=>$this->course_id,
 	        $this->mergeWhen($this->studyCourse, [
-		        'course_image '=> $this->studyCourse->image,
+		        'course_image'=> $this->studyCourse->image,
 		        'course_title'=> $this->studyCourse->title,
 		        'course_count'=> $this->studyCourse->audio_count,
 	        ]),
 	        $this->mergeWhen($this->studyCourseSection, [
-		        'section_id '=> ($this->studyCourseSection->pid ? ($this->studyCourseSection->parent->section_num.'-') : '').$this->studyCourseSection->section_num,
+		        'section_id'=> ($this->studyCourseSection->pid ? ($this->studyCourseSection->parent->section_num.'-') : '').$this->studyCourseSection->section_num,
 		        'section_title'=> $this->studyCourseSection->title,
 		        'section_timer'=> $this->studyCourseSection->duration,
 	        ]),

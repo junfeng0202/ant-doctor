@@ -27,18 +27,19 @@ class OtherService
 	{
 		if(($phone = $request->phone) && preg_match('/^1[356789]\d{9}$/',$phone) ){
 			$prefix = config('redisKeys.smsIPSendTime');
+			$typePrefix = $request->type ? config('config.sms_forget_prefix') : config('config.sms_register_prefix');
 			$ipKey = $prefix.$request->getClientIp();
-			$phoneKey = $prefix.$phone;
+			$phoneKey = $prefix.$typePrefix.$phone;
 			//短信发送两分钟内限制一次
 			if(Redis::exists($phoneKey)) {
 				throw new ApiException('短信已发送，请勿重复操作',419);
 			}
 			if(Redis::get($ipKey) > 20) {
-				throw new ApiException('今日短信发送次数已用完',419);
+				throw new ApiException('今日短信发送次数已到上限',419);
 			}
 
 			//手机号已注册
-			if((new MemberRepository())->phoneExist($phone)){
+			if(!$request->type && (new MemberRepository())->phoneExist($phone)){
 				throw new ApiException('手机号已注册',419);
 			}
 
@@ -51,7 +52,7 @@ class OtherService
 
 				$this->_cacheData($phoneKey, 1, 120);
 
-				Cache::put('reg-'.$phone,$code,10);
+				Cache::put($typePrefix.$phone,$code,10);
 
 				return true;
 

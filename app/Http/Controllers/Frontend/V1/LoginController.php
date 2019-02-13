@@ -42,11 +42,18 @@ class LoginController extends ApiController
 			'password' =>request( 'password')
 		];
 
-		if (! $token = JWTAuth::attempt($credentials)) {
-			return $this->setIndex(100)->apiReturn();
+		if ($token = JWTAuth::attempt($credentials)) {
+			return $this->apiReturn($this->respondWithToken($token));
 		}
-
+		$user = $this->memberService->loginFormDoc($credentials);
+		$token = JWTAuth::fromUser($user);
 		return $this->apiReturn($this->respondWithToken($token));
+	}
+
+	public function forget(MemberRequest $request)
+	{
+		$this->memberService->forget($request);
+		return $this->setIndex(105)->apiReturn();
 	}
 
 	public function register(MemberRequest $request)

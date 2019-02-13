@@ -32,26 +32,56 @@ class MemberService extends Service
 
 			return $this->getToken($request->username, $request->password);
 		} else {
-			$this->response->errorUnauthorized('用户名或密码错误');
+			throw new ApiException('用户名或密码错误', 420);
+		}
+	}
+
+	public function loginFormDoc(Array $credentials)
+	{
+		if ($doctor = DB::connection('mysql_doc')->table('member')->where(['user_name' => $credentials['phone']])->first()) {
+			if (password_verify($credentials['password'], $doctor->password)) {
+				return $this->memberRepository->create([
+					'phone' => $credentials['phone'],
+					'password' => bcrypt($credentials['password']),
+					'identify' => Member::DOCTOR
+				]);
+			} else {
+				throw new ApiException('密码错误', 420);
+			}
+		} else {
+			throw new ApiException('手机号未注册', 420);
+		}
+
+	}
+
+	public function forget($request)
+	{
+		$phone = $request->username;
+		$code = Cache::get(config('config.sms_forget_prefix') . $phone);
+
+		$this->verifyCode($code, $request->code);
+
+		if ($this->memberRepository->phoneExist($phone)) {
+			$this->memberRepository->create([
+				'phone' => $phone,
+				'password' => bcrypt($request->password),
+				'identify' => Member::DOCTOR
+			]);
+		} else {
+			$this->memberRepository->updateByPhone($phone,['password'=>bcrypt($request->password)]);
 		}
 	}
 
 	public function register($request)
 	{
 		$phone = $request->username;
-		$code = Cache::get('reg-'.$phone);
+		$code = Cache::get(config('config.sms_register_prefix') . $phone);
 
-		if(!$code){
-			throw new ApiException('验证码已失效，请重新获取',420);
-		}
-
-		if($code != $request->code){
-			throw new ApiException('验证码错误',420);
-		}
+		$this->verifyCode($code, $request->code);
 
 
-		if($this->memberRepository->phoneExist($phone)){
-			throw new ApiException('手机号已被注册',419);
+		if ($this->memberRepository->phoneExist($phone)) {
+			throw new ApiException('手机号已被注册', 419);
 		}
 
 		return $this->memberRepository->create([
@@ -65,15 +95,15 @@ class MemberService extends Service
 	public function getUser()
 	{
 		$member = JWTAuth::parseToken()->touser();
-		$member->interest = $member->disease(Member::INTERESTED)->get(['id','name']);
-		$member->combine = $member->disease(Member::COMBINE)->get(['id','name']);
-		$member->complication = $member->disease(Member::COMPLICATION)->get(['id','name']);
+		$member->interest = $member->disease(Member::INTERESTED)->get(['id', 'name']);
+		$member->combine = $member->disease(Member::COMBINE)->get(['id', 'name']);
+		$member->complication = $member->disease(Member::COMPLICATION)->get(['id', 'name']);
 		return new MemberResource($member);
 	}
 
 	public function updateInfo($request)
 	{
-		DB::transaction(function () use($request) {
+		DB::transaction(function () use ($request) {
 			$member = JWTAuth::parseToken()->touser();
 			//感兴趣疾病
 			$interest = (array)$request->interest;
@@ -87,8 +117,10 @@ class MemberService extends Service
 			$complication = (array)$request->complication;
 			$this->memberDisease($member, $complication, Member::COMPLICATION);
 
-			$data = $request->only('avatar', 'nickname', 'identify', 'gender','birth', 'diagnosis_at', 'province_id', 'city_id', 'company');
-			$data = array_filter($data, function ($v){ return !is_null($v); });
+			$data = $request->only('avatar', 'nickname', 'identify', 'gender', 'birth', 'diagnosis_at', 'province_id', 'city_id', 'company');
+			$data = array_filter($data, function ($v) {
+				return !is_null($v);
+			});
 			$member->fill($data);
 			$member->save();
 		});
@@ -101,7 +133,7 @@ class MemberService extends Service
 
 		$member = JWTAuth::parseToken()->touser();
 
-		$study = (new MemberStudyRepository())->memberStudyLog($member->id,$request->get('show_num',8));
+		$study = (new MemberStudyRepository())->memberStudyLog($member->id, $request->get('show_num', 8));
 		return StudyLogResource::collection($study);
 
 	}
@@ -109,8 +141,8 @@ class MemberService extends Service
 
 	protected function memberDisease($member, $disease, $type)
 	{
-		$data = collect($disease)->mapWithKeys(function($v) use($type) {
-			return [$v=>['type'=>$type]];
+		$data = collect($disease)->mapWithKeys(function ($v) use ($type) {
+			return [$v => ['type' => $type]];
 		});
 		$member->disease($type)->sync($data->toArray());
 	}
@@ -134,6 +166,17 @@ class MemberService extends Service
 		}
 
 		return $this->response->array($token);
+	}
+
+	protected function verifyCode($cache, $verify)
+	{
+		if (!$cache) {
+			throw new ApiException('验证码已失效，请重新获取', 420);
+		}
+
+		if ($cache != $verify) {
+			throw new ApiException('验证码错误', 420);
+		}
 	}
 
 }
