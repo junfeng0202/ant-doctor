@@ -27,7 +27,8 @@ class LiveController extends ApiController
     public function list(Request $request)
     {
         $limit = $request->get('limit');
-        $res =  $items = $this->liveService->BackList($limit);
+        $kw = $request->all();
+        $res =  $items = $this->liveService->BackList($limit,$kw);
         return $this->apiReturn($res);
     }
 

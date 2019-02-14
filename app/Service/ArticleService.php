@@ -35,8 +35,8 @@ class ArticleService extends Service
 	}
 
     //后端接口-图文列表
-    public function BackList($limit){
-        $items = $this->articleRepository->BackPaginate($limit);
+    public function BackList($limit,$kw){
+        $items = $this->articleRepository->BackPaginate($limit,null,$kw);
         return $items;
     }
 
