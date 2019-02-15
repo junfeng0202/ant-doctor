@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Models\Banner;
-use App\Models\Banners;
-use App\Models\Member;
+use App\Models\back\Banner as BackBanner;
+
 
 class BannersRepository
 {
@@ -13,6 +13,25 @@ class BannersRepository
 	{
 		return Banner::enable()->position($position)->get();
 	}
+
+	//==================================后台================================================
+    //后台-banner列表
+    public function BackPaginate($page=10, $sort='sort',$kw)
+    {
+        $query =BackBanner::query();
+        $query->latest($sort);
+        return $query->paginate($page);
+    }
+    //后台-banner列表信息
+    public function BackById($id){
+        return BackBanner::find($id);
+    }
+
+    //后台-banner列表更新
+    public function BackUpdateOreCreate($data){
+        return BackBanner::updateOrCreate(['id'=>$data['id']],$data);
+    }
+	//==================================后台================================================
 
 
 }

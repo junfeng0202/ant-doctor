@@ -179,4 +179,13 @@ class MemberService extends Service
 		}
 	}
 
+
+	//====================================后台===============================
+    //用户列表
+    public function BackList($limit,$kw){
+        $items = $this->memberRepository->BackPaginate($limit,null,$kw);
+        return $items;
+    }
+	//====================================后台===============================
+
 }

@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\back;
 
+use App\Models\Area;
+use App\Models\Disease;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -47,7 +49,9 @@ class Member extends Authenticatable  implements JWTSubject
 		return $this->belongsToMany(Disease::class)->wherePivot('type', $type);
 	}
 
-
+    public function memberDisease(){
+        return $this->belongsToMany(Disease::class)->withPivot(['type'])->wherePivot('type', 0);
+    }
 	public function province()
 	{
 		return $this->belongsTo(Area::class,'province_id');
