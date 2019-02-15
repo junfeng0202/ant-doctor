@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlertCourse extends Migration
+class Alert0110Members extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AlertCourse extends Migration
      */
     public function up()
     {
-        Schema::table('courses',function (Blueprint $tabel){
-            $tabel->addColumn('integer','havesection')->default(1)->comment('是否有章节，1有章节，0单视频');
+        Schema::table('members', function (Blueprint $table){
+        	$table->date('birth')->nullable()->default(null)->change();
+        	$table->date('diagnosis_at')->nullable()->default(null)->change();
+        	$table->addColumn('integer','inventor')->default(0)->comment('邀请人id');
         });
     }
 
@@ -25,6 +27,6 @@ class AlertCourse extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course');
+        //
     }
 }
