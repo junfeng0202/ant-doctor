@@ -47,7 +47,7 @@ class LoginController extends ApiController
 		}
 		$user = $this->memberService->loginFormDoc($credentials);
 		$token = JWTAuth::fromUser($user);
-		return $this->apiReturn($this->respondWithToken($token));
+		return $this->setIndex(10)->apiReturn($this->respondWithToken($token));
 	}
 
 	public function forget(MemberRequest $request)
@@ -61,7 +61,7 @@ class LoginController extends ApiController
 		$user = $this->memberService->register($request);
 		if($user){
 			$token=JWTAuth::fromUser($user);
-			return $this->apiReturn($this->respondWithToken($token));
+			return $this->setIndex(11)->apiReturn($this->respondWithToken($token));
 		}else{
 			return $this->setIndex(101)->apiReturn();
 		}
