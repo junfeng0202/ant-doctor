@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Course extends Model
 {
 
-	protected $fillable = ['hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable','havesection'];
+	protected $fillable = ['audio_count','hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable','havesection'];
 
 	public function doctor()
 	{

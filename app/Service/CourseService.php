@@ -6,6 +6,7 @@ use App\Events\CourseHit;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseSectionResource;
+use App\Models\CourseSection;
 use App\Repository\CourseDoctorRepository;
 use App\Repository\CourseRepository;
 use App\Repository\CourseSectionRepository;
@@ -112,7 +113,12 @@ class CourseService extends Service
             );
         }
         $res = (new CourseSectionRepository())->BackUpdateOreCreate($data);
-
+        //更新章节数
+        $data = array(
+            'id' =>$course_id,
+            'audio_count' =>CourseSection::where('pid','!=',0)->where('course_id',$course_id)->count()
+        );
+        $this->courseRepository->BackUpdateOreCreate($data);
 
     }
     public function BackSections($id){
