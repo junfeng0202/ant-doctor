@@ -38,6 +38,10 @@ class MemberService extends Service
 
 	public function loginFormDoc(Array $credentials)
 	{
+		if($this->memberRepository->phoneExist($credentials['phone'])){
+			throw new ApiException('密码错误', 420);
+		}
+
 		if ($doctor = DB::connection('mysql_doc')->table('member')->where(['user_name' => $credentials['phone']])->first()) {
 			if (password_verify($credentials['password'], $doctor->password)) {
 				return $this->memberRepository->create([
@@ -61,7 +65,7 @@ class MemberService extends Service
 
 		$this->verifyCode($code, $request->code);
 
-		if ($this->memberRepository->phoneExist($phone)) {
+		if (!$this->memberRepository->phoneExist($phone)) {
 			$this->memberRepository->create([
 				'phone' => $phone,
 				'password' => bcrypt($request->password),

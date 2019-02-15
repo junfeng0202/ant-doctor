@@ -7,6 +7,8 @@ class ApiController extends Controller
 	const result = [
 		'0'=>['code'=>500, 'msg'=>'系统繁忙'],
 		'1'=>['code'=>200, 'msg'=>'操作成功'],
+		'10'=>['code'=>200, 'msg'=>'登入成功'],
+		'11'=>['code'=>200, 'msg'=>'注册成功'],
 		'100'=>['code'=>419, 'msg'=>'用户名或密码错误'],
 		'101'=>['code'=>502, 'msg'=>'注册失败'],
 		'102'=>['code'=>200, 'msg'=>'发送成功'],

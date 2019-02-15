@@ -27,7 +27,7 @@ class MemberStudyRepository
 	{
 		return MemberStudy::where('member_id',$member_id)
 			->with(['studyCourse:id,title,image,audio_count','studyCourseSection:id,title,duration,pid,section_num'])
-			->latest()->paginate($page);
+			->latest('id')->paginate($page);
 	}
 
 }

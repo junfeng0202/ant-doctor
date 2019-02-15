@@ -60,6 +60,7 @@ class CourseRepository
 		return Course::where('disease_id',$disease)
 			->where('id','<>',$except_id)
 			->isIndex()
+			->enable()
 			->withCount(['section'=>function($query){
 			$query->where('source_id','<>','');
 			}])
