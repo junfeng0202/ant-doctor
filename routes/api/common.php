@@ -1,6 +1,8 @@
 <?php
 Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 	Route::any('/wechat', 'WeChatController@serve');
+	Route::get('wechat/getCode', 'LoginController@getCode');
+	Route::post('wechat/user', 'LoginController@user');
 });
 
 Route::group(['namespace'=>'App\Http\Controllers\Common','prefix'=>'v1'], function () {

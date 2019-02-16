@@ -103,12 +103,6 @@ class LoginController extends ApiController
 	}
 
 
-	public function getOpenid(Request $request)
-	{
-		$app = app('wechat.official_account');
-		return $app->oauth->scopes(['snsapi_userinfo'])->setRequest($request)->redirect();
-	}
-
 	/**
 	 * Get the token array structure.
 	 *
