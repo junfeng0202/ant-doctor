@@ -59,10 +59,10 @@ return [
      */
     'official_account' => [
         'default' => [
-            'app_id' => env('WECHAT_APPID', ''),         // AppID
-            'secret' => env('WECHAT_SECRET', ''),    // AppSecret
-            'token' => env('WECHAT_TOKEN', ''),           // Token
-            'aes_key' => env('WECHAT_AES_KEY', ''),                 // EncodingAESKey
+            'app_id' => env('WECHAT_OFFICIAL_ACCOUNT_APPID', ''),         // AppID
+            'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', ''),    // AppSecret
+            'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', ''),           // Token
+            'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', ''),                 // EncodingAESKey
 
             /*
              * OAuth 配置
@@ -71,8 +71,8 @@ return [
              * callback：OAuth授权完成后的回调页地址(如果使用中间件，则随便填写。。。)
              */
             'oauth' => [
-                'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_userinfo'))),
-                'callback' => env('WECHAT_CALLBACK',''),
+                'scopes'   => array_map('trim', explode(',', env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES', 'snsapi_userinfo'))),
+                'callback' => env('WECHAT_OFFICIAL_ACCOUNT_CALLBACK',''),
             ],
         ],
     ],
