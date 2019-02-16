@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\V1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\MemberRequest;
 use App\Service\MemberService;
+use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends ApiController
@@ -99,6 +100,13 @@ class LoginController extends ApiController
 	{
 		$token = JWTAuth::parseToken()->refresh();
 		return $this->apiReturn($this->respondWithToken($token));
+	}
+
+
+	public function getOpenid(Request $request)
+	{
+		$app = app('wechat.official_account');
+		return $app->oauth->scopes(['snsapi_userinfo'])->setRequest($request)->redirect();
 	}
 
 	/**
