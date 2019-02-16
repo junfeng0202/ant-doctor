@@ -29,6 +29,12 @@ class WeChatController
 
 	public function user()
 	{
-		return $this->app->oauth->user();
+		$user = $this->app->oauth->user();
+		return [
+			'openid'=> $user->getId(),
+			'nickname'=> $user->getNickname(),
+			'avatar'=> $user->getAvatar(),
+			'gender'=> $user->getOriginal()['sex'],
+		];
 	}
 }
