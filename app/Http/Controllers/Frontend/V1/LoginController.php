@@ -2,8 +2,10 @@
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\MemberRequest;
 use App\Service\MemberService;
+use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends ApiController
@@ -35,17 +37,9 @@ class LoginController extends ApiController
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function login()
+	public function login(LoginRequest $request)
 	{
-		$credentials = [
-			'phone' =>request('username'),
-			'password' =>request( 'password')
-		];
-
-		if ($token = JWTAuth::attempt($credentials)) {
-			return $this->apiReturn($this->respondWithToken($token));
-		}
-		$user = $this->memberService->loginFormDoc($credentials);
+		$user = $this->memberService->login($request);
 		$token = JWTAuth::fromUser($user);
 		return $this->setIndex(10)->apiReturn($this->respondWithToken($token));
 	}
@@ -59,12 +53,10 @@ class LoginController extends ApiController
 	public function register(MemberRequest $request)
 	{
 		$user = $this->memberService->register($request);
-		if($user){
-			$token=JWTAuth::fromUser($user);
-			return $this->setIndex(11)->apiReturn($this->respondWithToken($token));
-		}else{
-			return $this->setIndex(101)->apiReturn();
-		}
+
+		$token=JWTAuth::fromUser($user);
+		return $this->setIndex(11)->apiReturn($this->respondWithToken($token));
+
 	}
 
 	/**
@@ -99,6 +91,15 @@ class LoginController extends ApiController
 	{
 		$token = JWTAuth::parseToken()->refresh();
 		return $this->apiReturn($this->respondWithToken($token));
+	}
+
+	public function loginByOpenid(Request $request)
+	{
+		$user = $this->memberService->loginByOpenid($request);
+		return $this->apiReturn([
+			'access_token'=> JWTAuth::fromUser($user),
+			'user'=>$user
+		]);
 	}
 
 	/**

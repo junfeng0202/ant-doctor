@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class MemberRequest extends BaseRequest
+class LoginRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +23,7 @@ class MemberRequest extends BaseRequest
     {
         return [
 	        'username' => 'required',
-	        'password' => 'required',
-	        'code' => 'required',
+	        'password' => 'required'
         ];
     }
 
@@ -34,8 +31,7 @@ class MemberRequest extends BaseRequest
     {
 	    return [
 	    	'username.required'=>'用户名不能为空',
-	    	'password.required'=>'密码不能为空',
-	    	'code.required'=>'请输入验证码',
+	    	'password.required'=>'密码不能为空'
 	    ];
     }
 }

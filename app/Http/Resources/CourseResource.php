@@ -46,7 +46,7 @@ class CourseResource extends Resource
             'sort'=>(int)$this->sort,
         	'image'=>$this->image,
         	'brief'=>$this->when(!$this->index, $this->brief),
-	        'count'=>$this->section_count,
+	        'count'=>$this->audio_count,
 	        'timer'=>$this->whenLoaded('section',function(){
 				return $this->section()->where('source_id','<>','')->value('duration') ?? '00:00:00';
 	        }),

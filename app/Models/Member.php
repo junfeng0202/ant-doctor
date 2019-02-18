@@ -20,9 +20,9 @@ class Member extends Authenticatable  implements JWTSubject
 	const FAMILY = 2;
 	const PRACTITIONER = 3;
 	const UNPRACTITIONER = 4;
-	const DOCTOR = 5;
+	const DOCTOR = 3;
 
-	protected $fillable = ['phone', 'password', 'avatar', 'nickname', 'identify', 'gender','birth', 'diagnosis_at', 'province_id', 'city_id', 'company'];
+	protected $fillable = ['openid', 'phone', 'password', 'avatar', 'nickname', 'identify', 'gender','birth', 'diagnosis_at', 'province_id', 'city_id', 'company'];
 
 	protected $hidden = ['password'];
 

@@ -13,9 +13,7 @@ class CourseRepository
 	{
 		$course = Course::query();
 		$course->latest($sort);
-        return $course->isIndex()->enable()->withCount(['section'=>function($query){
-        	$query->where('source_id','<>','');
-        }])->with(['section:course_id,duration','disease:id,name','doctor:id,name'])->paginate($page);
+        return $course->isIndex()->enable()->with(['section:course_id,duration','disease:id,name','doctor:id,name'])->paginate($page);
 	}
     //后台课程列表
     public function BackPaginate($page=10, $sort='sort',$kw=null)
@@ -50,8 +48,6 @@ class CourseRepository
 	{
 		return Course::with(['section'=>function($query){
 			$query->with('children')->where('pid',0);
-		}])->withCount(['section'=>function($query){
-			$query->where('source_id','<>','');
 		}])->find($id);
 	}
 
