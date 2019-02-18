@@ -50,7 +50,8 @@ class Member extends Authenticatable  implements JWTSubject
 	}
 
     public function memberDisease(){
-        return $this->belongsToMany(Disease::class)->withPivot(['type'])->wherePivot('type', 0);
+        return $this->belongsToMany(Disease::class)->withPivot(['type']);
+//        return $this->belongsToMany(Disease::class)->withPivot(['type'])->wherePivot('type', 0);
     }
 	public function province()
 	{
