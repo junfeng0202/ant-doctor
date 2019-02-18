@@ -102,6 +102,14 @@ class LoginController extends ApiController
 		return $this->apiReturn($this->respondWithToken($token));
 	}
 
+	public function loginByOpenid(Request $request)
+	{
+		$user = $this->memberService->loginByOpenid($request);
+		return $this->apiReturn([
+			'access_token'=> JWTAuth::fromUser($user),
+			'user'=>$user
+		]);
+	}
 
 	/**
 	 * Get the token array structure.

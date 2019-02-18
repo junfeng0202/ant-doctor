@@ -10,6 +10,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	Route::post('forget', 'LoginController@forget');
 	Route::post('register', 'LoginController@register');
 	Route::post('refresh', 'LoginController@refresh');
+	Route::post('wechatLogin', 'LoginController@loginByOpenid');
 
 	Route::group(['middleware'=>'jwt.auth'],function (){
 		Route::post('logout', 'LoginController@logout');
