@@ -42,6 +42,11 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
     //用户管理
     //用户列表
     Route::get('/user/list', 'UserController@list');
+    //讲者管理
+    Route::get('/user/doctor/list', 'DoctorController@list');
+    Route::get('/user/doctor/info/{id}', 'DoctorController@info');
+    Route::post('/user/doctor/create', 'DoctorController@create');
+
 
     Route::get('/doctor/list', 'CommonController@doctor');
 	Route::get('/disease/list', 'CommonController@disease');
