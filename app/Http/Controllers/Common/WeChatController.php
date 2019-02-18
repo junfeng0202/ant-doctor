@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Common;
 
 
-class WeChatController
+use App\Http\Controllers\ApiController;
+
+class WeChatController extends ApiController
 {
 	protected $app;
 
@@ -30,11 +32,11 @@ class WeChatController
 	public function user()
 	{
 		$user = $this->app->oauth->user();
-		return [
+		return $this->apiReturn([
 			'openid'=> $user->getId(),
 			'nickname'=> $user->getNickname(),
 			'avatar'=> $user->getAvatar(),
 			'gender'=> $user->getOriginal()['sex'],
-		];
+		]);
 	}
 }
