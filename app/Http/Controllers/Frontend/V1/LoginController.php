@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\MemberRequest;
 use App\Service\MemberService;
 use Illuminate\Http\Request;
@@ -36,17 +37,13 @@ class LoginController extends ApiController
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function login()
+	public function login(LoginRequest $request)
 	{
 		$credentials = [
 			'phone' =>request('username'),
 			'password' =>request( 'password')
 		];
-
-		if ($token = JWTAuth::attempt($credentials)) {
-			return $this->apiReturn($this->respondWithToken($token));
-		}
-		$user = $this->memberService->loginFormDoc($credentials);
+		$user = $this->memberService->login($request);
 		$token = JWTAuth::fromUser($user);
 		return $this->setIndex(10)->apiReturn($this->respondWithToken($token));
 	}

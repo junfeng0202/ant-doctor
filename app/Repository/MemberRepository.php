@@ -32,6 +32,11 @@ class MemberRepository
 		return Member::where('phone', $phone)->exists();
 	}
 
+	public function getUserByPhone($phone)
+	{
+		return Member::where('phone',$phone)->first();
+	}
+
 	public function getUserByOpenid($openid)
 	{
 		return Member::where('openid',$openid)->first();
