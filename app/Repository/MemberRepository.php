@@ -39,19 +39,23 @@ class MemberRepository
         $query =BackMember::query();
         $query->latest($sort);
         //搜索条件
-        //标题
-        if(isset($kw['kw_title'])){
-            $query->where('title', 'like', '%'.$kw['kw_title'].'%');
+        //用户昵称
+        if(isset($kw['kw_nickname'])){
+            $query->where('nickname', 'like', '%'.$kw['kw_nickname'].'%');
+        }
+        //用户手机号
+        if(isset($kw['kw_phone'])){
+            $query->where('phone', 'like', '%'.$kw['kw_phone'].'%');
         }
         //病种
-        if(isset($kw['kw_disease'])){
-            $query->where('disease_id','=',$kw['kw_disease']);
+        if(isset($kw['kw_identify'])){
+            $query->where('identify','=',$kw['kw_identify']);
         }
         //讲者
-        if(isset($kw['kw_doctor'])){
-            $query->whereHas('doctor',
+        if(isset($kw['kw_disease'])){
+            $query->whereHas('memberDisease',
                 function($query) use($kw){
-                    $query->where('id', '=',$kw['kw_doctor']);
+                    $query->where('id', '=',$kw['kw_disease']);
                 });
         }
         $users = $query->with(['city','province','memberDisease'])->paginate($page);
