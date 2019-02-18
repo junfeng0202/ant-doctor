@@ -28,10 +28,10 @@ class MemberService extends Service
 
 	public function login($request)
 	{
-		if ($user = $this->memberRepository->getUserByPhone($request->phone)) {
+		if ($user = $this->memberRepository->getUserByPhone($request->username)) {
 			if (password_verify($request->password, $user->password)) {
 				return $this->memberRepository->create([
-					'phone' => $request->phone,
+					'phone' => $request->username,
 					'password' => bcrypt($request->password)
 				]);
 			} else {

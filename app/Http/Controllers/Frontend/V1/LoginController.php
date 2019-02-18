@@ -39,10 +39,6 @@ class LoginController extends ApiController
 	 */
 	public function login(LoginRequest $request)
 	{
-		$credentials = [
-			'phone' =>request('username'),
-			'password' =>request( 'password')
-		];
 		$user = $this->memberService->login($request);
 		$token = JWTAuth::fromUser($user);
 		return $this->setIndex(10)->apiReturn($this->respondWithToken($token));
@@ -57,12 +53,10 @@ class LoginController extends ApiController
 	public function register(MemberRequest $request)
 	{
 		$user = $this->memberService->register($request);
-		if($user){
-			$token=JWTAuth::fromUser($user);
-			return $this->setIndex(11)->apiReturn($this->respondWithToken($token));
-		}else{
-			return $this->setIndex(101)->apiReturn();
-		}
+
+		$token=JWTAuth::fromUser($user);
+		return $this->setIndex(11)->apiReturn($this->respondWithToken($token));
+
 	}
 
 	/**
