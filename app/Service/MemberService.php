@@ -41,14 +41,14 @@ class MemberService extends Service
 
 	protected function loginFormDoc($request)
 	{
-		if($this->memberRepository->phoneExist($request->phone)){
+		if($this->memberRepository->phoneExist($request->username)){
 			throw new ApiException('密码错误', 420);
 		}
 
-		if ($doctor = DB::connection('mysql_doc')->table('member')->where(['user_name' => $request->phone])->first()) {
+		if ($doctor = DB::connection('mysql_doc')->table('member')->where(['user_name' => $request->username])->first()) {
 			if (password_verify($request->password, $doctor->password)) {
 				$data = [
-					'phone' => $request->phone,
+					'phone' => $request->username,
 					'password' => bcrypt($request->password),
 					'identify' => Member::DOCTOR
 				];
