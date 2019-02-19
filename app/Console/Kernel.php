@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('hit:sync --force')->dailyAt('4:00');
-         $schedule->command('liveStatus:change --force')->everyTenMinutes()->between('7:00','24:00');
+         $schedule->command('hit:sync')->dailyAt('4:00');
+         $schedule->command('liveStatus:change')->everyTenMinutes()->between('7:00','24:00');
     }
 
     /**

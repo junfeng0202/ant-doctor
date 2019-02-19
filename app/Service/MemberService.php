@@ -117,7 +117,7 @@ class MemberService extends Service
 		];
 		$request->openid && $registerData['openid'] = $request->openid;
 		$request->avatar && $registerData['avatar'] = $request->avatar;
-		$request->avatar && $registerData['avatar'] = $request->avatar;
+		$request->nickname && $registerData['nickname'] = $request->nickname;
 		$request->gender && $registerData['gender'] = $request->gender;
 		return $this->memberRepository->create($registerData);
 
