@@ -20,7 +20,7 @@ class LiveService extends Service
 
 	public function index($request)
 	{
-		$items = $this->liveRepository->liveList($request->get('show_num',8));
+		$items = $this->liveRepository->liveList($request->get('show_num',8),$request->get('sort','sort'));
 		return LiveResource::collection($items);
 	}
 
