@@ -30,10 +30,7 @@ class MemberService extends Service
 	{
 		if ($user = $this->memberRepository->getUserByPhone($request->username)) {
 			if (password_verify($request->password, $user->password)) {
-				return $this->memberRepository->create([
-					'phone' => $request->username,
-					'password' => bcrypt($request->password)
-				]);
+				return $user;
 			} else {
 				throw new ApiException('密码错误', 420);
 			}
