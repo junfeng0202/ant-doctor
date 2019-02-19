@@ -8,9 +8,9 @@ use App\Models\back\Live as BackLive;
 class LiveRepository
 {
 
-	public function liveList($page=8)
+	public function liveList($page=8,$sort='sort')
 	{
-	    return Live::where('status','<',Live::END)->isIndex()->paginate($page);
+	    return Live::where('status','<',Live::END)->isIndex()->latest($sort)->paginate($page);
 	}
 
 	public function getById($id)

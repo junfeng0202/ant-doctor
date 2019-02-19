@@ -16,7 +16,7 @@ class Live extends Model
 
     protected $table = 'lives';
 
-    protected $fillable = ['title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief'];
+    protected $fillable = ['title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief','sort'];
 
 	protected $dates = ['start_at', 'end_at'];
 
