@@ -63,6 +63,7 @@ class LiveService extends Service
             'link' => $param['link'],
             'start_at' => $param['live_time'][0].':00',
             'end_at' => $param['live_time'][1].':00',
+            'sort' => $param['sort'],
 //            'enable' => isset($param['enable'])?$param['enable']:1,
             'hits' => isset($param['hits'])?$param['hits']:0
         );

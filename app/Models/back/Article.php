@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
-	protected $fillable = ['hits', 'title', 'disease_id', 'doctor_id', 'image', 'content'];
+	protected $fillable = ['hits', 'title', 'disease_id', 'doctor_id', 'image', 'content','sort'];
     //
     public function disease(){
         return $this->hasOne(Disease::class,'id','disease_id');
