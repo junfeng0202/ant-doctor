@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VideoSection extends Model
 {
-    protected $fillable = ['id','title','video_id','url','duration'];
+    protected $fillable = ['id','title','video_id','url','duration','section_num'];
 
 
 	public function getClicksAttribute()
