@@ -27,7 +27,7 @@ class Course extends Model
 
 	public function scopeIsIndex($query)
 	{
-		return $query->select(DB::raw('1 as `index`'),'id','hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'created_at');
+		return $query->select(DB::raw('1 as `index`'),'id','hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'audio_count', 'created_at');
 	}
 
 	public function scopeEnable($query)
