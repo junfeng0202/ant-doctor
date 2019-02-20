@@ -99,7 +99,8 @@ class CourseService extends Service
                 'id' => $param['id'],
                 'pid' => 0,
                 'title' => $param['title'],
-                'course_id' => $course_id
+                'course_id' => $course_id,
+
             );
         }else{
 	        //编辑节

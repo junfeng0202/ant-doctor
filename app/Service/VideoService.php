@@ -105,6 +105,7 @@ class VideoService extends Service
                 'title' => $param['title'],
                 'url' => $param['url'],
                 'duration' => $param['duration'],
+                'section_num' => $param['section_num'],
                 'video_id' => $audio
             );
 
