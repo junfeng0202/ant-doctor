@@ -109,7 +109,7 @@ class CourseService extends Service
                 'pid' => $param['pid'],
                 'title' => $param['title'],
                 'source_id' => $param['source_id'],
-                'duration' => $param['duration'],
+                'duration' => $param['duration_int'],
                 'course_id' => $course_id
             );
         }

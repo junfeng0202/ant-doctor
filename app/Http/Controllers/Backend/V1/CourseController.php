@@ -46,6 +46,7 @@ class CourseController extends ApiController
     public function sections($id)
     {
         $items = $this->courseService->BackSections($id);
+//        dd($items);
         return $this->apiReturn($items);
     }
 

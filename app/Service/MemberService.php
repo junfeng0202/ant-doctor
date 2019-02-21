@@ -157,6 +157,8 @@ class MemberService extends Service
 	}
 
 
+
+
 	public function studyHistory($request)
 	{
 
