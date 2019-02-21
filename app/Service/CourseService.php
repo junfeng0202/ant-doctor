@@ -167,4 +167,12 @@ class CourseService extends Service
         return CourseResource::collection($items);
 	}
 
+    //统计用户总数
+    public function BackCount(){
+        $res = $this->courseRepository->BackCount();
+        return $res;
+    }
+
+
+
 }

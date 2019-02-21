@@ -219,6 +219,11 @@ class MemberService extends Service
         $items = $this->memberRepository->BackPaginate($limit,null,$kw);
         return $items;
     }
+    //统计用户总数
+    public function BackUserCount(){
+        $res = $this->memberRepository->BackCount();
+        return $res;
+    }
 	//====================================后台===============================
 
 }

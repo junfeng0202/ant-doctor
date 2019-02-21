@@ -118,4 +118,10 @@ class VideoService extends Service
         return $items;
     }
 
+    //统计总数
+    public function BackCount(){
+        $res = $this->videoRepository->BackCount();
+        return $res;
+    }
+
 }

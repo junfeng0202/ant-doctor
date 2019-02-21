@@ -80,5 +80,11 @@ class ArticleService extends Service
 
     }
 
+    //统计总数
+    public function BackCount(){
+        $res = $this->articleRepository->BackCount();
+        return $res;
+    }
+
 
 }
