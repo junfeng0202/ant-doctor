@@ -71,7 +71,7 @@ class MemberService extends Service
 		$openid = $request->openid;
 		$user = $this->memberRepository->getUserByOpenid($openid);
 		if($user){
-			return $user;
+			return $this->getDiseases($user);
 		}else{
 			throw new ApiException('openid不存在', 420);
 		}
@@ -139,10 +139,7 @@ class MemberService extends Service
 	public function getUser()
 	{
 		$member = JWTAuth::parseToken()->touser();
-		$member->interest = $member->disease(Member::INTERESTED)->get(['id', 'name']);
-		$member->combine = $member->disease(Member::COMBINE)->get(['id', 'name']);
-		$member->complication = $member->disease(Member::COMPLICATION)->get(['id', 'name']);
-		return new MemberResource($member);
+		return new MemberResource($this->getDiseases($member));
 	}
 
 	public function updateInfo($request)
@@ -185,6 +182,18 @@ class MemberService extends Service
 	}
 
 
+	/**
+	 * 加载用户的所有病种
+	 * @param $member
+	 * @return mixed
+	 */
+	protected function getDiseases($member)
+	{
+		$member->interest = $member->disease(Member::INTERESTED)->get(['id', 'name']);
+		$member->combine = $member->disease(Member::COMBINE)->get(['id', 'name']);
+		$member->complication = $member->disease(Member::COMPLICATION)->get(['id', 'name']);
+		return $member;
+	}
 	protected function memberDisease($member, $disease, $type)
 	{
 		$data = collect($disease)->mapWithKeys(function ($v) use ($type) {

@@ -93,6 +93,11 @@ class LoginController extends ApiController
 		return $this->apiReturn($this->respondWithToken($token));
 	}
 
+	/**
+	 * 微信登录
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function loginByOpenid(Request $request)
 	{
 		$user = $this->memberService->loginByOpenid($request);
