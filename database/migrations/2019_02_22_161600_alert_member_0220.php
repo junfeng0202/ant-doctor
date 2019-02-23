@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterLivesTable1 extends Migration
+class AlertMember0220 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AlterLivesTable1 extends Migration
      */
     public function up()
     {
-        Schema::table('lives',function (Blueprint $tabel){
-            $tabel->addColumn('integer','sort')->default(0)->comment('排序');
-        });
+	    Schema::table('members',function (Blueprint $tabel){
+		    $tabel->addColumn('integer','invent_id')->default(0)->comment('推荐医生id');
+	    });
     }
 
     /**

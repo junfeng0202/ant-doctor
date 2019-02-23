@@ -9,4 +9,10 @@ return [
 
 	'sms_forget_prefix'=>'for-',
 	'sms_register_prefix'=>'reg-',
+
+	'openssl_key'=>env('OPENSSL_KEY',''),
+
+	'openssl_iv'=>env('OPENSSL_IV',''),
+
+	'doctor_url'=>env('DOCTOR_URL',''),
 ];

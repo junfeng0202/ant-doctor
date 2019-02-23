@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use App\Exceptions\ApiException;
 use App\Http\Resources\MemberResource;
 use App\Http\Resources\StudyLogResource;
@@ -11,7 +10,7 @@ use App\Proxy\OtherService;
 use App\Repository\MemberStudyRepository;
 use App\Repository\MemberRepository;
 use App\Repository\OauthRepository;
-use Illuminate\Support\Facades\Auth;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -108,10 +107,26 @@ class MemberService extends Service
 			throw new ApiException('手机号已被注册', 419);
 		}
 
+
+
 		$registerData = [
 			'phone' => $phone,
 			'password' => bcrypt($request->password)
 		];
+
+		//添加推荐
+		if($inventId = $request->inventId) {
+			$client = new Client();
+			$key = openssl_encrypt(json_encode(['invent_id'=>$inventId]),'aes-256-cbc', config('config.openssl_key'), OPENSSL_RAW_DATA, config('config.openssl_iv'));
+			$key = str_replace('+','_', $key);
+			$client->post(config('config.doctor_url').'/api/invent/success', [
+				'form_params'=>[
+					'key'=> $key
+				]
+			]);
+			$registerData['invent_id'] = $inventId;
+		}
+
 		$request->openid && $registerData['openid'] = $request->openid;
 		$request->avatar && $registerData['avatar'] = $request->avatar;
 		$request->nickname && $registerData['nickname'] = $request->nickname;
