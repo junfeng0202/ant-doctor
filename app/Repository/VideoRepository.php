@@ -48,6 +48,8 @@ class VideoRepository
     public function BackUpdateOreCreate($data){
         return BackVideo::updateOrCreate(['id'=>$data['id']],$data);
     }
-
+    public function BackCount(){
+        return Video::enable()->count();
+    }
 
 }

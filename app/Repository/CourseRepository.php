@@ -76,4 +76,8 @@ class CourseRepository
 
     }
 
+    public function BackCount(){
+        return Course::enable()->count();
+    }
+
 }

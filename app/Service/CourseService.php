@@ -99,7 +99,8 @@ class CourseService extends Service
                 'id' => $param['id'],
                 'pid' => 0,
                 'title' => $param['title'],
-                'course_id' => $course_id
+                'course_id' => $course_id,
+
             );
         }else{
 	        //编辑节
@@ -108,7 +109,7 @@ class CourseService extends Service
                 'pid' => $param['pid'],
                 'title' => $param['title'],
                 'source_id' => $param['source_id'],
-                'duration' => $param['duration'],
+                'duration' => $param['duration_int'],
                 'course_id' => $course_id
             );
         }
@@ -165,5 +166,13 @@ class CourseService extends Service
 //	    dd($items->toArray());
         return CourseResource::collection($items);
 	}
+
+    //统计用户总数
+    public function BackCount(){
+        $res = $this->courseRepository->BackCount();
+        return $res;
+    }
+
+
 
 }

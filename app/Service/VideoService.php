@@ -105,6 +105,7 @@ class VideoService extends Service
                 'title' => $param['title'],
                 'url' => $param['url'],
                 'duration' => $param['duration'],
+                'section_num' => $param['section_num'],
                 'video_id' => $audio
             );
 
@@ -115,6 +116,12 @@ class VideoService extends Service
     public function BackSections($id){
         $items = (new VideoSectionRepository())->BackById($id);
         return $items;
+    }
+
+    //统计总数
+    public function BackCount(){
+        $res = $this->videoRepository->BackCount();
+        return $res;
     }
 
 }

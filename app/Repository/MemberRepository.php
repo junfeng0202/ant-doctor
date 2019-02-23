@@ -71,6 +71,9 @@ class MemberRepository
         $users = $query->with(['city','province','memberDisease'])->paginate($page);
         return $users;
     }
+    public function BackCount(){
+	    return Member::count();
+    }
 //=============================================后台=====================================================
 
 }

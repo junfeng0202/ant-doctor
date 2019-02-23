@@ -10,6 +10,8 @@ class CourseSection extends Model
         'duration' => 'integer',
     ];
     protected $fillable = ['id','title','course_id','source_id','duration','pid','havesection'];
+    protected $appends = ['duration_int'];       // 表里没有的字段
+
     public function children()
     {
     	return $this->hasMany(self::class, 'pid');
@@ -24,4 +26,9 @@ class CourseSection extends Model
     {
 		return numberToTime($this->attributes['duration']);
     }
+    public function getDurationIntAttribute()
+    {
+        return $this->attributes['duration'];
+    }
+
 }

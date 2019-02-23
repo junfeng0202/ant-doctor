@@ -53,4 +53,8 @@ class ArticleRepository
     public function BackUpdateOreCreate($data){
         return BackArticle::updateOrCreate(['id'=>$data['id']],$data);
     }
+
+    public function BackCount(){
+        return Article::count();
+    }
 }

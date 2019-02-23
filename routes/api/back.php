@@ -47,7 +47,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
     Route::get('/user/doctor/info/{id}', 'DoctorController@info');
     Route::post('/user/doctor/create', 'DoctorController@create');
 
-
+    Route::get('/index/data', 'CommonController@indexData');
     Route::get('/doctor/list', 'CommonController@doctor');
 	Route::get('/disease/list', 'CommonController@disease');
 	Route::get('/upload/getTempKeys', 'CommonController@getTempKeys');
