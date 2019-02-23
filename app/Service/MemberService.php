@@ -29,6 +29,10 @@ class MemberService extends Service
 	{
 		if ($user = $this->memberRepository->getUserByPhone($request->username)) {
 			if (password_verify($request->password, $user->password)) {
+				if($request->openid && !$user->openid){
+					$user->openid = $request->openid;
+					$user->save();
+				}
 				return $user;
 			} else {
 				throw new ApiException('密码错误', 420);
