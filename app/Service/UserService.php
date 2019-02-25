@@ -17,15 +17,4 @@ class UserService
 		$this->userRepository = $userRepository;
 	}
 
-	public function login($request)
-	{
-
-	}
-
-	public function info()
-	{
-
-	}
-
-
 }
