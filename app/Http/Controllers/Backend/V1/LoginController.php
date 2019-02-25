@@ -6,7 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Service\UserService;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class LoginController extends ApiController
 {
@@ -15,24 +15,27 @@ class LoginController extends ApiController
 
 	public function __construct(UserService $userService)
 	{
-		//$this->middleware('guest')->except('logout');
 		$this->userService = $userService;
-
 	}
 
 	public function login(UserRequest $request)
 	{
 		$http = new Client(['base_uri' => config('app.url')]);
-		$response = $http->request('POST','/oauth/token', [
-			'form_params' => [
-				'grant_type' => 'password',
-				'client_id' => config('config.backend_client_id'),
-				'client_secret' => config('config.backend_client_secret'),
-				'username' => $request->username,
-				'password' => $request->password,
-				'scope' => '',
-			],
-		]);
+		try {
+			$response = $http->request('POST','/oauth/token', [
+				'form_params' => [
+					'grant_type' => 'password',
+					'client_id' => config('config.backend_client_id'),
+					'client_secret' => config('config.backend_client_secret'),
+					'username' => $request->username,
+					'password' => $request->password,
+					'scope' => '',
+				],
+			]);
+		} catch (\Exception $e) {
+            throw  new UnauthorizedHttpException('', '账号验证失败');
+        }
+
 		$token = json_decode((string) $response->getBody(), true);
 		return $this->apiReturn($token);
 	}

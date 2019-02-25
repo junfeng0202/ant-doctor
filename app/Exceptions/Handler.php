@@ -55,22 +55,22 @@ class Handler extends ExceptionHandler
 		if ($e instanceof HttpResponseException) {
 			$message = $e->getMessage() ?: 'http response error';
 			$code = $e->getCode() ?: 400;
-			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
+			return response()->json(['message' => $message, 'code' => $code, 'data' => []]);
 
 		}elseif ($e instanceof ValidationException) {
 			$message = $e->getMessage() ?: 'validation failed';
 			$code = $e->getCode() ?: 419;
-			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
+			return response()->json(['message' => $message, 'code' => $code, 'data' => []]);
 
 		}elseif ($e instanceof UnauthorizedHttpException) {
 			$message = $e->getMessage() ?: 'token_expired';
 			$code = $e->getCode() ?: 401;
-			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
+			return response()->json(['message' => $message, 'code' => $code, 'data' => []]);
 
 		}elseif ($e instanceof MethodNotAllowedHttpException) {
 			$message = $e->getMessage() ?: 'http method error';
 			$code = $e->getCode() ?: 405;
-			return response()->json(['message' => $message, 'code' => $code, 'data' => []], $code);
+			return response()->json(['message' => $message, 'code' => $code, 'data' => []]);
 
 		}elseif ($e instanceof ModelNotFoundException) {
 			// 如果删除的内容已经不存在了，就没必要报错了，直接成功处理
