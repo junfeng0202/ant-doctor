@@ -34,7 +34,7 @@ class LoginController extends ApiController
 			],
 		]);
 		$token = json_decode((string) $response->getBody(), true);
-		$this->apiReturn($token);
+		return $this->apiReturn($token);
 	}
 
 }
