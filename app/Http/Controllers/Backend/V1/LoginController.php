@@ -23,7 +23,7 @@ class LoginController extends ApiController
 	public function login(UserRequest $request)
 	{
 		$http = new Client(['base_uri' => config('app.name')]);
-		$response = $http->post('/oauth/token', [
+		$response = $http->request('POST','/oauth/token', [
 			'form_params' => [
 				'grant_type' => 'password',
 				'client_id' => config('config.backend_client_id'),
