@@ -38,7 +38,7 @@ class LiveStatusChange extends Command
      */
     public function handle()
     {
-        Live::where('stauts',Live::WAITING)->where('start_at','<=',now())->update(['status'=>Live::BEGINING]);
-        Live::where('stauts',Live::BEGINING)->where('end_at','<=',now())->update(['status'=>Live::END]);
+        Live::where('status',Live::WAITING)->where('start_at','<=',now())->update(['status'=>Live::BEGINING]);
+        Live::where('status',Live::BEGINING)->where('end_at','<=',now())->update(['status'=>Live::END]);
     }
 }

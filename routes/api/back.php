@@ -42,7 +42,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
     //用户管理
     //用户列表
     Route::get('/user/list', 'MemberController@list');
-    Route::post('/getUserInfo', 'UserController@info')->middleware('auth:api');
+    Route::post('/getUserInfo', 'UserController@info')->middleware('auth.api');
     //讲者管理
     Route::get('/user/doctor/list', 'DoctorController@list');
     Route::get('/user/doctor/info/{id}', 'DoctorController@info');
