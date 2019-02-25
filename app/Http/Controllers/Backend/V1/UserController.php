@@ -1,33 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xiatong
- * Date: 2019/1/16
- * Time: 9:37 AM
- */
 
 namespace App\Http\Controllers\Backend\V1;
 
 
 use App\Http\Controllers\ApiController;
-use App\Service\MemberService;
-use Illuminate\Http\Request;
+use App\Service\UserService;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends ApiController
 {
-    protected $mamberService;
+    protected $userService;
 
-    public function __construct(MemberService $memberService)
+    public function __construct(UserService $userService)
     {
-        $this->mamberService = $memberService;
+        $this->userService = $userService;
 
     }
 
-    public function list(Request $request)
+    public function info()
     {
-        $limit = $request->get('limit');
-        $kw = $request->all();
-        $res =  $items = $this->mamberService->BackList($limit,$kw);
-        return $this->apiReturn($res);
+	    $user = Auth::guard('api')->user();
+	    return $this->apiReturn($user);
     }
 }

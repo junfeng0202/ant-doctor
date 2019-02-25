@@ -2,7 +2,8 @@
 
 return [
 	'frontend_client'=>env('FRONT_CLIENT_ID'),
-	'backend_client'=>env('BACKEND_CLIENT_ID'),
+	'backend_client_id'=>env('BACKEND_CLIENT_ID'),
+	'backend_client_secret'=>env('BACKEND_CLIENT_SECRET'),
 
 	//腾讯点播appID
 	'appID'=>'1252490301',
