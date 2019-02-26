@@ -25,6 +25,6 @@ class CourseHitListener
      */
     public function handle(CourseHit $event)
     {
-	    Redis::hincrby(config('rediskeys.courseHits'),$event->course->id,1);
+	    Redis::hincrby(config('redisKeys.courseHits'),$event->course->id,1);
     }
 }
