@@ -122,7 +122,7 @@ class MemberService extends Service
 		if($inventId = $request->inventId) {
 			$client = new Client();
 			$key = openssl_encrypt(json_encode(['invent_id'=>$inventId]),'aes-256-cbc', config('config.openssl_key'), OPENSSL_RAW_DATA, config('config.openssl_iv'));
-			$key = str_replace('+','_', $key);
+			$key = str_replace('+','_', base64_encode($key));
 			$client->post(config('config.doctor_url').'/api/invent/success', [
 				'form_params'=>[
 					'key'=> $key
