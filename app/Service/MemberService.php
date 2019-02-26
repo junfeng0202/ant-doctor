@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Exceptions\ApiException;
 use App\Http\Resources\MemberResource;
 use App\Http\Resources\StudyLogResource;
+use App\Models\Disease;
 use App\Models\Member;
 use App\Proxy\OtherService;
 use App\Repository\MemberStudyRepository;
@@ -152,15 +153,15 @@ class MemberService extends Service
 			$member = JWTAuth::parseToken()->touser();
 			//感兴趣疾病
 			$interest = (array)$request->interest;
-			$this->memberDisease($member, $interest, Member::INTERESTED);
+			$this->memberDisease($member, $interest, Disease::INTERESTED);
 
 			//合并症
 			$combine = (array)$request->combine;
-			$this->memberDisease($member, $combine, Member::COMBINE);
+			$this->memberDisease($member, $combine, Disease::COMBINE);
 
 			//并发症
 			$complication = (array)$request->complication;
-			$this->memberDisease($member, $complication, Member::COMPLICATION);
+			$this->memberDisease($member, $complication, Disease::COMPLICATION);
 
 			$data = $request->only('avatar', 'nickname', 'identify', 'gender', 'birth', 'diagnosis_at', 'province_id', 'city_id', 'company');
 			$data = array_filter($data, function ($v) {
@@ -193,9 +194,9 @@ class MemberService extends Service
 	 */
 	protected function getDiseases($member)
 	{
-		$member->interest = $member->disease(Member::INTERESTED)->get(['id', 'name']);
-		$member->combine = $member->disease(Member::COMBINE)->get(['id', 'name']);
-		$member->complication = $member->disease(Member::COMPLICATION)->get(['id', 'name']);
+		$member->interest = $member->disease(Disease::INTERESTED)->get(['id', 'name']);
+		$member->combine = $member->disease(Disease::COMBINE)->get(['id', 'name']);
+		$member->complication = $member->disease(Disease::COMPLICATION)->get(['id', 'name']);
 		return $member;
 	}
 	protected function memberDisease($member, $disease, $type)

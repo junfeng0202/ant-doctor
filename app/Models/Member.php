@@ -10,10 +10,7 @@ class Member extends Authenticatable  implements JWTSubject
 {
 	use Notifiable;
 
-	//疾病类型
-	const INTERESTED = 0;
-	const COMBINE = 1;
-	const COMPLICATION = 2;
+
 
 	//身份 1.患者 2.家属 3.医疗从业者 4.非医疗从业者
 	const PATIENT = 1;

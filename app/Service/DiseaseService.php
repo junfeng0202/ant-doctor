@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Http\Resources\DiseaseResource;
+use App\Models\Disease;
 use App\Repository\DiseaseRepository;
 
 class DiseaseService extends Service
@@ -19,7 +20,18 @@ class DiseaseService extends Service
 	public function disease()
 	{
 		$items = $this->diseaseRepository->getAll();
-		return DiseaseResource::collection($items)->toArray(null);
+		$datas = DiseaseResource::collection($items);
+		return [
+			'interest'=>$datas->filter(function ($item) {
+				return $item->type == Disease::INTERESTED;
+			}),
+			'combine'=>$datas->filter(function ($item) {
+				return $item->type == Disease::COMBINE;
+			}),
+			'complication'=>$datas->filter(function ($item) {
+				return $item->type == Disease::COMPLICATION;
+			}),
+		];
 	}
 
 }
