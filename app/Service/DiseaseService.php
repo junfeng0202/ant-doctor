@@ -24,13 +24,13 @@ class DiseaseService extends Service
 		return [
 			'interest'=>$datas->filter(function ($item) {
 				return $item->type == Disease::INTERESTED;
-			}),
+			})->values(),
 			'combine'=>$datas->filter(function ($item) {
 				return $item->type == Disease::COMBINE;
-			}),
+			})->values(),
 			'complication'=>$datas->filter(function ($item) {
 				return $item->type == Disease::COMPLICATION;
-			}),
+			})->values(),
 		];
 	}
 
