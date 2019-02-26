@@ -14,23 +14,9 @@ class LoginController extends ApiController
 
 	public function __construct(MemberService $memberService)
 	{
-		//$this->middleware('auth:member', ['except' => ['login','register']]);
 		$this->memberService = $memberService;
 
 	}
-
-	/*public function login(MemberRequest $request)
-	{
-		return $this->memberService->login($request);
-	}
-
-
-	public function register(MemberRequest $request)
-	{
-		return $this->memberService->register($request);
-	}
-
-	*/
 
 	/**
 	 * Get a JWT via given credentials.
@@ -102,7 +88,7 @@ class LoginController extends ApiController
 	{
 		$user = $this->memberService->loginByOpenid($request);
 		return $this->apiReturn([
-			'access_token'=> JWTAuth::fromUser($user),
+			'access_token'=> auth()->tokenById($user->id),
 			'user'=>$user
 		]);
 	}
