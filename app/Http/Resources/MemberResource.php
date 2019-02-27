@@ -16,6 +16,7 @@ class MemberResource extends JsonResource
     {
         return [
         	'id'=>$this->id,
+        	'openid'=>$this->openid,
         	'username'=>$this->phone,
         	'avatar'=>$this->avatar,
         	'nickname'=>$this->nickname,
