@@ -11,4 +11,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Common','prefix'=>'v1'], functi
 	Route::get('disease', 'CommonController@disease');
 	Route::get('province', 'CommonController@province');
 	Route::post('sms', 'CommonController@sms');
+
+	Route::post('/cos/getTempKeys', 'UploadController@getTempKeys');
 });
