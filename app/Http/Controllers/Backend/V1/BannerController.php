@@ -44,4 +44,8 @@ class BannerController extends ApiController
         $res = $this->bannersService->BackUpdateOreCreate($param);
         return $this->apiReturn();
     }
+    public function delete($id){
+        $res = $this->bannersService->delete($id);
+        return $this->apiReturn($res);
+    }
 }
