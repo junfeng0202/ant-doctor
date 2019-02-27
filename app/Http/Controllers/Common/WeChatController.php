@@ -23,6 +23,22 @@ class WeChatController extends ApiController
 		return $this->app->server->serve();
 	}
 
+	public function addMenu()
+	{
+		$buttons = [
+			[
+				"type" => "view",
+				"name" => "科普平台",
+				"url"  => "https://m.dr-ant.cn"
+			],
+			[
+				"type" => "view",
+				"name" => "立即注册",
+				"url"  => "https://m.dr-ant.cn/register"
+			],
+		];
+		$this->app->menu->create($buttons);
+	}
 
 	public function getCode()
 	{
