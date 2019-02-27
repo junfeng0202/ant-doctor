@@ -1,6 +1,7 @@
 <?php
 Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 	Route::any('/wechat', 'WeChatController@serve');
+	Route::any('/wechat/addmenu', 'WeChatController@addMenu');
 });
 
 Route::group(['namespace'=>'App\Http\Controllers\Common','prefix'=>'v1'], function () {

@@ -17,12 +17,28 @@ class WeChatController extends ApiController
 	public function serve()
 	{
 		$this->app->server->push(function($message){
-			return "欢迎关注 overtrue！";
+			return "欢迎关注 蚂蚁医生科普平台";
 		});
 
 		return $this->app->server->serve();
 	}
 
+	public function addMenu()
+	{
+		$buttons = [
+			[
+				"type" => "view",
+				"name" => "科普平台",
+				"url"  => "https://m.dr-ant.cn"
+			],
+			[
+				"type" => "view",
+				"name" => "立即注册",
+				"url"  => "https://m.dr-ant.cn/register"
+			],
+		];
+		print_r($this->app->menu->create($buttons));
+	}
 
 	public function getCode()
 	{

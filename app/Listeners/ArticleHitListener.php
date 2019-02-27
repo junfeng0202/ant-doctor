@@ -25,6 +25,7 @@ class ArticleHitListener
      */
     public function handle(ArticleHit $event)
     {
-	    Redis::hincrby(config('rediskeys.articleHits'),$event->article->id,1);
+	    Redis::hincrby('qqq','aaa',1);
+	    Redis::hincrby(config('redisKeys.articleHits'),$event->article->id,1);
     }
 }

@@ -76,7 +76,7 @@ class MemberService extends Service
 		$openid = $request->openid;
 		$user = $this->memberRepository->getUserByOpenid($openid);
 		if($user){
-			return $this->getDiseases($user);
+			return new MemberResource($this->getDiseases($user));
 		}else{
 			throw new ApiException('openid不存在', 420);
 		}

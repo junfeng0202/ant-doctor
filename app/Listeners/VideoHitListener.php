@@ -25,6 +25,6 @@ class VideoHitListener
      */
     public function handle(VideoHit $event)
     {
-        Redis::hincrby(config('rediskeys.videoHits'),$event->video->id,1);
+        Redis::hincrby(config('redisKeys.videoHits'),$event->video->id,1);
     }
 }
