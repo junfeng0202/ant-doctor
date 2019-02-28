@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArticleRepository
 {
+    use SoftDeletes;
+
     protected $dates = ['deleted_at'];
 
 	public function paginate($page=10,$sort='sort',$disease=0)
