@@ -12,7 +12,7 @@ class DiseaseRepository
 	{
 		$disease = Disease::query();
 		$onlyEnable && $disease->where('enable',1);
-        is_null($type) || $disease = $disease->where('type', $type);
+        is_null($type) || $disease->where('type', $type);
 		return $disease->sort()->get();
 	}
 }
