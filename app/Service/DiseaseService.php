@@ -34,4 +34,43 @@ class DiseaseService extends Service
 		];
 	}
 
+    //==================================后端接口===============================================
+    //病种列表
+    public function BackList($limit,$kw){
+        $items = $this->diseaseRepository->BackPaginate($limit,null,$kw);
+        return $items;
+    }
+
+    //banner列表详情
+    public function BackInfo($id){
+        $item = $this->diseaseRepository->BackById($id);
+        return $item;
+    }
+
+    //更新banner列表
+    public function BackUpdateOreCreate($param){
+        $data = array(
+            'name' => $param['name'],
+            'pid' => isset($param['pid'])?$param['pid']:0,
+            'sort' => $param['sort'],
+            'enable' => isset($param['enable'])?$param['enable']:1,
+            'type' => $param['type'],
+        );
+        if(isset($param['id']) && $param['id'] != ''){
+            $data['id'] = $param['id'];
+        }else{
+            $data['id'] = 0;
+        }
+        //更新基本信息
+        $this->diseaseRepository->BackUpdateOreCreate($data);
+
+    }
+
+    public function delete($id){
+        return $this->diseaseRepository->BackDelete($id);
+    }
+
+    //==================================后端接口===============================================
+
+
 }

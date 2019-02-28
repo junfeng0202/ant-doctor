@@ -3,13 +3,8 @@
 namespace App\Service;
 
 
-use App\Models\Member;
-use App\Proxy\OtherService;
 use App\Repository\BannersRepository;
-use App\Repository\MemberRepository;
-use App\Repository\OauthRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Auth;
 
 class BannersService extends Service
 {

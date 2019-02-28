@@ -43,6 +43,12 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
     Route::post('/system/banner/create', 'BannerController@create');
     Route::get('/system/banner/delete/{id}', 'BannerController@delete');
 
+    //系统管理-病种管理
+    Route::get('/system/diseases/list', 'DiseaseController@list');
+    Route::get('/system/diseases/info/{id}', 'DiseaseController@info');
+    Route::post('/system/diseases/create', 'DiseaseController@create');
+    Route::get('/system/diseases/delete/{id}', 'DiseaseController@delete');
+
 
     //用户管理
     //用户列表
