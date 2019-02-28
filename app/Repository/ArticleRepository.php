@@ -57,4 +57,9 @@ class ArticleRepository
     public function BackCount(){
         return Article::count();
     }
+
+    public function BackDelete($id){
+        $info = Article::find($id);
+        return $info->delete($id);
+    }
 }

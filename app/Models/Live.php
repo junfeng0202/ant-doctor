@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Live extends Model
 {
-	//直播状态
+    use SoftDeletes;
+
+    //直播状态
 	const BEGINING = 1;
 	const WAITING = 2;
 	const END = 3;
@@ -16,7 +19,7 @@ class Live extends Model
 
     protected $fillable = ['title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief'];
 
-	protected $dates = ['start_at', 'end_at'];
+	protected $dates = ['start_at', 'end_at','deleted_at'];
 
 
 	public function doctor()

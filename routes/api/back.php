@@ -29,11 +29,13 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
     Route::get('/material/article/list', 'ArticleController@list');
     Route::get('/material/article/info/{id}', 'ArticleController@info');
     Route::post('/material/article/create', 'ArticleController@create');
+    Route::get('/material/article/delete/{id}', 'ArticleController@delete');
 
     //素材管理-直播管理
     Route::get('/material/live/list', 'LiveController@list');
     Route::get('/material/live/info/{id}', 'LiveController@info');
     Route::post('/material/live/create', 'LiveController@create');
+    Route::get('/material/live/delete/{id}', 'LiveController@delete');
 
     //系统管理-banner管理
     Route::get('/system/banner/list', 'BannerController@list');

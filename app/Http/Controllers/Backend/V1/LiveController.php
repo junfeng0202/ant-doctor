@@ -44,4 +44,9 @@ class LiveController extends ApiController
         $res = $this->liveService->BackUpdateOreCreate($param);
         return $this->apiReturn();
     }
+
+    public function delete($id){
+        $res = $this->liveService->delete($id);
+        return $this->apiReturn($res);
+    }
 }

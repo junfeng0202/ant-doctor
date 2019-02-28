@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
-	protected $fillable = ['hits', 'title', 'disease_id', 'doctor_id', 'image', 'content'];
+    use SoftDeletes;
+
+    protected $fillable = ['hits', 'title', 'disease_id', 'doctor_id', 'image', 'content'];
+    protected $dates = ['deleted_at'];
+
     //
     public function disease(){
         return $this->hasOne(Disease::class,'id','disease_id');
