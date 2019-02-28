@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterPostsDeletedAt extends Migration
+class AlterLivesDeletedAt extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AlterPostsDeletedAt extends Migration
      */
     public function up()
     {
-        Schema::table('banners', function (Blueprint $table) {
+        Schema::table('lives', function (Blueprint $table) {
             $table->softDeletes();
 
         });
@@ -26,7 +26,7 @@ class AlterPostsDeletedAt extends Migration
      */
     public function down()
     {
-        Schema::table('banners', function (Blueprint $table) {
+        Schema::table('lives', function (Blueprint $table) {
             //
         });
     }

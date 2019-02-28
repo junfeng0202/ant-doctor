@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Banner extends Model
 {
     const INDEX = 0;
+    protected $dates = ['deleted_at'];
 
 	/**
 	 * 动态条件--广告位置

@@ -86,5 +86,9 @@ class ArticleService extends Service
         return $res;
     }
 
+    public function delete($id){
+        return $this->articleRepository->BackDelete($id);
+    }
+
 
 }

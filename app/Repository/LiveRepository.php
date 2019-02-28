@@ -52,6 +52,9 @@ class LiveRepository
         return BackLive::updateOrCreate(['id'=>$data['id']],$data);
     }
 
-
+    public function BackDelete($id){
+        $info = Live::find($id);
+        return $info->delete($id);
+    }
 
 }

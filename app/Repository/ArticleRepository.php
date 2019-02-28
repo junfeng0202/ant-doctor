@@ -4,8 +4,10 @@ namespace App\Repository;
 
 use App\Models\Article;
 use App\Models\back\Article as BackArticle;
+
 class ArticleRepository
 {
+
 
 	public function paginate($page=10,$sort='sort',$disease=0)
 	{
@@ -56,5 +58,10 @@ class ArticleRepository
 
     public function BackCount(){
         return Article::count();
+    }
+
+    public function BackDelete($id){
+        $info = Article::find($id);
+        return $info->delete($id);
     }
 }

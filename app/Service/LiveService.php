@@ -86,5 +86,9 @@ class LiveService extends Service
 
     }
 
+    public function delete($id){
+        return $this->liveRepository->BackDelete($id);
+    }
+
 
 }

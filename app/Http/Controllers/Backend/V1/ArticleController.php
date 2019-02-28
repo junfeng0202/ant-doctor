@@ -43,4 +43,8 @@ class ArticleController extends ApiController
         $res = $this->articleService->BackUpdateOreCreate($param);
         return $this->apiReturn();
     }
+    public function delete($id){
+        $res = $this->articleService->delete($id);
+        return $this->apiReturn($res);
+    }
 }
