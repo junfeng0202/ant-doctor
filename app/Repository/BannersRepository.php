@@ -31,6 +31,11 @@ class BannersRepository
     public function BackUpdateOreCreate($data){
         return BackBanner::updateOrCreate(['id'=>$data['id']],$data);
     }
+
+    public function BackDelete($id){
+	    $info = BackBanner::find($id);
+	    return $info->delete($id);
+    }
 	//==================================后台================================================
 
 

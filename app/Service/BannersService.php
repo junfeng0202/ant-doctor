@@ -8,6 +8,7 @@ use App\Proxy\OtherService;
 use App\Repository\BannersRepository;
 use App\Repository\MemberRepository;
 use App\Repository\OauthRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 
 class BannersService extends Service
@@ -58,6 +59,11 @@ class BannersService extends Service
 
 
     }
+
+    public function delete($id){
+        return $this->bannersRepository->BackDelete($id);
+    }
+
     //==================================后端接口===============================================
 
 

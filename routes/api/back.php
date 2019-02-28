@@ -39,6 +39,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
     Route::get('/system/banner/list', 'BannerController@list');
     Route::get('/system/banner/info/{id}', 'BannerController@info');
     Route::post('/system/banner/create', 'BannerController@create');
+    Route::get('/system/banner/delete/{id}', 'BannerController@delete');
+
 
     //用户管理
     //用户列表
