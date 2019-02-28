@@ -4,8 +4,11 @@ namespace App\Repository;
 
 use App\Models\Article;
 use App\Models\back\Article as BackArticle;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class ArticleRepository
 {
+    protected $dates = ['deleted_at'];
 
 	public function paginate($page=10,$sort='sort',$disease=0)
 	{
