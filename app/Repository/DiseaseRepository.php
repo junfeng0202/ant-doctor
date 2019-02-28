@@ -8,11 +8,11 @@ use App\Models\Disease;
 class DiseaseRepository
 {
 
-	public function getAll($onlyEnable=true,$type=1)
+	public function getAll($onlyEnable=true,$type=null)
 	{
 		$disease = Disease::query();
 		$onlyEnable && $disease->where('enable',1);
-        $disease = $disease->where('type',1);
+        is_null($type) || $disease = $disease->where('type', $type);
 		return $disease->sort()->get();
 	}
 }
