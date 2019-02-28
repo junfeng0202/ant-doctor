@@ -43,7 +43,7 @@ class BannersService extends Service
     public function BackUpdateOreCreate($param){
         $data = array(
             'image' => $param['image'],
-            'link' => $param['link'],
+            'link' => $param['link']?$param['link']:'',
             'position' => $param['position'],
             'image' => $param['image'],
             'sort' => $param['sort'],
