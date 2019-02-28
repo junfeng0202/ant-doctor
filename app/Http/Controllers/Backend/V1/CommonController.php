@@ -38,7 +38,7 @@ class CommonController extends ApiController
 
    //获取所有疾病
     public function disease(){
-       $item = (new DiseaseRepository())->getAll(false);
+       $item = (new DiseaseRepository())->getAll(false,0);
        $data = BackDiseaseResource::collection($item);
        return $this->apiReturn($data);
     }
