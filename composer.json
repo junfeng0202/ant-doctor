@@ -19,7 +19,6 @@
         "mrgoon/aliyun-sms": "dev-master",
         "overtrue/laravel-wechat": "~4.0",
         "predis/predis": "^1.1",
-        "qcloud_sts/qcloud-sts-sdk": "^1.3",
         "tymon/jwt-auth": "1.*@rc"
     },
     "require-dev": {
