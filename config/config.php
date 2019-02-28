@@ -7,8 +7,8 @@ return [
 
 	//腾讯点播appID
 	'appID'=>'1252490301',
-	'cosSecretId'=> env('COSSECRETID'),
-	'cosSecretKey'=>env('COSSECRETKEY'),
+	'cosSecretId'=> env('COS_SECRET_ID'),
+	'cosSecretKey'=>env('COS_SECRET_KEY'),
 	'cosBucket'=> 'patient-front-1252490301',
 
 	'sms_forget_prefix'=>'for-',

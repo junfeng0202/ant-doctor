@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Article;
+use App\Models\Course;
 use App\Models\Video;
 use App\Models\VideoSection;
 use Illuminate\Console\Command;
