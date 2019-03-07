@@ -2,6 +2,7 @@
 Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 	Route::any('/wechat', 'WeChatController@serve');
 	Route::any('/wechat/addmenu', 'WeChatController@addMenu');
+	Route::any('/wechat/getusers', 'WeChatController@getUsers');
 });
 
 Route::group(['namespace'=>'App\Http\Controllers\Common','prefix'=>'v1'], function () {

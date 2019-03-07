@@ -22,7 +22,9 @@ class WeChatController extends ApiController
 
 		return $this->app->server->serve();
 	}
-
+    public function getUsers(){
+	    return $this->app->user->list(null);
+    }
 	public function addMenu()
 	{
 		$buttons = [
