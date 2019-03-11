@@ -20,7 +20,7 @@ class ArticleService extends Service
 
 	public function index($request)
 	{
-		$items = $this->articleRepository->paginate($request->get('show_num',8), $request->get('sort','sort'));
+		$items = $this->articleRepository->paginate($request->get('show_num',8), $request->get('sort','sort'), $request->get('disease',0));
 		return ArticleResource::collection($items);
 	}
 

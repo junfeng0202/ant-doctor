@@ -14,12 +14,12 @@ class ArticleRepository
 		$article = Article::query();
 		$article->latest($sort);
 		$disease && $article->where('disease_id', $disease);
-		return $article->isIndex()->paginate($page);
+		return $article->isIndex()->with('disease:id,name')->paginate($page);
 	}
 
 	public function getById($id)
 	{
-		return Article::find($id);
+		return Article::with('disease:id,name')->find($id);
 	}
 
 

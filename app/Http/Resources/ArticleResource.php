@@ -17,6 +17,9 @@ class ArticleResource extends JsonResource
         return [
 	        'id'     => $this->id,
 	        'title'  => $this->title,
+	        'disease'=>$this->whenLoaded('disease',function(){
+		        return $this->disease->name;
+	        }),
 	        'image'  => $this->image,
 	        'clicks' => (int)$this->clicks,
 	        'content'=> $this->when(!$this->index, $this->content),
