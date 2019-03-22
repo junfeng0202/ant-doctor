@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Common;
 
 
 use App\Http\Controllers\ApiController;
+use App\Service\ConfigService;
+use EasyWeChat\Kernel\Messages\Article;
+use Illuminate\Http\Request;
 
 class WeChatController extends ApiController
 {
@@ -22,24 +25,24 @@ class WeChatController extends ApiController
 
 		return $this->app->server->serve();
 	}
+
+
     public function getUsers(){
 	    return $this->app->user->list(null);
     }
-	public function addMenu()
+
+
+	public function updateMenu(ConfigService $configService, Request $request)
 	{
-		$buttons = [
-			[
-				"type" => "view",
-				"name" => "科普平台",
-				"url"  => "https://m.dr-ant.cn"
-			],
-			[
-				"type" => "view",
-				"name" => "立即注册",
-				"url"  => "https://m.dr-ant.cn/register"
-			],
-		];
-		print_r($this->app->menu->create($buttons));
+		$buttons = $request->get('button');
+		$configService->updateWeChatMenu($buttons);
+		return $this->apiReturn($this->app->menu->create($buttons));
+	}
+
+	public function synMenu(ConfigService $configService)
+	{
+		$buttons = $configService->getWeChatMenu();
+		return $this->apiReturn($this->app->menu->create($buttons));
 	}
 
 	public function getCode()
@@ -56,5 +59,33 @@ class WeChatController extends ApiController
 			'avatar'=> $user->getAvatar(),
 			'gender'=> $user->getOriginal()['sex'],
 		]);
+	}
+
+	public function materials(Request $request, $type='news')
+	{
+		$offset = $request->get('page', 0);
+		$count = $request->get('size', 10);
+		return $this->app->material->list($type, $offset, $count);
+	}
+
+	public function materialAdd()
+	{
+		$article = new Article([
+			'title' => '测试',
+			'thumb_media_id' => 'gmUmM3hbFZKH3ld5Skkk6Si-tV0PIMOywcznP9-xLuU',
+			'content'=> '测试内容',
+			'show_cover'=> 1,
+			'content_source_url'=> '',
+		]);
+		return $this->app->material->uploadArticle($article);
+
+		// $this->app->material->uploadArticle([$article]);
+	}
+
+	public function imageUpload()
+	{
+		return $this->app->material->uploadImage('static/img/404.a57b6f3.png');
+
+		// $this->app->material->uploadArticle([$article]);
 	}
 }

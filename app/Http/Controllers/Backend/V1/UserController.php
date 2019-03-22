@@ -20,6 +20,7 @@ class UserController extends ApiController
     public function info()
     {
 	    $user = Auth::guard('api')->user();
+	    $user->roles = ['admin'];
 	    return $this->apiReturn($user);
     }
 }

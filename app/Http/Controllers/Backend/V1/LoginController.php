@@ -8,6 +8,7 @@ use App\Service\UserService;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends ApiController
 {
@@ -39,16 +40,6 @@ class LoginController extends ApiController
 
         $token = json_decode((string)$response->getBody(), true);
         return $this->apiReturn($token);
-    }
-
-    public function userInfo()
-    {
-        $data = ['roles' => ['admin'],
-            'token' => 'admin',
-            'introduction' => '我是超级管理员',
-            'avatar' => 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-            'name' => 'Super Admin'];
-        return $this->apiReturn($data);
     }
 
 }
