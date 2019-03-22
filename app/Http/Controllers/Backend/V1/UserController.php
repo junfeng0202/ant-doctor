@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Service\UserService;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserController extends ApiController
 {
@@ -17,10 +17,21 @@ class UserController extends ApiController
 
     }
 
-    public function info()
+    public function getList(Request $request)
     {
-	    $user = Auth::guard('api')->user();
-	    $user->roles = ['admin'];
+        $users = $this->userService->getList($request);
+        return $this->apiReturn($users);
+    }
+
+    public function getInfoById($id)
+    {
+	    $user = $this->userService->getUser($id);
 	    return $this->apiReturn($user);
+    }
+
+    public function save(Request $request)
+    {
+    	$this->userService->save($request->id, $request->except('id'));
+		return $this->apiReturn();
     }
 }

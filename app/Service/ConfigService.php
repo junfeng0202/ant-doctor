@@ -17,12 +17,13 @@ class ConfigService extends Service
 
 	public function updateWeChatMenu($data)
 	{
-		$this->configRepository->updateOrCreate('wechatMenu', $data);
+		$this->configRepository->updateOrCreate('wechatMenu', json_encode($data));
 	}
 
 	public function getWeChatMenu()
 	{
-		$this->configRepository->getValueByKey('wechatMenu');
+		$menu = $this->configRepository->getValueByKey('wechatMenu');
+		return json_decode($menu, true);
 	}
 
 }

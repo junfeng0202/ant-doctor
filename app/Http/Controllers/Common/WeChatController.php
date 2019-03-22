@@ -45,6 +45,12 @@ class WeChatController extends ApiController
 		return $this->apiReturn($this->app->menu->create($buttons));
 	}
 
+	public function getMenu(ConfigService $configService)
+	{
+		$buttons = $configService->getWeChatMenu();
+		return $this->apiReturn($buttons);
+	}
+
 	public function getCode()
 	{
 		return $this->app->oauth->scopes(['snsapi_userinfo'])->redirect();

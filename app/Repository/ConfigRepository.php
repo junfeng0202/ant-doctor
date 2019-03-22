@@ -10,11 +10,11 @@ class ConfigRepository
 
 	public function updateOrCreate($key, $value)
 	{
-		return Config::updateOrcreate(['key'=>$key], ['vaule'=>$value]);
+		return Config::updateOrcreate(['key'=>$key], ['value'=>$value]);
 	}
 
 	public function getValueByKey($key)
 	{
-		return Config::where(['key'=>$key])->value('vaule');
+		return Config::where(['key'=>$key])->value('value');
 	}
 }

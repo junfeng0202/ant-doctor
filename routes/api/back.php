@@ -11,7 +11,9 @@ $api->version('v1', ['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'b
 Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], function (){
 	Route::post('login', 'LoginController@login');
 
-	Route::group(['middleware'=>'auth.api'], function(){
+	//Route::group(['middleware'=>'auth.api'], function(){
+
+		Route::post('/getInfoByToken', 'LoginController@getInfoByToken'); //通过token获取
 		//素材管理-课程管理
 		Route::get('/material/course/list', 'CourseController@list');
 		Route::get('/material/course/info/{id}', 'CourseController@info');
@@ -54,7 +56,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
 		//用户管理
 		//用户列表
 		Route::get('/user/list', 'MemberController@list');
-		Route::post('/user/info', 'UserController@info');
+
+
 		//讲者管理
 		Route::get('/user/doctor/list', 'DoctorController@list');
 		Route::get('/user/doctor/info/{id}', 'DoctorController@info');
@@ -63,7 +66,13 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
 		Route::get('/index/data', 'CommonController@indexData');
 		Route::get('/doctor/list', 'CommonController@doctor');
 		Route::get('/disease/list', 'CommonController@disease');
-	});
+
+
+		//管理员
+		Route::get('/manager/getList', 'UserController@getList'); //通过id获取
+		Route::any('/manager/getInfo/{id}', 'UserController@getInfoById'); //通过id获取
+		Route::post('/manager/save', 'UserController@save');
+	//});
 
 	Route::get('/upload/getTempKeys', 'CommonController@getTempKeys');
 

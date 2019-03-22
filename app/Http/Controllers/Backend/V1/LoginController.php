@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Service\UserService;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -35,11 +36,22 @@ class LoginController extends ApiController
                 ],
             ]);
         } catch (\Exception $e) {
-            throw  new UnauthorizedHttpException('', '账号验证失败');
+            throw  new UnauthorizedHttpException('', '账号验证失败', null, 400);
         }
 
         $token = json_decode((string)$response->getBody(), true);
         return $this->apiReturn($token);
     }
 
+
+	/**
+	 * 登入用户信息获取
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getInfoByToken()
+	{
+		$user = Auth::guard('api')->user();
+		$user->roles = ['admin'];
+		return $this->apiReturn($user);
+	}
 }
