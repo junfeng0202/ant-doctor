@@ -44,9 +44,8 @@ class CommonController extends ApiController
     }
 
     //获取上传的临时秘钥
-    public function getTempKeys(){
-       $token = (new UploadService())->getTempKeys();
-       return $this->apiReturn($token);
+    public function getTempKeys(UploadService $service){
+       return $this->apiReturn($service->getTempKeys());
     }
 
     //首页获取相关统计数据

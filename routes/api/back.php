@@ -8,7 +8,8 @@ $api->version('v1', ['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'b
 	$api->post('test', 'LoginController@test');
 });*/
 
-Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], function (){
+Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'], function (){
+
 	Route::post('login', 'LoginController@login');
 
 	//Route::group(['middleware'=>'auth.api'], function(){
@@ -72,8 +73,25 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'back'], 
 		Route::get('/manager/getList', 'UserController@getList'); //通过id获取
 		Route::any('/manager/getInfo/{id}', 'UserController@getInfoById'); //通过id获取
 		Route::post('/manager/save', 'UserController@save');
+
+		// 讲堂
+		Route::post('/college/list', 'CollegeController@getList');
+		Route::post('/college/info/{id}', 'CollegeController@info');
+		Route::post('/college/save', 'CollegeController@save');
+		//讲堂频道
+		Route::post('/college-section/{id}/list', 'CollegeController@sections');
+		Route::post('/college-section/info/{sectionId}', 'CollegeController@sectionInfo');
+		Route::post('/college-section/{id}/save', 'CollegeController@sectionSave');
+		//讲堂内容
+		Route::post('/college-section-content/{sectionId}/list', 'CollegeController@contents');
+		Route::post('/college-section-content/{sectionId}/ids', 'CollegeController@contentIds');
+		Route::post('/college-section-content/save', 'CollegeController@contentSave');
+		Route::post('/college-section-content/{conentId}/delete', 'CollegeController@contentDelete');
+
+		//反馈列表
+		Route::post('/feedback/list', 'FeedbackController@getList');
 	//});
 
-	Route::get('/upload/getTempKeys', 'CommonController@getTempKeys');
+	Route::redirect('/cos/getTempKeys', '/cos/getTempKeys', 307);
 
 });

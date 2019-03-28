@@ -39,7 +39,7 @@ class VideoRepository
                     $query->where('id', '=',$kw['kw_doctor']);
                 });
         }
-        return $video->with(['section:video_id,duration','disease:id,name','doctor:id,name'])->paginate($page);
+        return $video->with(['section:id,video_id,duration,hits','disease:id,name','doctor:id,name'])->paginate($page);
     }
     //后台课程基本信息
     public function BackById($id){

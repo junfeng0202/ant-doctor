@@ -53,8 +53,8 @@ class VideoService extends Service
 	//后段服务
     public function BackList($limit,$kw){
         $items = $this->videoRepository->BackPaginate($limit,null,$kw);
-//        $res =  VideoResource::collection($items);
-        return $items;
+        $handlerResult =  VideoResource::collection($items);
+        return ['data'=> $handlerResult, 'meta'=>['total'=>$items->total()]];
     }
 
     public function BackInfo($id){

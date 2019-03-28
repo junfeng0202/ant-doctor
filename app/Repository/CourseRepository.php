@@ -23,7 +23,7 @@ class CourseRepository
         //搜索条件
         //标题
         if(isset($kw['kw_title'])){
-            $course->where('title', 'like', '%'.$kw['kw_title'].'%');
+            $course->where('title', 'like', $kw['kw_title'].'%');
         }
         //病种
         if(isset($kw['kw_disease'])){

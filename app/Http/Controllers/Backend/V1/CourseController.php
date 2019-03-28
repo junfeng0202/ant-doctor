@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xiatong
- * Date: 2019/1/16
- * Time: 9:37 AM
- */
 
 namespace App\Http\Controllers\Backend\V1;
 
@@ -27,7 +21,7 @@ class CourseController extends ApiController
     {
         $limit = $request->get('limit');
         $kw = $request->all();
-        return $items = $this->courseService->BackList($limit,$kw);
+        return $this->apiReturn($this->courseService->BackList($limit,$kw));
     }
 
     public function info($id)

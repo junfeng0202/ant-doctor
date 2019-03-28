@@ -10,6 +10,9 @@ return [
 	//音频点击数键名前缀
 	'videoSectionHits'=>'videoSection:hitNumber',
 
+	// 讲堂点击数
+	'collegeHits'=>'college:hitNumber',
+
 	//某IP下短信发送的次数/天
 	'smsIPSendTime'=>'sms:'.date('m-d').':',
 ];

@@ -24,6 +24,11 @@ class Video extends Model
 		return $this->hasMany(VideoSection::class)->orderBy('section_num');
 	}
 
+	public function collegeContents()
+	{
+		return $this->morphMany(CollegeSectionContent::class,'contentable');
+	}
+
 	public function scopeEnable($query)
 	{
 		return $query->where('enable',1);

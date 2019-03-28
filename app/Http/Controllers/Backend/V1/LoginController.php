@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Backend\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\UserRequest;
+use App\Models\User;
 use App\Service\UserService;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\JWT;
 
 class LoginController extends ApiController
 {

@@ -38,8 +38,9 @@ class LiveService extends Service
 
     //后端接口-图文列表
     public function BackList($limit,$kw){
-        $items = $this->liveRepository->BackPaginate($limit,null,$kw);
-        return $items;
+        $items = $this->liveRepository->BackPaginate($limit,null,$kw);//dd($items);
+        $handlerResult = LiveResource::collection($items);
+        return ['data'=>$handlerResult, 'meta'=>['total'=>$items->total()]];
     }
 
     //后端接口-图文详情

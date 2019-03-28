@@ -24,6 +24,11 @@ class Course extends Model
 		return $this->hasMany(CourseSection::class)->orderBy('section_num');
 	}
 
+	public function collegeContents()
+	{
+		return $this->morphMany(CollegeSectionContent::class,'contentable');
+	}
+
 
 	public function scopeIsIndex($query)
 	{

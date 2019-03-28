@@ -37,7 +37,8 @@ class ArticleService extends Service
     //后端接口-图文列表
     public function BackList($limit,$kw){
         $items = $this->articleRepository->BackPaginate($limit,null,$kw);
-        return $items;
+        $handerResult = ArticleResource::collection($items);
+        return ['data'=>$handerResult, 'meta'=>['total'=>$items->total()]];
     }
 
     //后端接口-图文详情

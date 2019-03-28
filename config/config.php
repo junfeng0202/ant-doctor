@@ -9,7 +9,7 @@ return [
 	'appID'=>'1252490301',
 	'cosSecretId'=> env('COS_SECRET_ID'),
 	'cosSecretKey'=>env('COS_SECRET_KEY'),
-	'cosBucket'=> 'patient-front-1252490301',
+	'cosBucket'=> 'patient-1252490301',
 
 	'sms_forget_prefix'=>'for-',
 	'sms_register_prefix'=>'reg-',
