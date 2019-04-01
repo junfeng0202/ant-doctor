@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Events\ArticleHit;
 use App\Http\Resources\ArticleResource;
 use App\Repository\ArticleRepository;
+use App\Repository\MemberRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ArticleService extends Service
@@ -20,7 +21,8 @@ class ArticleService extends Service
 
 	public function index($request)
 	{
-		$items = $this->articleRepository->paginate($request->get('show_num',8), $request->get('sort','sort'), $request->get('disease',0));
+		$interest = (new MemberService(new MemberRepository()))->memberInterest();
+		$items = $this->articleRepository->paginate($request->get('show_num',8), $interest, $request->get('sort','sort'), $request->get('disease',0), $request->get('keyword', ''));
 		return ArticleResource::collection($items);
 	}
 

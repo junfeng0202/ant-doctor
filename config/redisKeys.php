@@ -15,4 +15,10 @@ return [
 
 	//某IP下短信发送的次数/天
 	'smsIPSendTime'=>'sms:'.date('m-d').':',
+
+	//用户信息存储
+	'userInfo'=> 'userinfo:',
+
+	//频道详情
+	'collegeInfo'=> 'collegeinfo:'
 ];

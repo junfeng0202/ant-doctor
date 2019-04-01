@@ -22,7 +22,8 @@ class CollegeResource extends Resource
 	        'image' => $this->image,
 	        'enable' => $this->enable,
 	        'clicks' => $this->clicks,
-	        'items' => $this->whenLoaded('section')
+	        'contentNums' => $this->content_count,
+	        'items' => CollegeSectionResource::collection($this->whenLoaded('section'))
         ];
     }
 }

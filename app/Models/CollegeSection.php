@@ -18,4 +18,5 @@ class CollegeSection extends Model
     {
     	return $this->hasMany(CollegeSectionContent::class);
     }
+
 }

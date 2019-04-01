@@ -27,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
 	    'App\Events\VideoSectionHit'=>[
 	        'App\Listeners\VideoSectionHitListener',
         ],
+	    'App\Events\CollegeHit'=>[
+	        'App\Listeners\CollegeHitListener',
+        ],
 
     ];
 

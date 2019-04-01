@@ -21,6 +21,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 		Route::post('study-history', 'MemberController@studyHistory');
 		Route::post('user', 'MemberController@user');
 
+		//反馈
+		Route::post('user/feedback', 'MemberController@feedback');
 
 	});
 
@@ -28,6 +30,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 
 	//首页获取数据
 	Route::get('index', 'IndexController@index');
+	Route::post('search', 'IndexController@search');
 
 	Route::get('article', 'ArticleController@index');
 	Route::get('article/{id}', 'ArticleController@info')->name('article.info');
@@ -43,6 +46,11 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	Route::get('video', 'VideoController@index');
 	Route::get('video/{id}', 'VideoController@info')->name('video.info');
 	Route::get('video-section/{id}', 'VideoController@section')->name('video.section');
+
+	//讲堂
+	Route::post('colleges', 'CollegeController@getList')->name('college.list');
+	Route::get('college/{id}', 'CollegeController@info')->name('college.info');
+	Route::get('college/sectionContents/{sectionId}/', 'CollegeController@sectionContents')->name('college.sectionContents');
 
 
 });

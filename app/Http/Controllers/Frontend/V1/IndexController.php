@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Service\IndexService;
+use Illuminate\Http\Request;
 
 class IndexController extends ApiController
 {
@@ -20,6 +22,10 @@ class IndexController extends ApiController
 		return $this->apiReturn($data);
 	}
 
-
+	public function search(Request $request)
+	{
+		$data = $this->indexService->search($request);
+		return $this->apiReturn($data);
+	}
 
 }

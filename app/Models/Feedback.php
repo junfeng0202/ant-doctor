@@ -11,6 +11,8 @@ class Feedback extends Model
 	const COMPLAIN = 3;
 	const OTHER = 4;
 
+	public $fillable = ['member_id', 'type', 'content'];
+
 	public function member()
 	{
 		return $this->belongsTo(Member::class);

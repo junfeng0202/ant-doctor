@@ -11,4 +11,13 @@ class FeedbackRepository
 	{
 		return Feedback::with(['member:id,phone,nickname','images:id,feedback_id,image'])->paginate($limit);
 	}
+
+	public function create($data)
+	{
+		$feedback = Feedback::create($data);
+		if(isset($data['images'])){
+			$images = array_map(function ($v) {return ['image'=>$v];}, $data['images']);
+			$feedback->images()->createMany($images);
+		}
+	}
 }

@@ -24,7 +24,7 @@ class VideoService extends Service
 
 	public function paginate($request)
 	{
-		$items = $this->videoRepository->paginate($request->get('show_num',8));
+		$items = $this->videoRepository->paginate($request->get('show_num',8),0,$request->get('keyword',''));
 		return VideoResource::collection($items);
 	}
 

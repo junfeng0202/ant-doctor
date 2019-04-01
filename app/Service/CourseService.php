@@ -29,7 +29,7 @@ class CourseService extends Service
 
 	public function index($request)
 	{
-		$items = $this->courseRepository->paginate($request->get('show_num',8), $request->get('sort','sort'));
+		$items = $this->courseRepository->paginate($request->get('show_num',8), $request->get('sort','sort'), 0, $request->get('keyword',''));
 		return CourseResource::collection($items);
 	}
 

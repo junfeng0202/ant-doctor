@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Events\VideoHit;
+use App\Events\CollegeHit;
 use Illuminate\Support\Facades\Redis;
 
-class VideoHitListener
+class CollegeHitListener
 {
 	/**
 	 * Create the event listener.
@@ -14,17 +14,17 @@ class VideoHitListener
 	 */
 	public function __construct()
 	{
-		//
+
 	}
 
 	/**
 	 * Handle the event.
 	 *
-	 * @param  VideoHit $event
+	 * @param  CollegeHit $event
 	 * @return void
 	 */
-	public function handle(VideoHit $event)
+	public function handle(CollegeHit $event)
 	{
-		Redis::hincrby(config('redisKeys.videoHits'), $event->video->id, 1);
+		Redis::hincrby(config('redisKeys.collegeHits'), $event->college_id, 1);
 	}
 }

@@ -20,7 +20,8 @@ class CollegeSectionResource extends Resource
 	        'sort' => $this->sort,
 	        'enable' => $this->enable,
 	        'type' => $this->type,
-	        'content' => $this->whenLoaded('content')
+	        'total' => $this->when($this->total, $this->total),
+	        'content' => CollegeSectionContentResource::collection($this->whenLoaded('content'))
         ];
     }
 }

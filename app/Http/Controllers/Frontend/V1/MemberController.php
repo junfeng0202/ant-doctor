@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\FeedbackRequest;
 use App\Http\Requests\MemberInfoRequest;
 use App\Service\MemberService;
 use Illuminate\Http\Request;
@@ -23,6 +24,11 @@ class MemberController extends ApiController
 	}
 
 
+	/**
+	 * 编辑个人资料
+	 * @param MemberInfoRequest $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function editInfo(MemberInfoRequest $request)
 	{
 		$this->memberService->updateInfo($request);
@@ -30,10 +36,20 @@ class MemberController extends ApiController
 	}
 
 
+	/**
+	 * 学习记录
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function studyHistory(Request $request)
 	{
 
 		return $this->apiReturn($this->memberService->studyHistory($request));
 	}
 
+	public function feedback(FeedbackRequest $request)
+	{
+		$this->memberService->feedback($request);
+		return $this->apiReturn();
+	}
 }

@@ -9,9 +9,12 @@ use App\Models\CollegeSectionContent;
 class CollegeRepository
 {
 
-	public function backList($limit)
+	public function backList($limit, $sort = [])
 	{
 		$college = College::query();
+		if (count($sort)) {
+			$college->orderBy(...$sort);
+		}
 		return $college->latest('id')->paginate($limit);
 	}
 
@@ -42,7 +45,7 @@ class CollegeRepository
 		return College::create($data);
 	}
 
-	public function updateCollegeContentCount($id, $num=1)
+	public function updateCollegeContentCount($id, $num = 1)
 	{
 		return College::whereId($id)->increment('content_count', $num);
 	}
@@ -60,14 +63,25 @@ class CollegeRepository
 
 	public function sectionSave($data)
 	{
-		return CollegeSection::updateOrCreate(['id'=>$data['id']], $data);
+		return CollegeSection::updateOrCreate(['id' => $data['id']], $data);
 	}
 
+	/**
+	 * 频道下的内容列表
+	 * @param $sectionId
+	 * @param $limit
+	 * @return mixed
+	 */
 	public function contentList($sectionId, $limit = 20)
 	{
 		return CollegeSectionContent::where('college_section_id', $sectionId)->with('contentable')->latest('sort')->latest('id')->paginate($limit);
 	}
 
+	/**
+	 * 频道下的内容id数据
+	 * @param $sectionId
+	 * @return mixed
+	 */
 	public function contentIds($sectionId)
 	{
 		return CollegeSectionContent::where('college_section_id', $sectionId)->pluck('contentable_id');
@@ -101,5 +115,23 @@ class CollegeRepository
 	public function collegeIdOfContent($id)
 	{
 		return CollegeSectionContent::whereId($id)->value('college_id');
+	}
+
+
+
+	public function getList($size)
+	{
+		return College::latest('sort')->enable()->paginate($size);
+	}
+
+	public function getInfo($id)
+	{
+		return College::with('section')->find($id);
+
+	}
+
+	public function getContentList($sectionId, $size=10, $sort='sort')
+	{
+		return CollegeSectionContent::where('college_section_id', $sectionId)->with('contentable')->latest($sort)->latest('id')->paginate($size);
 	}
 }

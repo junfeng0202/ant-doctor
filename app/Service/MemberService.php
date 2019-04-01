@@ -8,12 +8,14 @@ use App\Http\Resources\StudyLogResource;
 use App\Models\Disease;
 use App\Models\Member;
 use App\Proxy\OtherService;
+use App\Repository\FeedbackRepository;
 use App\Repository\MemberStudyRepository;
 use App\Repository\MemberRepository;
 use App\Repository\OauthRepository;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class MemberService extends Service
@@ -30,7 +32,7 @@ class MemberService extends Service
 	{
 		if ($user = $this->memberRepository->getUserByPhone($request->username)) {
 			if (password_verify($request->password, $user->password)) {
-				if($request->openid && !$user->openid){
+				if ($request->openid && !$user->openid) {
 					$user->openid = $request->openid;
 					$user->save();
 				}
@@ -45,7 +47,7 @@ class MemberService extends Service
 
 	protected function loginFormDoc($request)
 	{
-		if($this->memberRepository->phoneExist($request->username)){
+		if ($this->memberRepository->phoneExist($request->username)) {
 			throw new ApiException('密码错误', 420);
 		}
 
@@ -75,9 +77,9 @@ class MemberService extends Service
 	{
 		$openid = $request->openid;
 		$user = $this->memberRepository->getUserByOpenid($openid);
-		if($user){
+		if ($user) {
 			return new MemberResource($this->getDiseases($user));
-		}else{
+		} else {
 			throw new ApiException('openid不存在', 420);
 		}
 	}
@@ -96,7 +98,7 @@ class MemberService extends Service
 				'identify' => Member::DOCTOR
 			]);
 		} else {
-			$this->memberRepository->updateByPhone($phone,['password'=>bcrypt($request->password)]);
+			$this->memberRepository->updateByPhone($phone, ['password' => bcrypt($request->password)]);
 		}
 	}
 
@@ -113,20 +115,19 @@ class MemberService extends Service
 		}
 
 
-
 		$registerData = [
 			'phone' => $phone,
 			'password' => bcrypt($request->password)
 		];
 
 		//添加推荐
-		if($inventId = $request->inventId) {
+		if ($inventId = $request->inventId) {
 			$client = new Client();
-			$key = openssl_encrypt(json_encode(['invent_id'=>$inventId]),'aes-256-cbc', config('config.openssl_key'), OPENSSL_RAW_DATA, config('config.openssl_iv'));
-			$key = str_replace('+','_', base64_encode($key));
-			$client->post(config('config.doctor_url').'/api/invent/success', [
-				'form_params'=>[
-					'key'=> $key
+			$key = openssl_encrypt(json_encode(['invent_id' => $inventId]), 'aes-256-cbc', config('config.openssl_key'), OPENSSL_RAW_DATA, config('config.openssl_iv'));
+			$key = str_replace('+', '_', base64_encode($key));
+			$client->post(config('config.doctor_url') . '/api/invent/success', [
+				'form_params' => [
+					'key' => $key
 				]
 			]);
 			$registerData['invent_id'] = $inventId;
@@ -144,7 +145,13 @@ class MemberService extends Service
 	public function getUser()
 	{
 		$member = JWTAuth::parseToken()->touser();
-		return new MemberResource($this->getDiseases($member));
+		$key = config('redisKeys.userInfo') . $member->id;
+
+		if (!Redis::exists($key)) {
+			$member = (new MemberResource($this->getDiseases($member)));
+			Redis::set($key, json_encode($member));
+		}
+		return json_decode(Redis::get($key));
 	}
 
 	public function updateInfo($request)
@@ -174,8 +181,6 @@ class MemberService extends Service
 	}
 
 
-
-
 	public function studyHistory($request)
 	{
 
@@ -184,6 +189,15 @@ class MemberService extends Service
 		$study = (new MemberStudyRepository())->memberStudyLog($member->id, $request->get('show_num', 8));
 		return StudyLogResource::collection($study);
 
+	}
+
+	public function feedback($request)
+	{
+		//$member = JWTAuth::parseToken()->touser();
+		$data =$request->all();
+//		$data['member_id'] = $member->id;
+		$data['member_id'] = 1;
+		(new FeedbackRepository())->create($data);
 	}
 
 
@@ -199,6 +213,7 @@ class MemberService extends Service
 		$member->complication = $member->disease(Disease::COMPLICATION)->get(['id', 'name']);
 		return $member;
 	}
+
 	protected function memberDisease($member, $disease, $type)
 	{
 		$data = collect($disease)->mapWithKeys(function ($v) use ($type) {
@@ -207,6 +222,20 @@ class MemberService extends Service
 		$member->disease($type)->sync($data->toArray());
 	}
 
+	/**
+	 * 用户感兴趣的疾病id
+	 * @return array
+	 */
+	public function memberInterest()
+	{
+		if(auth()->check()){
+			$member = $this->getUser();
+			$interest = array_map(function($v) { return $v->id; },$member->interest);
+		} else {
+			$interest = [];
+		}
+		return $interest;
+	}
 
 	protected function getToken($username, $password)
 	{
@@ -243,16 +272,19 @@ class MemberService extends Service
 
 
 	//====================================后台===============================
-    //用户列表
-    public function BackList($limit,$kw){
-        $items = $this->memberRepository->BackPaginate($limit,null,$kw);
-        return $items;
-    }
-    //统计用户总数
-    public function BackUserCount(){
-        $res = $this->memberRepository->BackCount();
-        return $res;
-    }
+	//用户列表
+	public function BackList($limit, $kw)
+	{
+		$items = $this->memberRepository->BackPaginate($limit, null, $kw);
+		return $items;
+	}
+
+	//统计用户总数
+	public function BackUserCount()
+	{
+		$res = $this->memberRepository->BackCount();
+		return $res;
+	}
 	//====================================后台===============================
 
 }

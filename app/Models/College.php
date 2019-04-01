@@ -20,14 +20,11 @@ class College extends Model
 	 */
 	public function getClicksAttribute()
 	{
-		$key = config('redisKeys.collegeHits');
-		if (Redis::exists($key)) {
-			return Redis::get($key);
+		return \Redis::hget(config('redisKeys.collegeHits'), $this->attributes['id']) ?? $this->attributes['hits'];
+	}
 
-		} else {
-			$hits = $this->hits;
-			Redis::set($key, $hits);
-			return $hits;
-		}
+	public function scopeEnable($query)
+	{
+		return $query->where('enable', 1);
 	}
 }

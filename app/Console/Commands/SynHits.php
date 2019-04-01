@@ -65,5 +65,11 @@ class SynHits extends Command
        collect($videoSectionData)->each(function ($val, $key){
        	VideoSection::whereId($key)->update(['hits'=>$val]);
        });
+
+       //频道
+       $collegeData = Redis::hgetall(config('redisKeys.collegeHits'));
+       collect($collegeData)->each(function ($val, $key){
+       	College::whereId($key)->update(['hits'=>$val]);
+       });
     }
 }
