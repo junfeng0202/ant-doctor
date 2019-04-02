@@ -12,7 +12,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 
 	Route::post('login', 'LoginController@login');
 
-	//Route::group(['middleware'=>'auth.api'], function(){
+	Route::group(['middleware'=>'auth.api'], function(){
 
 		Route::post('/getInfoByToken', 'LoginController@getInfoByToken'); //通过token获取
 		//素材管理-课程管理
@@ -90,7 +90,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 
 		//反馈列表
 		Route::post('/feedback/list', 'FeedbackController@getList');
-	//});
+	});
 
 	Route::redirect('/cos/getTempKeys', '/cos/getTempKeys', 307);
 

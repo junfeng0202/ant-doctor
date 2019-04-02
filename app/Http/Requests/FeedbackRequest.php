@@ -25,7 +25,7 @@ class FeedbackRequest extends BaseRequest
 	    return [
 		    'type' => ['required'],
 		    'content' => ['required'],
-		    'images'=>'sometimes|required|array'
+		    //'images'=>'sometimes|required|array'
 	    ];
     }
 

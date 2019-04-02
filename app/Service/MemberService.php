@@ -195,8 +195,8 @@ class MemberService extends Service
 	{
 		//$member = JWTAuth::parseToken()->touser();
 		$data =$request->all();
-//		$data['member_id'] = $member->id;
 		$data['member_id'] = 1;
+		//$data['member_id'] = $member->id;
 		(new FeedbackRepository())->create($data);
 	}
 
