@@ -32,7 +32,7 @@ class CollegeService extends Service
 	{
 		$limit = $request->get('limit', 20);
 		$items = $this->repository->backList($limit);
-		$handleResult = CollegeResource::collection($items)->toArray(null);
+		$handleResult = CollegeResource::collection($items);
 		return ['data' => $handleResult, 'meta' => ['total' => $items->total()]];
 	}
 

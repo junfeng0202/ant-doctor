@@ -23,7 +23,7 @@ class CollegeController extends ApiController
 	 */
 	public function getList(Request $request)
 	{
-		$res = $items = $this->service->getList($request);
+		$res = $this->service->backList($request);
 		return $this->apiReturn($res);
 	}
 
