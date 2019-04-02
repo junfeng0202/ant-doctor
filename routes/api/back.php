@@ -92,6 +92,4 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 		Route::post('/feedback/list', 'FeedbackController@getList');
 	});
 
-	Route::redirect('/cos/getTempKeys', '/cos/getTempKeys', 307);
-
 });

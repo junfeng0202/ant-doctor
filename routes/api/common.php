@@ -4,7 +4,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 	//前台接口
 	Route::any('/wechat', 'WeChatController@serve'); //微信消息服务
 
-	Route::post('/cos/getTempKeys', 'UploadController@getTempKeys');
 
 	Route::group(['prefix'=>'v1'], function () {
 		Route::get('wechat/getCode', 'WeChatController@getCode');
@@ -14,7 +13,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 		Route::get('province', 'CommonController@province');
 		Route::post('sms', 'CommonController@sms');
 
-		Route::redirect('/cos/getTempKeys', '/cos/getTempKeys', 307);
+		Route::post('/cos/getTempKeys', 'UploadController@getTempKeys');
 	});
 
 	//后台接口
@@ -26,6 +25,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 		Route::any('/wechat/materials/{type?}', 'WeChatController@materials'); // 获取微信素材列表
 		Route::any('/wechat/materialAdd', 'WeChatController@materialAdd'); // 获取微信素材列表
 		Route::any('/wechat/imageUpload', 'WeChatController@imageUpload'); // 获取微信素材列表
+
+		Route::post('/cos/getTempKeys', 'UploadController@getTempKeys');
 	});
 });
 
