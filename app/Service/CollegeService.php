@@ -58,7 +58,7 @@ class CollegeService extends Service
 	public function sections($id)
 	{
 		$sections = $this->repository->sectionList($id);
-		$handleResult = CollegeSectionResource::collection($sections)->toArray(null);
+		$handleResult = CollegeSectionResource::collection($sections);
 		return ['data' => $handleResult, 'meta' => ['total' => $sections->total()]];
 	}
 
