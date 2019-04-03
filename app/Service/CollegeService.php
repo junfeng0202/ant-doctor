@@ -136,9 +136,9 @@ class CollegeService extends Service
 	 */
 	public function getInfo($id)
 	{
-		$key = config('redisKeys.collegeInfo') . $id;
+		//$key = config('redisKeys.collegeInfo') . $id;
 
-		if (!Redis::exists($key)) {
+		//if (!Redis::exists($key)) {
 			$college = $this->repository->getInfo($id);
 
 			foreach ($college->section as &$section) {
@@ -159,12 +159,13 @@ class CollegeService extends Service
 			}
 			$info = new CollegeResource($college);
 
-			Redis::setex($key, 7200, json_encode($info)); //缓存2小时
-		}
+			//Redis::setex($key, 7200, json_encode($info)); //缓存2小时
+		//}
 
 		event(new CollegeHit($id)); // 增加点击量
 
-		return json_decode(Redis::get($key), true);
+//		return json_decode(Redis::get($key), true);
+		return $info;
 	}
 
 	public function sectionContents($sectionId, $request)
