@@ -21,7 +21,7 @@ class VideoRepository
 	{
 		$video = Video::query();
 		$video->where('title', 'LIKE', '%' . $kw . '%');
-		return Video::enable()->sort()->isIndex()->paginate($size);
+		return $video->enable()->sort()->isIndex()->paginate($size);
 	}
 
 	public function getById($id)
