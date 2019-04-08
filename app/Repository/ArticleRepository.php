@@ -63,16 +63,16 @@ class ArticleRepository
 	public function collegeSectionArticle($sectionId, $sort='sort', $size=20)
 	{
 		if($sort === 'hot') {
-			$order = 'c.hits';
+			$order = 'articles.hits';
 		} elseif($sort === 'newest') {
-			$order = 'c.id';
+			$order = 'articles.id';
 		} else {
 			$order = 'cs.sort';
 		}
-		return Article::from('articles as c')
-			->rightJoin('college_section_contents as cs', 'cs.contentable_id','=','c.id')
+		return Article::from('articles')
+			->rightJoin('college_section_contents as cs', 'cs.contentable_id','=','articles.id')
 			->where('cs.college_section_id', $sectionId)
-			->select('c.*','1 as index')
+			->select('articles.*', DB::raw('1 as `index`'))
 			->orderByDesc($order)->paginate($size);
 	}
 
