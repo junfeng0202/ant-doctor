@@ -72,7 +72,6 @@ class ArticleRepository
 		return Article::from('articles as c')
 			->rightJoin('college_section_contents as cs', 'cs.contentable_id','=','c.id')
 			->where('cs.college_section_id', $sectionId)
-			->where('c.enable',1)
 			->select('c.*','1 as index')
 			->orderByDesc($order)->paginate($size);
 	}
