@@ -14,7 +14,7 @@ class VideoRepository
 		$video = Video::query();
 		$disease_id && $video->where('disease_id', $disease_id);
 		$kw && $video->where('title', 'LIKE', '%' . $kw . '%');
-		return Video::enable()->sort()->isIndex()->paginate($size);
+		return $video->enable()->sort()->isIndex()->paginate($size);
 	}
 
 	public function getListByKeyword($kw, $size = 10)
