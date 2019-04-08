@@ -176,11 +176,20 @@ class MemberService extends Service
 			});
 			$member->fill($data);
 			$member->save();
+
+			//更新用户信息，删除缓存
+			$key = config('redisKeys.userInfo') . $member->id;
+			Redis::del($key);
 		});
 
 	}
 
 
+	/**
+	 * 用户学习记录
+	 * @param $request
+	 * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+	 */
 	public function studyHistory($request)
 	{
 
@@ -191,6 +200,10 @@ class MemberService extends Service
 
 	}
 
+	/**
+	 * 反馈数据提交
+	 * @param $request
+	 */
 	public function feedback($request)
 	{
 		$member = JWTAuth::parseToken()->touser();
@@ -214,6 +227,12 @@ class MemberService extends Service
 		return $member;
 	}
 
+	/**
+	 * 更新用户相关病种
+	 * @param $member
+	 * @param $disease
+	 * @param $type
+	 */
 	protected function memberDisease($member, $disease, $type)
 	{
 		$data = collect($disease)->mapWithKeys(function ($v) use ($type) {
@@ -237,25 +256,6 @@ class MemberService extends Service
 		return $interest;
 	}
 
-	protected function getToken($username, $password)
-	{
-		$oauth = (new OauthRepository())->getOne(config('config.frontend_client'));
-		$params = [
-			'client_id' => $oauth->id,
-			'client_secret' => $oauth->secret,
-			'username' => $username,
-			'password' => $password,
-			'scope' => '',
-		];
-
-		$tokenProxy = new OtherService;
-		$token = $tokenProxy->proxy('password', $params);
-		if (isset($token->error)) {
-			$this->response->errorForbidden($token->error);
-		}
-
-		return $this->response->array($token);
-	}
 
 	protected function verifyCode($cache, $verify)
 	{

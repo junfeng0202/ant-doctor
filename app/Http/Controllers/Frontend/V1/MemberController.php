@@ -47,6 +47,11 @@ class MemberController extends ApiController
 		return $this->apiReturn($this->memberService->studyHistory($request));
 	}
 
+	/**
+	 * 提交反馈
+	 * @param FeedbackRequest $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function feedback(FeedbackRequest $request)
 	{
 		$this->memberService->feedback($request);
