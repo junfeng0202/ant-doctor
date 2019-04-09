@@ -56,7 +56,7 @@ class LiveRepository
 	//后台-图文信息
 	public function BackById($id)
 	{
-		return Live::with(['disease:id,name'])->find($id);
+		return Live::with(['disease:id,name', 'doctor:id,name'])->find($id);
 	}
 
 	//后台-图文更新

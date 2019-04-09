@@ -49,7 +49,7 @@ class LiveService extends Service
 		$item = $this->liveRepository->BackById($id);
 
 		if (!$item) throw new ModelNotFoundException();
-
+		$item->doctor_ids = $item->doctor->pluck('id');
 		return $item;
 	}
 
@@ -65,6 +65,7 @@ class LiveService extends Service
 			'start_at' => $param['live_time'][0],
 			'end_at' => $param['live_time'][1],
 			'sort' => $param['sort'],
+			'status' => intval($param['status']),
 //            'enable' => isset($param['enable'])?$param['enable']:1,
 			//'hits' => isset($param['hits'])?$param['hits']:0
 		);

@@ -11,7 +11,7 @@ class Live extends Model
     use SoftDeletes;
 
     //直播状态
-	const BEGINING = 1;
+	const BEGINNING = 1;
 	const WAITING = 2;
 	const END = 3;
 
@@ -39,13 +39,13 @@ class Live extends Model
 
 	public function scopeIsIndex($query)
 	{
-		return $query->select(DB::raw('1 as `index`'), 'id', 'title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief');
+		return $query->select(DB::raw('1 as `index`'), 'id', 'title', 'status', 'image', 'disease_id', 'start_at', 'end_at', 'link', 'brief','created_at');
 	}
 
 	public function getStatus($key=null)
 	{
 		$arr = [
-			['value'=>self::BEGINING, 'label'=>'直播中'],
+			['value'=>self::BEGINNING, 'label'=>'直播中'],
 			['value'=>self::WAITING, 'label'=>'未开始'],
 			['value'=>self::END, 'label'=>'已结束'],
 		];

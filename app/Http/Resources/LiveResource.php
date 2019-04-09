@@ -23,8 +23,7 @@ class LiveResource extends JsonResource
 	        'start_time' =>$this->start_at->format('n/j H:i'),
 	        'end_time' =>$this->end_at->format('n/j H:i'),
 	        'live_url'=>$this->when(!$this->index,$this->link),
-	        'link'=>$this->when($this->index,route('live.info',['id'=>$this->id])),
-	        'disease'=> $this->whenLoaded('disease')
+	        'disease'=> $this->whenLoaded('disease'),
         ];
     }
 }

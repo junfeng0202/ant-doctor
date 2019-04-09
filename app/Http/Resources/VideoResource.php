@@ -26,7 +26,7 @@ class VideoResource extends Resource
         	'brief'=>$this->when(!$this->index,$this->brief),
         	'image'=>$this->image,
 	        'section'=>VideoSectionResource::collection($this->whenLoaded('section')),
-        	'created_at'=>(string)$this->created_at,
+        	'created_at'=>$this->when($this->created_at, $this->created_at->format('Y-m-d')),
         	'link'=>route('video.info',['id'=>$this->id]),
         ];
     }

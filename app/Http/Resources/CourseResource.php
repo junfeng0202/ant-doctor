@@ -51,7 +51,7 @@ class CourseResource extends Resource
 				return $this->section()->where('source_id','<>','')->value('duration') ?? '00:00:00';
 	        }),
 	        'chapters'=>$this->when($this->chapters,$this->chapters),
-        	'created_at'=>(string)$this->created_at,
+        	'created_at'=>$this->when($this->created_at, $this->created_at->format('Y-m-d')),
 	        'link'=>route('course.info',['id'=>$this->id])
         ];
     }

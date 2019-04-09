@@ -37,7 +37,7 @@ class IndexService extends Service
 		$college = CollegeResource::collection($college);
 
         //首页蚂蚁信息
-        $articles = (new ArticleRepository)->paginate(3, $interest);//dd($articles);
+        $articles = (new ArticleRepository)->paginate(3, $interest);
         $articles = ArticleResource::collection($articles);
 
         //首页课程

@@ -25,7 +25,7 @@ class Article extends Model
 
     public function scopeIsIndex($query)
     {
-	    return $query->select(DB::raw('1 as `index`'), 'id', 'hits', 'title', 'disease_id', 'doctor_id', 'image', 'content');
+	    return $query->select(DB::raw('1 as `index`'), 'id', 'hits', 'title', 'disease_id', 'doctor_id', 'image', 'content', 'created_at');
     }
 
 }
