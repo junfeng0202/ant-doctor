@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Models\back\Video as BackVideo;
 use App\Models\Video;
 
 class VideoRepository
@@ -51,7 +50,7 @@ class VideoRepository
 	//后台音频列表
 	public function BackPaginate($page = 10, $sort = 'sort', $kw = null)
 	{
-		$video = BackVideo::query();
+		$video = Video::query();
 		$video->latest($sort);
 		//标题
 		if (isset($kw['kw_title'])) {
@@ -68,18 +67,18 @@ class VideoRepository
 					$query->where('id', '=', $kw['kw_doctor']);
 				});
 		}
-		return $video->with(['section:id,video_id,duration,hits', 'disease:id,name', 'doctor:id,name'])->paginate($page);
+		return $video->with(['section:id,video_id,duration,hits', 'disease:id,name', 'doctor:id,name'])->isIndex()->paginate($page);
 	}
 
 	//后台课程基本信息
 	public function BackById($id)
 	{
-		return BackVideo::with(['section:video_id,duration', 'disease:id,name', 'doctor:id,name'])->find($id);
+		return Video::with(['section:video_id,duration', 'disease:id,name', 'doctor:id,name'])->find($id);
 	}
 
 	public function BackUpdateOreCreate($data)
 	{
-		return BackVideo::updateOrCreate(['id' => $data['id']], $data);
+		return Video::updateOrCreate(['id' => $data['id']], $data);
 	}
 
 	public function BackCount()

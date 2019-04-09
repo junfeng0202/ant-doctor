@@ -9,6 +9,7 @@ class Video extends Model
 {
 
 	protected $fillable = ['hits','title','disease_id','image','brief','sort','enable'];
+
 	public function doctor()
 	{
 		return $this->belongsToMany(Doctor::class);

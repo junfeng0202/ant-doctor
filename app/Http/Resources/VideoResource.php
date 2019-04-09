@@ -17,10 +17,12 @@ class VideoResource extends Resource
         return [
         	'id'=>$this->id,
         	'title'=>$this->title,
+        	'enable'=>$this->enable,
         	'clicks'=>(int)$this->clicks,
         	'disease'=>$this->whenLoaded('disease',function(){
         		return $this->disease->name;
 	        }),
+	        'doctor'=>$this->whenLoaded('doctor'),
         	'brief'=>$this->when(!$this->index,$this->brief),
         	'image'=>$this->image,
 	        'section'=>VideoSectionResource::collection($this->whenLoaded('section')),

@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xiatong
- * Date: 2019/1/16
- * Time: 9:37 AM
- */
-
 namespace App\Http\Controllers\Backend\V1;
 
 
 use App\Http\Controllers\ApiController;
-use App\Service\ArticleService;
 use App\Service\LiveService;
 use Illuminate\Http\Request;
 
@@ -41,7 +33,7 @@ class LiveController extends ApiController
     public function create(Request $request)
     {
         $param = $request->all();
-        $res = $this->liveService->BackUpdateOreCreate($param);
+        $this->liveService->BackUpdateOreCreate($param);
         return $this->apiReturn();
     }
 

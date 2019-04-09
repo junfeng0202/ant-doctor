@@ -23,6 +23,7 @@ class ArticleResource extends JsonResource
 	        'image'  => $this->image,
 	        'clicks' => (int)$this->clicks,
 	        'content'=> $this->when(!$this->index, $this->content),
+	        'created_at'=> $this->created_at,
 	        'link'   => route('article.info',['id'=>$this->id])
         ];
     }
