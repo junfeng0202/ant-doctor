@@ -29,9 +29,8 @@ class ArticleService extends Service
 	public function info($id)
 	{
 		$item = $this->articleRepository->getById($id);
-		if(!$item){
-			throw new ModelNotFoundException();
-		}
+		if(!$item) throw new ModelNotFoundException();
+
 		event(new ArticleHit($item));
 		return new ArticleResource($item);
 	}

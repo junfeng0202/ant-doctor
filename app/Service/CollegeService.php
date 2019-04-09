@@ -12,7 +12,7 @@ use App\Strategy\CollegeArticle;
 use App\Strategy\CollegeCourse;
 use App\Strategy\CollegeVideo;
 use App\Strategy\ICollegeContentType;
-use Doctrine\DBAL\Driver\SQLAnywhere\SQLAnywhereException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
@@ -140,6 +140,7 @@ class CollegeService extends Service
 
 		//if (!Redis::exists($key)) {
 			$college = $this->repository->getInfo($id);
+			if(!$college) throw new ModelNotFoundException();
 
 			foreach ($college->section as &$section) {
 				switch ($section->type) {
@@ -152,10 +153,10 @@ class CollegeService extends Service
 					default:
 						$size = 4;
 				}
+				$section->contents = $this->contentObject($section->type)->getContentList($section->id, 'sort', $size);
+
 				$section->total = $section->content->count();
-				$section->load(['content' => function ($query) use ($size) {
-					$query->limit($size)->with('contentable');
-				}]);
+
 			}
 			$info = new CollegeResource($college);
 

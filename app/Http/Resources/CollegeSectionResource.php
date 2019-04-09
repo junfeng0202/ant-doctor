@@ -21,7 +21,7 @@ class CollegeSectionResource extends Resource
 	        'enable' => $this->enable,
 	        'type' => $this->type,
 	        'total' => $this->when($this->total, $this->total),
-	        'content' => CollegeSectionContentResource::collection($this->whenLoaded('content'))
+	        'contents' => $this->when($this->contents, $this->contents)
         ];
     }
 }

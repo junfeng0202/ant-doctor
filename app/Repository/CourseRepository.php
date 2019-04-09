@@ -39,6 +39,7 @@ class CourseRepository
 			->where('cs.college_section_id', $sectionId)
 			->where('c.enable', 1)
 			->select('c.*')
+			->with('section')
 			->orderByDesc($order)->paginate($size);
 
 	}
