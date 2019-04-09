@@ -51,14 +51,8 @@ class Live extends Model
 		];
 		if(is_null($key)) return $arr;
 
-		$index = collect($arr)->search(function ($item) use($key) {
-			return $item['value'] == $key;
-		});
-		if($index !== false){
-			return '';
-		}else{
-			return $arr[$index]['label'];
-		}
+		$collection = collect($arr)->pluck('label', 'value')->all();
+		return isset($collection[$key]) ? $collection[$key] : '';
 
 	}
 
