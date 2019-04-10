@@ -40,7 +40,7 @@ class ArticleController extends ApiController
     public function create(Request $request)
     {
         $param = $request->all();
-        $res = $this->articleService->BackUpdateOreCreate($param);
+        $this->articleService->BackUpdateOreCreate($param);
         return $this->apiReturn();
     }
     public function delete($id){

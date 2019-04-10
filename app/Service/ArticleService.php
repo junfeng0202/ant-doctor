@@ -80,16 +80,7 @@ class ArticleService extends Service
             $data['id'] = 0;
         }
         //更新基本信息
-        $corse = $this->articleRepository->BackUpdateOreCreate($data);
-	    $corse->doctor()->sync();
-        //删除医生
-//        if(isset($param['id']) && !empty($param['id'])){
-//            DoctorVideo::where('video_id',$param['id'])->delete();
-//        }
-//        //添加医生
-//        foreach($param['doctor_ids'] as $item){
-//            DoctorVideo::insert(['video_id'=>$corse->id,'doctor_id'=>$item]);
-//        }
+        $this->articleRepository->BackUpdateOrCreate($data);
 
     }
 

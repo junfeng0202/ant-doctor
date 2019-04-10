@@ -108,7 +108,7 @@ class ArticleRepository
 	}
 
 	//后台-图文更新
-	public function BackUpdateOreCreate($data)
+	public function BackUpdateOrCreate($data)
 	{
 		return BackArticle::updateOrCreate(['id' => $data['id']], $data);
 	}

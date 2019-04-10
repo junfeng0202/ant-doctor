@@ -18,6 +18,15 @@ class DiseaseRepository
 
     //==================================后台================================================
 
+	/**
+	 * 获取一级病种
+	 * @return mixed
+	 */
+	public function getTopDiseases()
+	{
+		return Disease::where('pid', 0)->select('id','name','pid','type')->get();
+	}
+
     //后台-病种列表信息
     public function BackById($id){
         return Disease::find($id);

@@ -33,7 +33,7 @@ class AudioController extends ApiController
     public function create(Request $request)
     {
         $param = $request->all();
-        $res = $this->audioService->BackUpdateOreCreate($param);
+        $this->audioService->BackUpdateOreCreate($param);
         return $this->apiReturn();
     }
 
@@ -45,7 +45,7 @@ class AudioController extends ApiController
 
     public function addSection($audio,Request $request){
         $param = $request->all();
-        $res = $this->audioService->BackAddSection($audio,$param);
+        $this->audioService->BackAddSection($audio,$param);
         return $this->apiReturn();
 
     }

@@ -23,7 +23,7 @@ class DiseaseService extends Service
 	 */
 	public function getDiseases()
 	{
-		$items = (new DiseaseRepository())->getAll(false,0);
+		$items = $this->diseaseRepository->getTopDiseases();
 		return BackDiseaseResource::collection($items);
 	}
 
