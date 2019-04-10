@@ -19,6 +19,11 @@ class ArticleService extends Service
 	}
 
 
+	/**
+	 * 前端文章列表
+	 * @param $request
+	 * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+	 */
 	public function index($request)
 	{
 		$interest = (new MemberService(new MemberRepository()))->memberInterest();
@@ -26,6 +31,11 @@ class ArticleService extends Service
 		return ArticleResource::collection($items);
 	}
 
+	/**
+	 * 详情
+	 * @param $id
+	 * @return ArticleResource
+	 */
 	public function info($id)
 	{
 		$item = $this->articleRepository->getById($id);
@@ -71,6 +81,7 @@ class ArticleService extends Service
         }
         //更新基本信息
         $corse = $this->articleRepository->BackUpdateOreCreate($data);
+	    $corse->doctor()->sync();
         //删除医生
 //        if(isset($param['id']) && !empty($param['id'])){
 //            DoctorVideo::where('video_id',$param['id'])->delete();

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Http\Resources\BackDiseaseResource;
 use App\Http\Resources\DiseaseResource;
 use App\Models\Disease;
 use App\Repository\DiseaseRepository;
@@ -16,7 +17,20 @@ class DiseaseService extends Service
 		$this->diseaseRepository = $diseaseRepository;
 	}
 
+	/**
+	 * 后端 获取病例筛选列表
+	 * @return mixed
+	 */
+	public function getDiseases()
+	{
+		$items = (new DiseaseRepository())->getAll(false,0);
+		return BackDiseaseResource::collection($items);
+	}
 
+	/**
+	 * 前端 获取所有病种
+	 * @return array
+	 */
 	public function disease()
 	{
 		$items = $this->diseaseRepository->getAll();
@@ -54,7 +68,7 @@ class DiseaseService extends Service
 	{
 		$id = $param['id'];
 		unset($param['id']);
-		$this->diseaseRepository->BackUpdateOreCreate($id, $param);
+		return $this->diseaseRepository->BackUpdateOreCreate($id, $param);
 	}
 
 	public function delete($id)

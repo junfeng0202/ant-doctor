@@ -11,6 +11,7 @@ $api->version('v1', ['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'b
 Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'], function (){
 
 	Route::post('login', 'LoginController@login');
+	Route::post('getDiseases', 'CommonController@disease');
 
 	Route::group(['middleware'=>'auth.api'], function(){
 
@@ -48,7 +49,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 		Route::get('/system/banner/delete/{id}', 'BannerController@delete');
 
 		//系统管理-病种管理
-		Route::post('/diseases/delete/{id}', 'DiseaseController@delete');
+		Route::post('/disease/delete/{id}', 'DiseaseController@delete');
 		Route::post('/disease/list', 'DiseaseController@listTree');
 		Route::post('/disease/save', 'DiseaseController@save');
 

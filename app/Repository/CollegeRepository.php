@@ -112,7 +112,7 @@ class CollegeRepository
 	 * @param $id
 	 * @return int
 	 */
-	public function collegeIdOfContent($id)
+	public function getCollegeIdOfContent($id)
 	{
 		return CollegeSectionContent::whereId($id)->value('college_id');
 	}

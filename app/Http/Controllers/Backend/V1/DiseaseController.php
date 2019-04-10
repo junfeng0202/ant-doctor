@@ -32,8 +32,14 @@ class DiseaseController extends ApiController
     public function save(Request $request)
     {
         $param = $request->all();
-        $res = $this->diseaseService->BackUpdateOreCreate($param);
-        return $this->apiReturn();
+        $disease = $this->diseaseService->BackUpdateOreCreate($param);
+        $res = [
+        	'id'=>(string)$disease->id,
+	        'pid'=>(string)$disease->pid,
+	        'name'=>$disease->name,
+	        'children'=>[]
+        ];
+        return $this->apiReturn($res);
     }
     public function delete($id){
         $res = $this->diseaseService->delete($id);

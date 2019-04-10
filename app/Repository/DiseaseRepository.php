@@ -29,7 +29,8 @@ class DiseaseRepository
     }
 
     public function BackDelete($id){
-        return Disease::destroy($id);
+    	Disease::where('pid', $id)->delete();
+        Disease::destroy($id);
     }
     //==================================后台================================================
 }

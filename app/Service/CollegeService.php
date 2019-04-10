@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Redis;
 class CollegeService extends Service
 {
 	protected $repository;
-	protected $contentStrategy;
 
 
 	public function __construct(CollegeRepository $repository)
@@ -28,6 +27,11 @@ class CollegeService extends Service
 	}
 
 
+	/**
+	 * 后端 讲堂列表
+	 * @param $request
+	 * @return array
+	 */
 	public function backList($request)
 	{
 		$limit = $request->get('limit', 20);
@@ -36,12 +40,21 @@ class CollegeService extends Service
 		return ['data' => $handleResult, 'meta' => ['total' => $items->total()]];
 	}
 
+	/**
+	 * 后端 讲堂详情
+	 * @param $id
+	 * @return CollegeResource
+	 */
 	public function backInfo($id)
 	{
 		$item = $this->repository->getById($id);
 		return new CollegeResource($item);
 	}
 
+	/**
+	 * 后端 更新讲堂信息
+	 * @param $request
+	 */
 	public function updateOreCreate($request)
 	{
 		$id = $request->id;
@@ -52,9 +65,15 @@ class CollegeService extends Service
 			$this->repository->create($data);
 		}
 
+		$this->delCache($id);
 		return;
 	}
 
+	/**
+	 * 后端 讲堂频道列表
+	 * @param $id
+	 * @return array
+	 */
 	public function sections($id)
 	{
 		$sections = $this->repository->sectionList($id);
@@ -62,19 +81,37 @@ class CollegeService extends Service
 		return ['data' => $handleResult, 'meta' => ['total' => $sections->total()]];
 	}
 
+	/**
+	 * 后端 讲堂频道详情
+	 * @param $sectionId
+	 * @return CollegeSectionResource
+	 */
 	public function sectionInfo($sectionId)
 	{
 		$item = $this->repository->sectionInfo($sectionId);
 		return new CollegeSectionResource($item);
 	}
 
+	/**
+	 * 后端 讲堂频道添加/修改
+	 * @param $request
+	 * @param $collegeId
+	 * @return mixed
+	 */
 	public function sectionSave($request, $collegeId)
 	{
 		$data = $request->all();
 		$data['college_id'] = $collegeId;
-		return $this->repository->sectionSave($data);
+		$this->repository->sectionSave($data);
+
+		$this->delCache($collegeId); // 清除讲堂缓存
 	}
 
+	/**
+	 * 后端 讲堂频道下的内容列表
+	 * @param $sectionId
+	 * @return array
+	 */
 	public function sectionContentList($sectionId)
 	{
 		$items = $this->repository->contentList($sectionId);
@@ -82,6 +119,11 @@ class CollegeService extends Service
 		return ['data' => $handleResult, 'meta' => ['total' => $items->total()]];
 	}
 
+	/**
+	 * 后端 讲堂频道下的内容的id集合
+	 * @param $sectionId
+	 * @return mixed
+	 */
 	public function sectionContentIds($sectionId)
 	{
 		return $this->repository->contentIds($sectionId);
@@ -92,27 +134,30 @@ class CollegeService extends Service
 		$id = $request->id;
 		$data = $request->all();
 		if ($id) {
-			return $this->repository->contentUpdateById($id, $data);
+			$res = $this->repository->contentUpdateById($id, $data);
 		} else {
 			DB::beginTransaction();
 			try {
 				$this->repository->updateCollegeContentCount($data['college_id']);
 				$item = $this->repository->contentCreate($data);
 				DB::commit();
-				return ['id' => $item->id];
+				$res = ['id' => $item->id];
 			} catch (\Exception $e) {
 				DB::rollBack();
 				throw $e;
 			}
 		}
+		$this->delCache($data['college_id']); // 清除讲堂缓存
+		return $res;
 	}
 
 	public function contentDelete($id)
 	{
 		DB::transaction(function () use ($id) {
-			$collegeId = $this->repository->collegeIdOfContent($id);
+			$collegeId = $this->repository->getCollegeIdOfContent($id);
 			$this->repository->contentDeleteById($id);
 			$this->repository->updateCollegeContentCount($collegeId, -1);
+			$this->delCache($collegeId); // 清除讲堂缓存
 		});
 		return;
 	}
@@ -136,9 +181,9 @@ class CollegeService extends Service
 	 */
 	public function getInfo($id)
 	{
-		//$key = config('redisKeys.collegeInfo') . $id;
+		$key = config('redisKeys.collegeInfo') . $id;
 
-		//if (!Redis::exists($key)) {
+		if (!Redis::exists($key)) {
 			$college = $this->repository->getInfo($id);
 			if(!$college) throw new ModelNotFoundException();
 
@@ -160,15 +205,21 @@ class CollegeService extends Service
 			}
 			$info = new CollegeResource($college);
 
-			//Redis::setex($key, 7200, json_encode($info)); //缓存2小时
-		//}
+			Redis::set($key, json_encode($info)); //缓存
+		}
 
 		event(new CollegeHit($id)); // 增加点击量
 
-//		return json_decode(Redis::get($key), true);
-		return $info;
+		return json_decode(Redis::get($key), true);
+//		return $info;
 	}
 
+	/**
+	 * 前端 频道下的内容列表
+	 * @param $sectionId
+	 * @param $request
+	 * @return mixed
+	 */
 	public function sectionContents($sectionId, $request)
 	{
 		$section = $this->repository->sectionInfo($sectionId);
@@ -190,6 +241,11 @@ class CollegeService extends Service
 			default:
 				return new CollegeArticle();
 		}
+	}
+
+	protected function delCache($id){
+		$key = config('redisKeys.collegeInfo') . $id;
+		Redis::del($key);
 	}
 
 }
