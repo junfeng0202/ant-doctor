@@ -48,11 +48,9 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 		Route::get('/system/banner/delete/{id}', 'BannerController@delete');
 
 		//系统管理-病种管理
-		Route::get('/system/diseases/list', 'DiseaseController@list');
-		Route::get('/system/diseases/info/{id}', 'DiseaseController@info');
-		Route::post('/system/diseases/create', 'DiseaseController@create');
-		Route::get('/system/diseases/delete/{id}', 'DiseaseController@delete');
-
+		Route::post('/diseases/delete/{id}', 'DiseaseController@delete');
+		Route::post('/disease/list', 'DiseaseController@listTree');
+		Route::post('/disease/save', 'DiseaseController@save');
 
 		//用户管理
 		//用户列表
@@ -66,7 +64,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 
 		Route::get('/index/data', 'CommonController@indexData');
 		Route::get('/doctor/list', 'CommonController@doctor');
-		Route::get('/disease/list', 'CommonController@disease');
 
 
 		//管理员
@@ -91,5 +88,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 		//反馈列表
 		Route::post('/feedback/list', 'FeedbackController@getList');
 	});
+
 
 });

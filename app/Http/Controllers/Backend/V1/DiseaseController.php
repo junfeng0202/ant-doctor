@@ -23,21 +23,13 @@ class DiseaseController extends ApiController
 
     }
 
-    public function list(Request $request)
+    public function listTree()
     {
-        $limit = $request->get('limit');
-        $kw = $request->all();
-        $res =  $items = $this->diseaseService->BackList($limit,$kw);
+        $res = $this->diseaseService->BackListTree();
         return $this->apiReturn($res);
     }
 
-    public function info($id)
-    {
-        $item = $this->diseaseService->BackInfo($id);
-        return $this->apiReturn($item);
-    }
-
-    public function create(Request $request)
+    public function save(Request $request)
     {
         $param = $request->all();
         $res = $this->diseaseService->BackUpdateOreCreate($param);
