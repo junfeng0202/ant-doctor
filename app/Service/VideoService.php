@@ -62,11 +62,9 @@ class VideoService extends Service
 	{
 		$item = $this->videoRepository->BackById($id);
 
-		if (!$item) {
-			throw new ModelNotFoundException();
-		}
-//        $info = new CourseResource($item);
+		if (!$item) throw new ModelNotFoundException();
 
+		$item->doctor_ids = $item->doctor->pluck('id');
 		return $item;
 	}
 

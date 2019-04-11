@@ -73,7 +73,7 @@ class VideoRepository
 	//后台课程基本信息
 	public function BackById($id)
 	{
-		return Video::with(['section:video_id,duration', 'disease:id,name', 'doctor:id,name'])->find($id);
+		return Video::find($id);
 	}
 
 	public function BackUpdateOreCreate($data)
