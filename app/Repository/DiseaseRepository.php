@@ -24,7 +24,7 @@ class DiseaseRepository
 	 */
 	public function getTopDiseases()
 	{
-		return Disease::where('pid', 0)->select('id','name','pid','type')->get();
+		return Disease::where(['pid' => 0, 'type'=>0])->select('id','name','pid','type')->get();
 	}
 
     //后台-病种列表信息
