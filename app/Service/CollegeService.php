@@ -187,6 +187,10 @@ class CollegeService extends Service
 			$college = $this->repository->getInfo($id);
 			if(!$college) throw new ModelNotFoundException();
 
+			$college->load(['section'=> function($query){
+				$query->enable();
+			}]);
+
 			foreach ($college->section as &$section) {
 				switch ($section->type) {
 					case CollegeSection::COURSE:
@@ -201,6 +205,7 @@ class CollegeService extends Service
 				$section->contents = $this->contentObject($section->type)->getContentList($section->id, 'sort', $size);
 
 				$section->total = $section->content->count();
+				$section->maxShowNum = $size;
 
 			}
 			$info = new CollegeResource($college);

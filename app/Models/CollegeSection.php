@@ -19,4 +19,8 @@ class CollegeSection extends Model
     	return $this->hasMany(CollegeSectionContent::class);
     }
 
+	public function scopeEnable($query)
+	{
+		return $query->where('enable', 1);
+	}
 }

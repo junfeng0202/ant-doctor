@@ -21,7 +21,8 @@ class CollegeSectionResource extends Resource
 	        'enable' => $this->enable,
 	        'type' => $this->type,
 	        'total' => $this->when($this->total, $this->total),
-	        'contents' => $this->when($this->contents, $this->contents)
+	        'contents' => $this->when($this->contents, $this->contents),
+	        'maxShowNum' => $this->when($this->maxShowNum, $this->maxShowNum)
         ];
     }
 }

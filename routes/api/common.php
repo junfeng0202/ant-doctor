@@ -1,15 +1,16 @@
 <?php
 Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 
-	//前台接口
 	Route::any('/wechat', 'WeChatController@serve'); //微信消息服务
 
-
+	//前台接口
 	Route::group(['prefix'=>'v1'], function () {
 		Route::get('wechat/getCode', 'WeChatController@getCode');
 		Route::post('wechat/user', 'WeChatController@user');
 
 		Route::get('disease', 'CommonController@disease');
+		Route::post('topDisease', 'CommonController@topDisease');
+
 		Route::get('province', 'CommonController@province');
 		Route::post('sms', 'CommonController@sms');
 
@@ -27,6 +28,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 		Route::any('/wechat/imageUpload', 'WeChatController@imageUpload'); // 获取微信素材列表
 
 		Route::post('/cos/getTempKeys', 'UploadController@getTempKeys');
+
+		Route::post('topDisease', 'CommonController@topDisease');
 	});
 });
 

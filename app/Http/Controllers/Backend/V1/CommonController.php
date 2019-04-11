@@ -12,7 +12,6 @@ use App\Repository\MemberRepository;
 use App\Repository\VideoRepository;
 use App\Service\ArticleService;
 use App\Service\CourseService;
-use App\Service\DiseaseService;
 use App\Service\MemberService;
 use App\Service\UploadService;
 use App\Service\VideoService;
@@ -27,12 +26,6 @@ class CommonController extends ApiController
 		return $this->apiReturn($data);
 	}
 
-	//获取筛选疾病
-	public function disease(DiseaseService $service)
-	{
-		$data = $service->getDiseases();
-		return $this->apiReturn($data);
-	}
 
 	//获取上传的临时秘钥
 	public function getTempKeys(UploadService $service)

@@ -21,7 +21,7 @@ class DiseaseService extends Service
 	 * 后端 获取病例筛选列表
 	 * @return mixed
 	 */
-	public function getDiseases()
+	public function getTopDiseases()
 	{
 		$items = $this->diseaseRepository->getTopDiseases();
 		return BackDiseaseResource::collection($items);

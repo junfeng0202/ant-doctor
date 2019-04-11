@@ -16,6 +16,13 @@ class CommonController extends ApiController
 		return $this->apiReturn($data);
 	}
 
+	//获取一级疾病
+	public function topDisease(DiseaseService $service)
+	{
+		$data = $service->getTopDiseases();
+		return $this->apiReturn($data);
+	}
+
 	public function province(AreaService $areaService)
 	{
 		return $this->apiReturn($areaService->province());

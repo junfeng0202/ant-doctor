@@ -11,7 +11,6 @@ $api->version('v1', ['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'b
 Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'], function (){
 
 	Route::post('login', 'LoginController@login');
-	Route::post('getDiseases', 'CommonController@disease');
 
 	Route::group(['middleware'=>'auth.api'], function(){
 
