@@ -13,7 +13,7 @@ class Live extends Model
     use SoftDeletes;
 
     //直播状态
-	const BEGINING = 1;
+	const BEGINNING = 1;
 	const WAITING = 2;
 	const END = 3;
 
@@ -49,7 +49,7 @@ class Live extends Model
 	public function getStatus($key=null)
 	{
 		$arr = [
-			['value'=>self::BEGINING, 'label'=>'直播中'],
+			['value'=>self::BEGINNING, 'label'=>'直播中'],
 			['value'=>self::WAITING, 'label'=>'未开始'],
 			['value'=>self::END, 'label'=>'已结束'],
 		];
