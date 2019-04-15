@@ -17,19 +17,34 @@ class UserController extends ApiController
 
     }
 
-    public function getList(Request $request)
+	/**
+	 * 管理员列表
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getList(Request $request)
     {
         $users = $this->userService->getList($request);
         return $this->apiReturn($users);
     }
 
-    public function getInfoById($id)
+	/**
+	 * 管理员详情
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getInfoById($id)
     {
 	    $user = $this->userService->getUser($id);
 	    return $this->apiReturn($user);
     }
 
-    public function save(Request $request)
+	/**
+	 * 保存用户信息
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function save(Request $request)
     {
     	$this->userService->save($request->id, $request->except('id'));
 		return $this->apiReturn();

@@ -42,20 +42,28 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 		Route::get('/material/live/delete/{id}', 'LiveController@delete');
 
 		//系统管理-banner管理
-		Route::get('/system/banner/list', 'BannerController@list');
-		Route::get('/system/banner/info/{id}', 'BannerController@info');
-		Route::post('/system/banner/create', 'BannerController@create');
-		Route::get('/system/banner/delete/{id}', 'BannerController@delete');
+		Route::get('/banner/list', 'BannerController@list');
+		Route::get('/banner/info/{id}', 'BannerController@info');
+		Route::post('/banner/create', 'BannerController@create');
+		Route::post('/banner/delete/{id}', 'BannerController@delete');
 
 		//系统管理-病种管理
 		Route::post('/disease/delete/{id}', 'DiseaseController@delete');
 		Route::post('/disease/list', 'DiseaseController@listTree');
 		Route::post('/disease/save', 'DiseaseController@save');
 
+		// 角色
+		Route::post('/role/list', 'RoleController@getList');
+		Route::post('/role/info/{id}', 'RoleController@getInfo');
+		Route::post('/role/save', 'RoleController@save');
+		Route::post('/role/delete/{id}', 'RoleController@delete');
+
+		//权限菜单
+
+
 		//用户管理
 		//用户列表
 		Route::get('/user/list', 'MemberController@list');
-
 
 		//讲者管理
 		Route::get('/user/doctor/list', 'DoctorController@list');
@@ -89,5 +97,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 		Route::post('/feedback/list', 'FeedbackController@getList');
 	});
 
-
+	Route::any('/rule/list', 'RuleController@getList');
+	Route::any('/rule/save', 'RuleController@save');
 });

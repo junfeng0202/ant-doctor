@@ -17,29 +17,38 @@ class UserService
 		$this->userRepository = $userRepository;
 	}
 
+	/**
+	 * 管理员列表
+	 * @param $request
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
 	public function getList($request)
 	{
 		return $this->userRepository->getList($request->limit, $request->sort);
 	}
 
+	/**
+	 * 获取用户详情
+	 * @param $id
+	 * @return mixed
+	 */
 	public function getUser($id)
 	{
-		return $this->userRepository->getUserById($id);
+		$user = $this->userRepository->getUserById($id);
+		$user->roles = $user->roles()->pluck('id');
+		return $user;
 	}
 
 	public function save($id, $data)
 	{
 		if (isset($data['password']) && $data['password'] !== '') {
 			$data['password'] = bcrypt($data['password']);
+		} else {
+			unset($data['password']);
 		}
 
-		if ($id) {
-			$data = array_filter($data, function ($v) {
-				return $v;
-			});
-			return $this->userRepository->update($id, $data);
-		} else
-			return $this->userRepository->create($data);
+		$user = $this->userRepository->updateOrCreate($id, $data);
+		$user->roles()->sync($data['roles']);
 	}
 
 }
