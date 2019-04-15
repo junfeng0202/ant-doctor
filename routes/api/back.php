@@ -55,6 +55,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 		// 角色
 		Route::post('/role/list', 'RoleController@getList');
 		Route::post('/role/info/{id}', 'RoleController@getInfo');
+		Route::post('/role/rules', 'RoleController@getRules');
+		Route::post('/role/saveRules', 'RoleController@saveRules');
 		Route::post('/role/save', 'RoleController@save');
 		Route::post('/role/delete/{id}', 'RoleController@delete');
 
@@ -99,4 +101,5 @@ Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'],
 
 	Route::any('/rule/list', 'RuleController@getList');
 	Route::any('/rule/save', 'RuleController@save');
+	Route::any('/rule/delete', 'RuleController@delete');
 });

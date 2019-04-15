@@ -34,4 +34,9 @@ class RuleService extends Service
 			return $this->repository->create($data);
 		}
 	}
+
+	public function delete($id)
+	{
+		return $this->repository->delete($id);
+	}
 }

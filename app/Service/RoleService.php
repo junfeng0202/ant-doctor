@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Repository\RoleRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RoleService
 {
@@ -25,6 +26,11 @@ class RoleService
 		return $this->repository->getById($id);
 	}
 
+	/**
+	 * 角色信息保存
+	 * @param $request
+	 * @return $this|\Illuminate\Database\Eloquent\Model
+	 */
 	public function save($request)
 	{
 		$id = $request->id;
@@ -33,6 +39,25 @@ class RoleService
 			return $this->repository->update($id, $data);
 		else
 			return $this->repository->create($data);
+	}
+
+
+	public function getRules($id)
+	{
+		$role = $this->repository->getById($id);
+		if(!$role) throw new ModelNotFoundException();
+
+		return $role->permissions()->pluck('id');
+	}
+
+	public function saveRules($request)
+	{
+		$id = $request->id;
+		$rules = $request->get('rules', []);
+		$role = $this->repository->getById($id);
+		if(!$role) throw new ModelNotFoundException();
+
+		return $role->permissions()->sync($rules);
 	}
 
 	public function delete($id)

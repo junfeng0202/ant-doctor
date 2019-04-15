@@ -36,6 +36,17 @@ class RoleController extends ApiController
 		return $this->apiReturn($this->service->save($request));
     }
 
+	public function getRules(Request $request)
+	{
+		return $this->apiReturn($this->service->getRules($request->id));
+	}
+
+
+    public function saveRules(Request $request)
+    {
+	    return $this->apiReturn($this->service->saveRules($request));
+    }
+
     public function delete($id)
     {
 	    return $this->apiReturn($this->service->delete($id));

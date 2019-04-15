@@ -26,4 +26,8 @@ class RuleController extends ApiController
 		return $this->apiReturn($this->service->save($request));
     }
 
+    public function delete(Request $request)
+    {
+    	return $this->apiReturn($this->service->delete($request->id));
+    }
 }

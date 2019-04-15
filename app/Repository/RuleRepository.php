@@ -22,4 +22,9 @@ class RuleRepository
 		return Permission::create($data);
 	}
 
+	public function delete($id)
+	{
+		return Permission::destroy($id);
+	}
+
 }

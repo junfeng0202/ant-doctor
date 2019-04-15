@@ -31,4 +31,10 @@ class RoleRepository
 	{
 		return Role::destroy($id);
 	}
+
+
+	public function saveRules()
+	{
+		return ;
+	}
 }
