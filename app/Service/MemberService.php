@@ -149,7 +149,7 @@ class MemberService extends Service
 
 		if (!Redis::exists($key)) {
 			$member = (new MemberResource($this->getDiseases($member)));
-			Redis::set($key, json_encode($member));
+			Redis::setex($key, 86400 * 7, json_encode($member));
 		}
 		return json_decode(Redis::get($key));
 	}
@@ -207,7 +207,7 @@ class MemberService extends Service
 	public function feedback($request)
 	{
 		$member = JWTAuth::parseToken()->touser();
-		$data =$request->all();
+		$data = $request->all();
 		// $data['member_id'] = 1;
 		$data['member_id'] = $member->id;
 		(new FeedbackRepository())->create($data);
@@ -247,9 +247,11 @@ class MemberService extends Service
 	 */
 	public function memberInterest()
 	{
-		if(auth()->check()){
+		if (auth()->check()) {
 			$member = $this->getUser();
-			$interest = array_map(function($v) { return $v->id; },$member->interest);
+			$interest = array_map(function ($v) {
+				return $v->id;
+			}, $member->interest);
 		} else {
 			$interest = [];
 		}
