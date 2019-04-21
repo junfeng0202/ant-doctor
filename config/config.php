@@ -14,6 +14,9 @@ return [
 	'sms_forget_prefix'=>'for-',
 	'sms_register_prefix'=>'reg-',
 
+	//权限缓存key
+	'rule_key'=>'rule_user_',
+
 	'openssl_key'=>env('OPENSSL_KEY',''),
 
 	'openssl_iv'=>env('OPENSSL_IV',''),

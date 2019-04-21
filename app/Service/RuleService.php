@@ -24,7 +24,7 @@ class RuleService extends Service
 	public function save($request)
 	{
 		$id = $request->id;
-		$data = $request->only('pid', 'name', 'icon', 'path', 'permission', 'type', 'sort');
+		$data = $request->only('pid', 'name', 'icon', 'path', 'path_name', 'rule_tag', 'api_name', 'sort');
 		$data = array_filter($data, function ($v) {
 			return !is_null($v);
 		});

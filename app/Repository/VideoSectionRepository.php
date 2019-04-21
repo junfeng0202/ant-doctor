@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 use App\Models\VideoSection;
-use App\Models\back\VideoSection as BackVideoSection;
 
 class VideoSectionRepository
 {
@@ -12,14 +11,15 @@ class VideoSectionRepository
 		return VideoSection::find($id);
 	}
 
-    //后台获取课程章节
-    public function BackById($id){
-        return BackVideoSection::where('video_id','=',$id)->get();
-    }
+
+	public function getByVideoId($id, $size){
+		return VideoSection::where('video_id', $id)->paginate($size);
+	}
+
 
     //后台添加或者更新章节
-    public function BackUpdateOreCreate($data){
-        return BackVideoSection::updateOrCreate(['id'=>$data['id']],$data);
+    public function BackUpdateOreCreate($id, $data){
+        return VideoSection::updateOrCreate(['id'=>$id],$data);
     }
 
 }

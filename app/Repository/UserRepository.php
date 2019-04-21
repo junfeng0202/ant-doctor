@@ -12,12 +12,12 @@ class UserRepository
 		$user = User::query();
 		if ($sort && $sortArr = sortHandler($sort))
 			$user->orderBy(...$sortArr);
-		return $user->paginate($size, ['id', 'name', 'created_at']);
+		return $user->with('roles')->paginate($size, ['id', 'name', 'created_at']);
 	}
 
 	public function getUserById($id)
 	{
-		return User::find($id, ['id', 'name']);
+		return User::find($id, ['id', 'name','is_admin']);
 	}
 
 	public function updateOrCreate($id, $data)

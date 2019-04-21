@@ -9,7 +9,7 @@ class RuleRepository
 {
 	public function getList()
 	{
-		return Permission::latest('sort')->select('id', 'pid', 'name', 'icon', 'path', 'permission', 'type', 'sort')->get();
+		return Permission::latest('sort')->select('id', 'pid', 'name', 'icon', 'path', 'path_name', 'rule_tag', 'api_name', 'sort')->get();
 	}
 
 	public function updateById($id, $data)

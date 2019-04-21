@@ -2,10 +2,9 @@
 
 namespace App\Service;
 
-use App\Proxy\OtherService;
-use App\Repository\OauthRepository;
 use App\Repository\UserRepository;
-use Dingo\Api\Exception\StoreResourceFailedException;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class UserService
 {
@@ -51,4 +50,12 @@ class UserService
 		$user->roles()->sync($data['roles']);
 	}
 
+
+	public function setUserRule($id, $rules)
+	{
+		$res = $rules->where('api_name', '!=', '')->pluck('api_name')->all();
+
+		Cache::tags('rules')->add(config('config.rule_key').$id, $res, 60*24*7);
+
+	}
 }

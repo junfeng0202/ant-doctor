@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Repository\RoleRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Cache;
 
 class RoleService
 {
@@ -57,7 +58,9 @@ class RoleService
 		$role = $this->repository->getById($id);
 		if(!$role) throw new ModelNotFoundException();
 
-		return $role->permissions()->sync($rules);
+		$role->permissions()->sync($rules);
+		Cache::tags('rules')->flush();
+		return ;
 	}
 
 	public function delete($id)

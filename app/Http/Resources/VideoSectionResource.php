@@ -20,10 +20,9 @@ class VideoSectionResource extends Resource
             'title'=>$this->title,
             'clicks'=>(int)$this->clicks,
             //'audio_url'=>$this->url,
-            'timer'=>$this->duration,
+            'timer'=>$this->duration_time,
 	        'section_num'=>$this->section_num,
-            'created_at'=>(string)$this->created_at,
-	        'link'=>route('video.section',['id'=>$this->id])
+            'created_at'=>(string)$this->created_at
         ];
     }
 }

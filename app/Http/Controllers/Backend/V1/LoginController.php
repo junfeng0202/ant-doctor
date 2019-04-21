@@ -4,24 +4,15 @@ namespace App\Http\Controllers\Backend\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\UserRequest;
-use App\Models\User;
 use App\Service\UserService;
 use GuzzleHttp\Client;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\JWT;
 
 class LoginController extends ApiController
 {
-    use AuthenticatesUsers;
     protected $userService;
-
-    public function __construct(UserService $userService)
-    {
-        $this->userService = $userService;
-    }
 
     public function login(UserRequest $request)
     {
@@ -50,10 +41,14 @@ class LoginController extends ApiController
 	 * 登入用户信息获取
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function getInfoByToken()
+	public function getInfoByToken(UserService $userService)
 	{
-		$user = Auth::guard('api')->user();
-		$user->roles = ['admin'];
+		 $user = Auth::guard('api')->user();
+
+		$rules = $user->is_admin ? Permission::get() :$user->getPermissionsViaRoles()->unique('id')->values()->all();
+		$user->rules = $rules;
+		$userService->setUserRule($user->id, $rules);
+
 		return $this->apiReturn($user);
 	}
 }

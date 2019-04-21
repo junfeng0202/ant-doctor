@@ -22,9 +22,11 @@ class CreatePermissionTables extends Migration
             $table->unsignedInteger('pid')->default(0);
             $table->string('icon',50)->default('');
             $table->string('path',100)->default('')->comment('菜单路径');
-            $table->string('permission',50)->default('');
-            $table->unsignedTinyInteger('type')->default(1)->comment('权限栏目类型 1.菜单 2.操作');
+            $table->string('path_name',50)->default('')->comment('路径名称');
+            $table->string('rule_tag',50)->default('')->comment('权限标识');
+            $table->string('api_name',50)->default('')->comment('接口名称');
             $table->float('sort',5,2)->default(0)->comment('排序');
+            $table->unsignedTinyInteger('enable')->default(0)->comment('是否显示');
             $table->string('guard_name',50)->default('');
             $table->timestamps();
         });

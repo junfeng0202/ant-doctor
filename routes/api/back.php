@@ -8,98 +8,96 @@ $api->version('v1', ['namespace'=>'App\Http\Controllers\Backend\V1','prefix'=>'b
 	$api->post('test', 'LoginController@test');
 });*/
 
-Route::group(['namespace'=>'App\Http\Controllers\Backend\V1', 'prefix'=>'back'], function (){
+Route::group(['namespace' => 'App\Http\Controllers\Backend\V1', 'prefix' => 'back'], function () {
 
 	Route::post('login', 'LoginController@login');
 
-	Route::group(['middleware'=>'auth.api'], function(){
+	Route::group(['middleware' => 'auth.api'], function () {
 
 		Route::post('/getInfoByToken', 'LoginController@getInfoByToken'); //通过token获取
-		//素材管理-课程管理
-		Route::get('/material/course/list', 'CourseController@list');
+
+
+		Route::group(['middleware' => 'rbac'], function () {
+			//素材管理-课程管理
+			Route::get('/material/course/list', 'CourseController@list')->name('courseList');
+			Route::post('/material/course/create', 'CourseController@create')->name('courseHandle');
+			Route::get('/material/course/section/{id}', 'CourseController@sections')->name('courseSection');//获取课程章节
+			Route::post('/material/course/section/add/{id}', 'CourseController@addSection')->name('courseSectionHandle');//添加章节
+			//素材管理-音频管理
+			Route::get('/material/audio/list', 'AudioController@list')->name('audioList');
+			Route::post('/material/audio/create', 'AudioController@create')->name('audioHandle');
+			Route::get('/material/audio/section/{id}', 'AudioController@sections')->name('audioSection');//获取课程章节
+			Route::post('/material/audio/section/add/{id}', 'AudioController@addSection')->name('audioSectionHandle');//添加章节
+			//素材管理-图文管理
+			Route::get('/material/article/list', 'ArticleController@list')->name('articleList');
+			Route::post('/material/article/create', 'ArticleController@create')->name('articleHandle');
+			Route::get('/material/article/delete/{id}', 'ArticleController@delete')->name('articleDel');
+			//素材管理-直播管理
+			Route::get('/material/live/list', 'LiveController@list')->name('liveList');
+			Route::post('/material/live/create', 'LiveController@create')->name('liveHandle');
+			Route::get('/material/live/delete/{id}', 'LiveController@delete')->name('liveDel');
+			//banner管理
+			Route::get('/banner/list', 'BannerController@list')->name('bannerList');
+			Route::post('/banner/create', 'BannerController@create')->name('bannerHandle');
+			Route::post('/banner/delete/{id}', 'BannerController@delete')->name('bannerDel');
+			//病种管理
+			Route::post('/disease/list', 'DiseaseController@listTree')->name('diseaseList');
+			Route::post('/disease/save', 'DiseaseController@save')->name('diseaseHandle');
+			Route::post('/disease/delete/{id}', 'DiseaseController@delete')->name('diseaseDel');
+			// 角色
+			Route::post('/role/list', 'RoleController@getList')->name('roleList');
+			Route::post('/role/saveRules', 'RoleController@saveRules')->name('roleRule');
+			Route::post('/role/save', 'RoleController@save')->name('roleHandle');
+			Route::post('/role/delete/{id}', 'RoleController@delete')->name('roelDel');
+			//权限菜单
+			Route::post('/rule/list', 'RuleController@getList')->name('ruleList');
+			Route::post('/rule/save', 'RuleController@save')->name('ruleHandle');
+			Route::post('/rule/delete', 'RuleController@delete')->name('ruleDel');
+			//用户列表
+			Route::get('/user/list', 'MemberController@list')->name('memberList');
+			//讲者管理
+			Route::get('/user/doctor/list', 'DoctorController@list')->name('doctorList');
+			Route::post('/user/doctor/create', 'DoctorController@create')->name('doctorHandle');
+			//管理员
+			Route::get('/manager/getList', 'UserController@getList')->name('managerList');
+			Route::post('/manager/save', 'UserController@save')->name('managerHandle');
+			// 讲堂
+			Route::post('/college/list', 'CollegeController@getList')->name('collegeList');
+			Route::post('/college/save', 'CollegeController@save')->name('collegeHandle');
+			//讲堂频道
+			Route::post('/college-section/{id}/list', 'CollegeController@sections')->name('collegeSection');
+			Route::post('/college-section/{id}/save', 'CollegeController@sectionSave')->name('collegeSectionHandle');
+			//讲堂内容
+			Route::post('/college-section-content/{sectionId}/list', 'CollegeController@contents')->name('collegeContent');
+			Route::post('/college-section-content/save', 'CollegeController@contentSave')->name('collegeContentHandle');
+			Route::post('/college-section-content/{conentId}/delete', 'CollegeController@contentDelete')->name('collegeContentDel');
+			//反馈列表
+			Route::post('/feedback/list', 'FeedbackController@getList')->name('feedbackList');
+		});
+
+
 		Route::get('/material/course/info/{id}', 'CourseController@info');
-		Route::post('/material/course/create', 'CourseController@create');
-		Route::get('/material/course/sections/{id}', 'CourseController@sections');//获取课程章节
-		Route::post('/material/course/section/add/{id}', 'CourseController@addSection');//添加章节
-
-		//素材管理-音频管理
-		Route::get('/material/audio/list', 'AudioController@list');
 		Route::get('/material/audio/info/{id}', 'AudioController@info');
-		Route::post('/material/audio/create', 'AudioController@create');
-		Route::get('/material/audio/sections/{id}', 'AudioController@sections');//获取课程章节
-		Route::post('/material/audio/section/add/{id}', 'AudioController@addSection');//添加章节
-
-		//素材管理-图文管理
-		Route::get('/material/article/list', 'ArticleController@list');
 		Route::get('/material/article/info/{id}', 'ArticleController@info');
-		Route::post('/material/article/create', 'ArticleController@create');
-		Route::get('/material/article/delete/{id}', 'ArticleController@delete');
-
-		//素材管理-直播管理
-		Route::get('/material/live/list', 'LiveController@list');
 		Route::get('/material/live/info/{id}', 'LiveController@info');
-		Route::post('/material/live/create', 'LiveController@create');
-		Route::get('/material/live/delete/{id}', 'LiveController@delete');
 
-		//系统管理-banner管理
-		Route::get('/banner/list', 'BannerController@list');
 		Route::get('/banner/info/{id}', 'BannerController@info');
-		Route::post('/banner/create', 'BannerController@create');
-		Route::post('/banner/delete/{id}', 'BannerController@delete');
 
-		//系统管理-病种管理
-		Route::post('/disease/delete/{id}', 'DiseaseController@delete');
-		Route::post('/disease/list', 'DiseaseController@listTree');
-		Route::post('/disease/save', 'DiseaseController@save');
-
-		// 角色
-		Route::post('/role/list', 'RoleController@getList');
 		Route::post('/role/info/{id}', 'RoleController@getInfo');
 		Route::post('/role/rules', 'RoleController@getRules');
-		Route::post('/role/saveRules', 'RoleController@saveRules');
-		Route::post('/role/save', 'RoleController@save');
-		Route::post('/role/delete/{id}', 'RoleController@delete');
 
-		//权限菜单
-
-
-		//用户管理
-		//用户列表
-		Route::get('/user/list', 'MemberController@list');
-
-		//讲者管理
-		Route::get('/user/doctor/list', 'DoctorController@list');
 		Route::get('/user/doctor/info/{id}', 'DoctorController@info');
-		Route::post('/user/doctor/create', 'DoctorController@create');
 
 		Route::get('/index/data', 'CommonController@indexData');
 		Route::get('/doctor/list', 'CommonController@doctor');
 
+		Route::any('/manager/getInfo/{id}', 'UserController@getInfoById');
 
-		//管理员
-		Route::get('/manager/getList', 'UserController@getList'); //通过id获取
-		Route::any('/manager/getInfo/{id}', 'UserController@getInfoById'); //通过id获取
-		Route::post('/manager/save', 'UserController@save');
-
-		// 讲堂
-		Route::post('/college/list', 'CollegeController@getList');
 		Route::post('/college/info/{id}', 'CollegeController@info');
-		Route::post('/college/save', 'CollegeController@save');
-		//讲堂频道
-		Route::post('/college-section/{id}/list', 'CollegeController@sections');
+
 		Route::post('/college-section/info/{sectionId}', 'CollegeController@sectionInfo');
-		Route::post('/college-section/{id}/save', 'CollegeController@sectionSave');
-		//讲堂内容
-		Route::post('/college-section-content/{sectionId}/list', 'CollegeController@contents');
-		Route::post('/college-section-content/{sectionId}/ids', 'CollegeController@contentIds');
-		Route::post('/college-section-content/save', 'CollegeController@contentSave');
-		Route::post('/college-section-content/{conentId}/delete', 'CollegeController@contentDelete');
 
-		//反馈列表
-		Route::post('/feedback/list', 'FeedbackController@getList');
+		Route::post('/college-section-content/{sectionId}/ids', 'CollegeController@contentIds')->name('collegeCreate');
+
 	});
-
-	Route::any('/rule/list', 'RuleController@getList');
-	Route::any('/rule/save', 'RuleController@save');
-	Route::any('/rule/delete', 'RuleController@delete');
 });

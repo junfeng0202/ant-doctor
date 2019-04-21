@@ -37,15 +37,20 @@ class AudioController extends ApiController
         return $this->apiReturn();
     }
 
-    public function sections($id)
+	/**
+	 * 小节列表
+	 * @param Request $request
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function sections(Request $request, $id)
     {
-        $items = $this->audioService->BackSections($id);
+        $items = $this->audioService->BackSections($id, $request);
         return $this->apiReturn($items);
     }
 
-    public function addSection($audio,Request $request){
-        $param = $request->all();
-        $this->audioService->BackAddSection($audio,$param);
+    public function addSection(Request $request, $audio){
+        $this->audioService->BackAddSection($audio,$request);
         return $this->apiReturn();
 
     }
