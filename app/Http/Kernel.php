@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 	    'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
 	    'auth.api' => AuthenticateApi::class,
+	    'rbac' => \App\Http\Middleware\CheckRbac::class
     ];
 
     /**

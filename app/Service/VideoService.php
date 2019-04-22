@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Events\VideoHit;
 use App\Events\VideoSectionHit;
 use App\Http\Resources\VideoResource;
+use App\Http\Resources\VideoSectionResource;
 use App\Models\back\DoctorVideo;
 use App\Repository\CourseSectionRepository;
 use App\Repository\VideoRepository;
@@ -64,6 +65,8 @@ class VideoService extends Service
 
 		if (!$item) throw new ModelNotFoundException();
 
+		$item->load(['disease:id,name']);
+
 		$item->doctor_ids = $item->doctor->pluck('id');
 		return $item;
 	}
@@ -98,24 +101,23 @@ class VideoService extends Service
 	}
 
 	//后台添加章节
-	public function BackAddSection($audio, $param)
+	public function BackAddSection($audio, $request)
 	{
+		$id = $request->id;
 		//编辑节
 		$data = array(
-			'id' => $param['id'],
-			'title' => $param['title'],
-			'url' => $param['url'],
-			'duration' => $param['duration'],
-			'section_num' => $param['section_num'],
+			'title' => $request->title,
+			'url' => $request->url,
+			'duration' => $request->duration,
+			'section_num' => $request->section_num,
 			'video_id' => $audio
 		);
-		(new VideoSectionRepository())->BackUpdateOreCreate($data);
+		(new VideoSectionRepository())->BackUpdateOreCreate($id, $data);
 	}
 
-	public function BackSections($id)
+	public function BackSections($id, $request)
 	{
-		$items = (new VideoSectionRepository())->BackById($id);
-		return $items;
+		return (new VideoSectionRepository())->getByVideoId($id, $request->get('limit', 20));
 	}
 
 	//统计总数

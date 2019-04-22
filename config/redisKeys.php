@@ -20,5 +20,5 @@ return [
 	'userInfo'=> 'userinfo:',
 
 	//频道详情
-	'collegeInfo'=> 'collegeinfo:'
+	'collegeInfo'=> 'collegeinfo:',
 ];
