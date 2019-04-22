@@ -30,14 +30,12 @@ class CollegeService extends Service
 	/**
 	 * 后端 讲堂列表
 	 * @param $request
-	 * @return array
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
 	 */
 	public function backList($request)
 	{
 		$limit = $request->get('limit', 20);
-		$items = $this->repository->backList($limit);
-		$handleResult = CollegeResource::collection($items);
-		return ['data' => $handleResult, 'meta' => ['total' => $items->total()]];
+		return $this->repository->backList($limit);
 	}
 
 	/**
@@ -47,8 +45,8 @@ class CollegeService extends Service
 	 */
 	public function backInfo($id)
 	{
-		$item = $this->repository->getById($id);
-		return new CollegeResource($item);
+		return  $this->repository->getById($id);
+
 	}
 
 	/**

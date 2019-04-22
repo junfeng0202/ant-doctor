@@ -15,12 +15,12 @@ class CollegeRepository
 		if (count($sort)) {
 			$college->orderBy(...$sort);
 		}
-		return $college->latest('id')->paginate($limit);
+		return $college->latest('id')->select('id', 'title', 'content_count', 'enable', 'sort', 'sold_on', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at')->paginate($limit);
 	}
 
 	public function getById($id)
 	{
-		return College::find($id);
+		return College::select('id', 'title', 'content_count', 'enable', 'brief', 'image', 'sort', 'sold_on', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at')->find($id);
 	}
 
 	/**
@@ -118,7 +118,11 @@ class CollegeRepository
 	}
 
 
-
+	/**
+	 * 前端接口
+	 * @param $size
+	 * @return mixed
+	 */
 	public function getList($size)
 	{
 		return College::latest('sort')->enable()->paginate($size);
@@ -130,7 +134,7 @@ class CollegeRepository
 
 	}
 
-	public function getContentList($sectionId, $size=10, $sort='sort')
+	public function getContentList($sectionId, $size = 10, $sort = 'sort')
 	{
 		return CollegeSectionContent::where('college_section_id', $sectionId)->with('contentable')->latest($sort)->latest('id')->paginate($size);
 	}

@@ -17,6 +17,8 @@ class CollegeResource extends Resource
         return [
         	'id'   => $this->id,
 	        'title'=> $this->title,
+	        'price'=> $this->price,
+	        'active_price'=> $this->when($this->in_active, $this->active_price),
 	        'brief' => $this->brief,
 	        'sort' => $this->sort,
 	        'image' => $this->image,

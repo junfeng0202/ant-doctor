@@ -163,8 +163,8 @@ class CourseService extends Service
 
 	public function BackList($limit,$kw){
 	    $items = $this->courseRepository->BackPaginate($limit,null,$kw);
-        $handlerResult =  CourseResource::collection($items);
-        return ['data'=>$handlerResult, 'meta'=>['total'=>$items->total()]];
+		return CourseResource::collection($items);
+
 	}
 
     //统计用户总数

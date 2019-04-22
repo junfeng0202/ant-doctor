@@ -44,4 +44,19 @@ class Course extends Model
 	{
 		return \Redis::hget(config('redisKeys.courseHits'), $this->attributes['id']) ?? $this->attributes['hits'];
 	}
+
+	/**
+	 * 活动是否生效
+	 * @return bool
+	 */
+	public function getInActiveAttribute()
+	{
+		if($this->active_on && $this->active_start_at && $this->active_end_at){
+			$start = Carbon::parse($this->active_start_at);
+			$end = Carbon::parse($this->active_end_at);
+			return Carbon::now()->between($start, $end);
+		} else {
+			return false;
+		}
+	}
 }

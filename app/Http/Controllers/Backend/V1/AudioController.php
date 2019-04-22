@@ -10,9 +10,9 @@ class AudioController extends ApiController
 {
     protected $audioService;
 
-    public function __construct(VideoService $audioService)
+    public function __construct(VideoService $videoService)
     {
-        $this->audioService = $audioService;
+        $this->audioService = $videoService;
 
     }
 
