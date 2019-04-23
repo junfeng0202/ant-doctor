@@ -58,7 +58,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	Route::any('colleges', 'CollegeController@getList')->name('college.list');
 	Route::get('college/{id}', 'CollegeController@info')->name('college.info');
 	Route::get('college/sectionContents/{sectionId}', 'CollegeController@sectionContents')->name('college.sectionContents');
-
-
+	Route::get('college/card/{id}', 'CollegeController@collegeCard');
 
 });

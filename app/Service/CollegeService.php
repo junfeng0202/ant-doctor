@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Events\CollegeHit;
+use App\Exceptions\ApiException;
 use App\Http\Resources\CollegeResource;
 use App\Http\Resources\CollegeSectionContentResource;
 use App\Http\Resources\CollegeSectionResource;
@@ -218,6 +219,14 @@ class CollegeService extends Service
 		return $college;
 	}
 
+	public function cardInfo($id)
+	{
+		$college = $this->repository->getById($id);
+		if(!$college->sold_on || !$this->memberCollegeStatus($id)) {
+			throw new ApiException('您已拥有该学习卡，或学习卡已关闭');
+		}
+		return new CollegeResource($college);
+	}
 
 	/**
 	 * 前端 频道下的内容列表

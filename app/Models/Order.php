@@ -28,4 +28,9 @@ class Order extends Model
     {
     	return $this->hasOne(OrderDetail::class);
     }
+
+    public function member()
+    {
+    	return $this->belongsTo(Member::class);
+    }
 }

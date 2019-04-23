@@ -38,7 +38,7 @@ class Video extends Model
 
 	public function scopeIsIndex($query)
 	{
-		return $query->select(DB::raw('1 as `index`'), 'id', 'hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'audio_count', 'created_at', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at');
+		return $query->select(DB::raw('1 as `index`'), 'id', 'hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'audio_count', 'created_at', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at','updated_at');
 	}
 
 	public function getClicksAttribute()

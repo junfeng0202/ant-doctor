@@ -17,7 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class OrderService extends Service
+class OrderService
 {
 	protected $orderRepository;
 	protected $user;

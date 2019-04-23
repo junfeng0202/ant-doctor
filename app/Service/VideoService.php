@@ -39,8 +39,8 @@ class VideoService extends Service
 		if (!$item) throw new ModelNotFoundException();
 		event(new VideoHit($item));
 
-		$video = (new VideoResource($item))->toArray(null);
-		$video['buyStatus'] = $this->memberVideoStatus($id);
+		$video = new VideoResource($item);
+		$video->buyStatus = $this->memberVideoStatus($id);
 		return $video;
 	}
 
