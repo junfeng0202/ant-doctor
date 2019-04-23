@@ -8,5 +8,5 @@ class OrderDetail extends Model
 {
     public $timestamps = false;
 
-    protected $fillable = ['order_id', 'type', 'goods_id', 'image', 'title'];
+    protected $fillable = ['order_id', 'goods_type', 'goods_id', 'image', 'title'];
 }

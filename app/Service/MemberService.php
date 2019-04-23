@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Exceptions\ApiException;
 use App\Http\Resources\MemberResource;
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\StudyLogResource;
 use App\Models\Disease;
 use App\Models\Member;
@@ -12,7 +13,10 @@ use App\Repository\FeedbackRepository;
 use App\Repository\MemberStudyRepository;
 use App\Repository\MemberRepository;
 use App\Repository\OauthRepository;
+use App\Repository\OrderRepository;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -213,6 +217,17 @@ class MemberService extends Service
 		(new FeedbackRepository())->create($data);
 	}
 
+	/**
+	 * 用户订单
+	 * @param Request $request
+	 * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+	 */
+	public function orders(Request $request)
+	{
+//		$member = Auth::user();
+		$orders = (new OrderRepository())->getUserOrders(1, $request->get('show_num', 20), $request->get('status', 0));
+		return OrderResource::collection($orders);
+	}
 
 	/**
 	 * 加载用户的所有病种

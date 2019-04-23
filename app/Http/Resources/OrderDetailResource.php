@@ -19,7 +19,7 @@ class OrderDetailResource extends JsonResource
 			'order_id ' => $this->order_id,
 			'goods_id' => $this->goods_id,
 			'title' => $this->title,
-			'type' => $this->type,
+			'type' => $this->goods_type,
 			'image' => $this->image,
 		];
 	}

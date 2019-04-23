@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
 			'id' => $this->id,
 			'number' => $this->number,
 			'total_amount' => $this->amount,
+			'status' => $this->status,
 			'detail' => new OrderDetailResource($this->when('detail', $this->detail)),
 		];
 	}

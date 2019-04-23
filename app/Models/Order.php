@@ -12,15 +12,15 @@ class Order extends Model
     const COLLEGE = 3;
 
     // 订单状态
-    const WAIT_PAY = 0;
-    const PAYED = 1;
-    const CANCEL = 2;
+    const WAIT_PAY = 1;
+    const PAYED = 2;
+    const CANCEL = 3;
 
     // 支付方式
     const ALIPAY = 1;
     const WECHAT = 2;
 
-    protected $fillable = ['number', 'member_id', 'amount', 'status', 'place_at', 'pay_at', 'pay_type'];
+    protected $fillable = ['number', 'member_id', 'amount', 'status', 'goods_type', 'place_at', 'pay_at', 'pay_type'];
 
     protected $dates = ['place_at','pay_at'];
 

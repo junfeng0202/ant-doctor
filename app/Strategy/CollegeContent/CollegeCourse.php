@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Strategy;
+namespace App\Strategy\CollegeContent;
 
 use App\Http\Resources\CourseResource;
 use App\Repository\CourseRepository;
 
-class CollegeCourse implements ICollegeContentType
+class CollegeCourse implements ICollegeContent
 {
 
 	protected $repository;

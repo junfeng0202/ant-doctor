@@ -57,4 +57,9 @@ class MemberController extends ApiController
 		$this->memberService->feedback($request);
 		return $this->apiReturn();
 	}
+
+	public function orders(Request $request)
+	{
+		return $this->apiReturn($this->memberService->orders($request));
+	}
 }

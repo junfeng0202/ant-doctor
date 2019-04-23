@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Strategy;
+namespace App\Strategy\CollegeContent;
 
 use App\Http\Resources\VideoResource;
 use App\Repository\VideoRepository;
 
-class CollegeVideo implements ICollegeContentType
+class CollegeVideo implements ICollegeContent
 {
 
 	protected $repository;

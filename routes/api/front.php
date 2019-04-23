@@ -1,8 +1,9 @@
 <?php
 
-/*Route::middleware('auth:member')->get('/user', function (Request $request) {
-    return auth('member')->user();
-});*/
+Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1'], function () {
+	Route::post('/aliNotify', 'PayChatController@aliNotify');
+	Route::post('/wechatNotify', 'PayController@wechatNotify');
+});
 
 Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'], function () {
 
@@ -24,6 +25,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 		//反馈
 		Route::post('user/feedback', 'MemberController@feedback');
 
+		Route::post('user/orders', 'MemberController@orders');
+
 		// 提交订单
 		Route::any('order/college/{id}', 'OrderController@createCollegeOrder');
 		Route::post('order/course/{id}', 'OrderController@createCourseOrder');
@@ -31,6 +34,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 		// 支付页面
 		Route::post('order/topay/{id}', 'OrderController@orderInfo');
 
+		Route::get('pay', 'PayController@index');
+		Route::post('pay/success', 'PayController@success');
 	});
 
 

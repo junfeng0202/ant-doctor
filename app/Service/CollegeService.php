@@ -10,10 +10,10 @@ use App\Http\Resources\CollegeSectionResource;
 use App\Models\CollegeSection;
 use App\Repository\CollegeRepository;
 use App\Repository\MemberCollegeRepository;
-use App\Strategy\CollegeArticle;
-use App\Strategy\CollegeCourse;
-use App\Strategy\CollegeVideo;
-use App\Strategy\ICollegeContentType;
+use App\Strategy\CollegeContent\CollegeArticle;
+use App\Strategy\CollegeContent\CollegeCourse;
+use App\Strategy\CollegeContent\CollegeVideo;
+use App\Strategy\CollegeContent\ICollegeContent;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -243,9 +243,9 @@ class CollegeService extends Service
 	/**
 	 * 根据类型返回相应的内容策略对象
 	 * @param $type
-	 * @return ICollegeContentType
+	 * @return CollegeArticle
 	 */
-	protected function contentObject($type): ICollegeContentType
+	protected function contentObject($type): ICollegeContent
 	{
 		switch ($type) {
 			case CollegeSection::COURSE:

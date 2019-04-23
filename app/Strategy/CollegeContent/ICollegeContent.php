@@ -1,6 +1,8 @@
 <?php
-namespace App\Strategy;
 
-interface ICollegeContentType {
+namespace App\Strategy\CollegeContent;
+
+interface ICollegeContent
+{
 	public function getContentList($sectionId, $sort, $size);
 }

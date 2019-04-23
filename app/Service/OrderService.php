@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use App\Exceptions\ApiException;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
@@ -75,7 +74,7 @@ class OrderService
 	public function orderDetail($id)
 	{
 		$orderDetail = $this->orderRepository->getOrderDetail($id);
-		if(!$orderDetail || $orderDetail->status !== Order::WAIT_PAY) {
+		if (!$orderDetail || $orderDetail->status !== Order::WAIT_PAY) {
 			throw new ApiException('订单不存在，或已支付');
 		}
 		return new OrderResource($orderDetail);
@@ -96,6 +95,7 @@ class OrderService
 			$data = [
 				'number' => orderNumber(),
 				'member_id' => $this->user->id,
+				'goods_type' => $type,
 				'amount' => $this->goodsInfo->in_active ? $this->goodsInfo->active_price : $this->goodsInfo->price,
 				'status' => Order::WAIT_PAY,
 				'place_at' => Carbon::now(),
@@ -105,7 +105,7 @@ class OrderService
 			//创建订单详情
 			$detailData = [
 				'order_id' => $order->id,
-				'type' => $type,
+				'goods_type' => $type,
 				'goods_id' => $this->goodsInfo->id,
 				'image' => $this->goodsInfo->image,
 				'title' => $this->goodsInfo->title,

@@ -14,4 +14,9 @@ class MemberVideoRepository
 			->where('expired_at', '>', Carbon::now())
 			->exists();
 	}
+
+	public function create($data)
+	{
+		return MemberVideo::create($data);
+	}
 }
