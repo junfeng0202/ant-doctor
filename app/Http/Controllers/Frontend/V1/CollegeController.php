@@ -49,6 +49,11 @@ class CollegeController extends ApiController
 		return $this->apiReturn($items);
 	}
 
+	public function collegeCard($id)
+	{
+
+		return $this->apiReturn();
+	}
 
 
 }

@@ -14,7 +14,7 @@ class AlertVideoSections extends Migration
     public function up()
     {
 	    Schema::table('video_sections',function (Blueprint $tabel){
-		    $tabel->addColumn('smallInteger','section_num')->default(0)->comment('音频节数');
+		    $tabel->addColumn('smallInteger','section_num')->unsigned()->default(0)->comment('音频节数');
 	    });
     }
 

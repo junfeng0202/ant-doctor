@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Http\Resources\AreaResource;
 use App\Repository\AreaRepository;
-use App\Transform\AreaTranform;
 
 class AreaService extends Service
 {

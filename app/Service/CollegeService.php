@@ -8,11 +8,14 @@ use App\Http\Resources\CollegeSectionContentResource;
 use App\Http\Resources\CollegeSectionResource;
 use App\Models\CollegeSection;
 use App\Repository\CollegeRepository;
+use App\Repository\MemberCollegeRepository;
 use App\Strategy\CollegeArticle;
 use App\Strategy\CollegeCourse;
 use App\Strategy\CollegeVideo;
 use App\Strategy\ICollegeContentType;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
@@ -32,7 +35,7 @@ class CollegeService extends Service
 	 * @param $request
 	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
 	 */
-	public function backList($request)
+	public function backList(Request $request)
 	{
 		$limit = $request->get('limit', 20);
 		return $this->repository->backList($limit);
@@ -45,7 +48,7 @@ class CollegeService extends Service
 	 */
 	public function backInfo($id)
 	{
-		return  $this->repository->getById($id);
+		return $this->repository->getById($id);
 
 	}
 
@@ -53,7 +56,7 @@ class CollegeService extends Service
 	 * 后端 更新讲堂信息
 	 * @param $request
 	 */
-	public function updateOreCreate($request)
+	public function updateOreCreate(Request $request)
 	{
 		$id = $request->id;
 		$data = $request->all();
@@ -74,9 +77,7 @@ class CollegeService extends Service
 	 */
 	public function sections($id)
 	{
-		$sections = $this->repository->sectionList($id);
-		$handleResult = CollegeSectionResource::collection($sections);
-		return ['data' => $handleResult, 'meta' => ['total' => $sections->total()]];
+		return $this->repository->sectionList($id);
 	}
 
 	/**
@@ -86,8 +87,7 @@ class CollegeService extends Service
 	 */
 	public function sectionInfo($sectionId)
 	{
-		$item = $this->repository->sectionInfo($sectionId);
-		return new CollegeSectionResource($item);
+		return $this->repository->sectionInfo($sectionId);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class CollegeService extends Service
 	 * @param $collegeId
 	 * @return mixed
 	 */
-	public function sectionSave($request, $collegeId)
+	public function sectionSave(Request $request, $collegeId)
 	{
 		$data = $request->all();
 		$data['college_id'] = $collegeId;
@@ -127,7 +127,7 @@ class CollegeService extends Service
 		return $this->repository->contentIds($sectionId);
 	}
 
-	public function contentSave($request)
+	public function contentSave(Request $request)
 	{
 		$id = $request->id;
 		$data = $request->all();
@@ -166,7 +166,7 @@ class CollegeService extends Service
 	 * @param $request
 	 * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
 	 */
-	public function getList($request)
+	public function getList(Request $request)
 	{
 		$colleges = $this->repository->getList($request->get('show_num', 10));
 		return CollegeResource::collection($colleges);
@@ -183,9 +183,9 @@ class CollegeService extends Service
 
 		if (!Redis::exists($key)) {
 			$college = $this->repository->getInfo($id);
-			if(!$college) throw new ModelNotFoundException();
+			if (!$college) throw new ModelNotFoundException();
 
-			$college->load(['section'=> function($query){
+			$college->load(['section' => function ($query) {
 				$query->enable();
 			}]);
 
@@ -213,9 +213,11 @@ class CollegeService extends Service
 
 		event(new CollegeHit($id)); // 增加点击量
 
-		return json_decode(Redis::get($key), true);
-//		return $info;
+		$college = json_decode(Redis::get($key), true);
+		$college['buyStatus'] = $this->memberCollegeStatus($id);
+		return $college;
 	}
+
 
 	/**
 	 * 前端 频道下的内容列表
@@ -223,10 +225,10 @@ class CollegeService extends Service
 	 * @param $request
 	 * @return mixed
 	 */
-	public function sectionContents($sectionId, $request)
+	public function sectionContents($sectionId, Request $request)
 	{
 		$section = $this->repository->sectionInfo($sectionId);
-		return $this->contentObject($section->type)->getContentList($sectionId, $request->get('sort', 'sort'), $request->get('show_num',20));
+		return $this->contentObject($section->type)->getContentList($sectionId, $request->get('sort', 'sort'), $request->get('show_num', 20));
 	}
 
 	/**
@@ -234,7 +236,7 @@ class CollegeService extends Service
 	 * @param $type
 	 * @return ICollegeContentType
 	 */
-	protected function contentObject($type) :ICollegeContentType
+	protected function contentObject($type): ICollegeContentType
 	{
 		switch ($type) {
 			case CollegeSection::COURSE:
@@ -246,9 +248,23 @@ class CollegeService extends Service
 		}
 	}
 
-	protected function delCache($id){
+	/**
+	 * 清除讲堂详情缓存
+	 * @param $id
+	 */
+	protected function delCache($id)
+	{
 		$key = config('redisKeys.collegeInfo') . $id;
 		Redis::del($key);
 	}
 
+	/**
+	 * 用户购买状态
+	 * @return bool
+	 */
+	protected function memberCollegeStatus($id)
+	{
+		$user = Auth::user();
+		return $user ? (new MemberCollegeRepository())->buyStatus($user->id, $id) : false;
+	}
 }

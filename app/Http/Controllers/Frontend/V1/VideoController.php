@@ -34,5 +34,4 @@ class VideoController extends ApiController
 	}
 
 
-
 }

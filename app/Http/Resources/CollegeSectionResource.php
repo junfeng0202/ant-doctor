@@ -17,8 +17,6 @@ class CollegeSectionResource extends Resource
         return [
         	'id'   => $this->id,
 	        'title'=> $this->title,
-	        'sort' => $this->sort,
-	        'enable' => $this->enable,
 	        'type' => $this->type,
 	        'total' => $this->when($this->total, $this->total),
 	        'contents' => $this->when($this->contents, $this->contents),

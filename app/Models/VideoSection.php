@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VideoSection extends Model
 {
-	public $fillable = ['video_id', 'title', 'url', 'duration', 'sort', 'section_num'];
+	public $fillable = ['video_id', 'title', 'url', 'duration', 'sort', 'section_num', 'is_free'];
 
     public function children()
     {

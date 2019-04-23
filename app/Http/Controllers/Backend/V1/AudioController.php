@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\V1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\VideoRequest;
 use App\Service\VideoService;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ class AudioController extends ApiController
         return $this->apiReturn($item);
     }
 
-    public function create(Request $request)
+    public function create(VideoRequest $request)
     {
         $param = $request->all();
         $this->audioService->BackUpdateOreCreate($param);

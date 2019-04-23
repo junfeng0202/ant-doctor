@@ -17,7 +17,6 @@ class VideoResource extends Resource
         return [
         	'id'=>$this->id,
         	'title'=>$this->title,
-        	'enable'=>$this->enable,
         	'clicks'=>(int)$this->clicks,
         	'disease'=>$this->whenLoaded('disease',function(){
         		return $this->disease->name;
@@ -25,9 +24,9 @@ class VideoResource extends Resource
 	        'doctor'=>$this->whenLoaded('doctor'),
         	'brief'=>$this->when(!$this->index,$this->brief),
         	'image'=>$this->image,
-	        'section'=>VideoSectionResource::collection($this->whenLoaded('section')),
-        	'created_at'=>$this->when($this->created_at, $this->created_at->format('Y-m-d')),
-        	'link'=>route('video.info',['id'=>$this->id]),
+	        'price' => $this->price,
+	        'active_price' => $this->when($this->in_active, $this->active_price),
+	        'section'=>VideoSectionResource::collection($this->whenLoaded('section'))
         ];
     }
 }

@@ -79,15 +79,15 @@ class CourseRepository
 					$query->where('id', '=', $kw['kw_doctor']);
 				});
 		}
-		return $course->withCount(['section' => function ($query) {
-			$query->where('source_id', '<>', '');
-		}])->with(['section:course_id,duration', 'disease:id,name', 'doctor:id,name'])->paginate($page);
+		return $course->with(['disease:id,name', 'doctor:id,name'])
+			->select('id', 'title', 'disease_id', 'audio_count','havesection','enable', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at')
+			->paginate($page);
 	}
 
 	//后台课程基本信息
 	public function BackById($id)
 	{
-		return Course::with(['section:course_id,duration', 'disease:id,name', 'doctor:id,name'])->find($id);
+		return Course::with(['disease:id,name', 'doctor:id,name'])->find($id);
 	}
 
 	public function getById($id)
@@ -112,7 +112,7 @@ class CourseRepository
 			->get();
 	}
 
-	public function BackUpdateOreCreate($data)
+	public function BackUpdateOrCreate($data)
 	{
 		return Course::updateOrCreate(['id' => $data['id']], $data);
 	}

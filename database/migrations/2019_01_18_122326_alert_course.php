@@ -14,7 +14,7 @@ class AlertCourse extends Migration
     public function up()
     {
 	    Schema::table('courses',function (Blueprint $tabel){
-		    $tabel->addColumn('integer','audio_count')->default(0)->comment('视频数');
+		    $tabel->addColumn('tinyInteger','audio_count')->unsigned()->default(0)->comment('视频数');
 	    });
     }
 

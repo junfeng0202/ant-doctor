@@ -24,6 +24,13 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 		//反馈
 		Route::post('user/feedback', 'MemberController@feedback');
 
+		// 提交订单
+		Route::any('order/college/{id}', 'OrderController@createCollegeOrder');
+		Route::post('order/course/{id}', 'OrderController@createCourseOrder');
+		Route::post('order/video/{id}', 'OrderController@createVideoOrder');
+		// 支付页面
+		Route::post('order/topay/{id}', 'OrderController@orderInfo');
+
 	});
 
 
@@ -48,9 +55,10 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	Route::get('video-section/{id}', 'VideoController@section')->name('video.section');
 
 	//讲堂
-	Route::post('colleges', 'CollegeController@getList')->name('college.list');
+	Route::any('colleges', 'CollegeController@getList')->name('college.list');
 	Route::get('college/{id}', 'CollegeController@info')->name('college.info');
-	Route::get('college/sectionContents/{sectionId}/', 'CollegeController@sectionContents')->name('college.sectionContents');
+	Route::get('college/sectionContents/{sectionId}', 'CollegeController@sectionContents')->name('college.sectionContents');
+
 
 
 });

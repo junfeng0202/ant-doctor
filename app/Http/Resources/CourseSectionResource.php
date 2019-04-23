@@ -17,8 +17,9 @@ class CourseSectionResource extends Resource
         return [
             'id'=>$this->id,
             'title'=>$this->title,
-            //'audio_id'=>$this->when($this->source_id, $this->source_id),
-            'timer'=>$this->when($this->source_id, $this->duration),
+            'is_free'=>$this->is_free,
+            'file_id'=>$this->when($this->source_id, $this->source_id),
+            'timer'=>$this->when($this->source_id, $this->duration_time),
             'section_num'=>$this->section_num,
             'section'=>self::collection($this->whenLoaded('children')),
         ];

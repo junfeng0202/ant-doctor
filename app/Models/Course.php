@@ -2,22 +2,24 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Course extends Model
 {
 
-	protected $fillable = ['audio_count','hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable','havesection'];
+	protected $fillable = ['hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'audio_count', 'havesection', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at'];
 
 	public function doctor()
 	{
 		return $this->belongsToMany(Doctor::class);
 	}
 
-    public function disease(){
-        return $this->hasOne(Disease::class,'id','disease_id');
-    }
+	public function disease()
+	{
+		return $this->hasOne(Disease::class, 'id', 'disease_id');
+	}
 
 	public function section()
 	{
@@ -26,13 +28,13 @@ class Course extends Model
 
 	public function collegeContents()
 	{
-		return $this->morphMany(CollegeSectionContent::class,'contentable');
+		return $this->morphMany(CollegeSectionContent::class, 'contentable');
 	}
 
 
 	public function scopeIsIndex($query)
 	{
-		return $query->select(DB::raw('1 as `index`'),'id','hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'audio_count', 'created_at');
+		return $query->select(DB::raw('1 as `index`'), 'id', 'hits', 'title', 'disease_id', 'image', 'brief', 'havesection', 'sort', 'enable', 'audio_count', 'created_at', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at');
 	}
 
 	public function scopeEnable($query)
@@ -51,7 +53,7 @@ class Course extends Model
 	 */
 	public function getInActiveAttribute()
 	{
-		if($this->active_on && $this->active_start_at && $this->active_end_at){
+		if ($this->active_on && $this->active_start_at && $this->active_end_at) {
 			$start = Carbon::parse($this->active_start_at);
 			$end = Carbon::parse($this->active_end_at);
 			return Carbon::now()->between($start, $end);

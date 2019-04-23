@@ -78,13 +78,13 @@ class Handler extends ExceptionHandler
 				return response()->json(['msg' => '', 'code' => 200, 'data' => []]);
 			}
 
-			return response()->json(['msg' => '页面未找到', 'code' => 404, 'data' => []], 404);
+			return response()->json(['msg' => '页面未找到', 'code' => 404, 'data' => []]);
 
 		}elseif ($e instanceof ApiException) {
 			return response()->json(['msg' => $e->getMessage(), 'code' => 419, 'data' => []]);
 		}
 
-		return response()->json(['msg' => $e->getMessage(), 'code' => 500, 'data' => []], 500);
+		return response()->json(['msg' => $e->getMessage(), 'code' => 500, 'data' => []]);
 	}
 
 }

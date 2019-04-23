@@ -4,13 +4,17 @@ namespace App\Service;
 
 use App\Events\VideoHit;
 use App\Events\VideoSectionHit;
+use App\Exceptions\ApiException;
 use App\Http\Resources\VideoResource;
 use App\Http\Resources\VideoSectionResource;
 use App\Models\back\DoctorVideo;
 use App\Repository\CourseSectionRepository;
+use App\Repository\MemberVideoRepository;
 use App\Repository\VideoRepository;
 use App\Repository\VideoSectionRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoService extends Service
 {
@@ -23,7 +27,7 @@ class VideoService extends Service
 	}
 
 
-	public function paginate($request)
+	public function paginate(Request $request)
 	{
 		$items = $this->videoRepository->paginate($request->get('show_num', 8), $request->get('disease', 0), $request->get('keyword', ''));
 		return VideoResource::collection($items);
@@ -32,21 +36,27 @@ class VideoService extends Service
 	public function info($id)
 	{
 		$item = $this->videoRepository->getById($id);
-		if (!$item) {
-			throw new ModelNotFoundException();
-		}
+		if (!$item) throw new ModelNotFoundException();
 		event(new VideoHit($item));
-		return new VideoResource($item);
+
+		$video = (new VideoResource($item))->toArray(null);
+		$video['buyStatus'] = $this->memberVideoStatus($id);
+		return $video;
 	}
 
+	/**
+	 * 获取音频链接
+	 * @param $id
+	 * @return array
+	 */
 	public function section($id)
 	{
 		$section = (new VideoSectionRepository())->getById($id);
-		if (!$section) {
-			throw new ModelNotFoundException();
-		}
-
+		if (!$section) throw new ModelNotFoundException();
 		event(new VideoSectionHit($section));
+
+		if(!$section->is_free || !$this->memberVideoStatus($id)) throw new ApiException('请先购买');
+
 		return ['title' => $section->title, 'video_url' => $section->url];
 	}
 
@@ -54,9 +64,7 @@ class VideoService extends Service
 	//后段服务
 	public function BackList($limit, $kw)
 	{
-		$items = $this->videoRepository->BackPaginate($limit, 'sort', $kw);
-		$handlerResult = VideoResource::collection($items);
-		return ['data' => $handlerResult, 'meta' => ['total' => $items->total()]];
+		return $this->videoRepository->BackPaginate($limit, 'sort', $kw);
 	}
 
 	public function BackInfo($id)
@@ -73,30 +81,9 @@ class VideoService extends Service
 
 	public function BackUpdateOreCreate($param)
 	{
-		$data = array(
-			'title' => $param['title'],
-			'disease_id' => $param['disease_id'],
-			'brief' => $param['brief'],
-			'image' => $param['image'],
-			'sort' => $param['sort'],
-			'enable' => isset($param['enable']) ? $param['enable'] : 1,
-			'hits' => isset($param['hits']) ? $param['hits'] : 0
-		);
-		if (isset($param['id']) && $param['id'] != '') {
-			$data['id'] = $param['id'];
-		} else {
-			$data['id'] = 0;
-		}
 		//更新基本信息
-		$corse = $this->videoRepository->BackUpdateOreCreate($data);
-		//删除医生
-		if (isset($param['id']) && !empty($param['id'])) {
-			DoctorVideo::where('video_id', $param['id'])->delete();
-		}
-		//添加医生
-		foreach ($param['doctor_ids'] as $item) {
-			DoctorVideo::insert(['video_id' => $corse->id, 'doctor_id' => $item]);
-		}
+		$corse = $this->videoRepository->BackUpdateOreCreate($param);
+		$corse->doctor()->sync($param['doctor_ids']);
 
 	}
 
@@ -110,7 +97,8 @@ class VideoService extends Service
 			'url' => $request->url,
 			'duration' => $request->duration,
 			'section_num' => $request->section_num,
-			'video_id' => $audio
+			'video_id' => $audio,
+			'is_free' => $request->is_free
 		);
 		(new VideoSectionRepository())->BackUpdateOreCreate($id, $data);
 	}
@@ -127,4 +115,13 @@ class VideoService extends Service
 		return $res;
 	}
 
+	/**
+	 * 用户购买状态
+	 * @return bool
+	 */
+	protected function memberVideoStatus($id)
+	{
+		$user = Auth::user();
+		return $user ? (new MemberVideoRepository())->buyStatus($user->id, $id) : false;
+	}
 }

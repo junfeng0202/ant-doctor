@@ -17,12 +17,11 @@ class CollegeResource extends Resource
         return [
         	'id'   => $this->id,
 	        'title'=> $this->title,
+	        'sold_on'=> $this->sold_on,
 	        'price'=> $this->price,
 	        'active_price'=> $this->when($this->in_active, $this->active_price),
 	        'brief' => $this->brief,
-	        'sort' => $this->sort,
 	        'image' => $this->image,
-	        'enable' => $this->enable,
 	        'clicks' => $this->clicks,
 	        'contentNums' => $this->content_count,
 	        'items' => CollegeSectionResource::collection($this->whenLoaded('section'))

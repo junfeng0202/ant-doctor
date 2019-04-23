@@ -29,6 +29,7 @@ class AlertCourseAudioCollege0422 extends Migration
 
 	    //音频售价
 	    Schema::table('videos',function (Blueprint $tabel){
+		    $tabel->addColumn('smallInteger','audio_count')->unsigned()->default(0)->comment('音频数');
 		    $tabel->addColumn('smallInteger','price')->unsigned()->default(0)->comment('售价');
 		    $tabel->addColumn('smallInteger','active_price')->unsigned()->default(0)->comment('活动价');
 		    $tabel->addColumn('tinyInteger','active_on')->unsigned()->default(0)->comment('是否开启活动');

@@ -28,6 +28,7 @@ class VideoRepository
 		return Video::enable()->with('section')->find($id);
 	}
 
+
 	public function collegeSectionVideo($sectionId, $sort = 'sort', $size = 20)
 	{
 		if ($sort === 'hot') {
@@ -67,7 +68,7 @@ class VideoRepository
 					$query->where('id', '=', $kw['kw_doctor']);
 				});
 		}
-		return $video->with(['section:id,video_id,duration,hits', 'disease:id,name', 'doctor:id,name'])->isIndex()->paginate($page);
+		return $video->with(['disease:id,name', 'doctor:id,name'])->isIndex()->paginate($page);
 	}
 
 	//后台课程基本信息
