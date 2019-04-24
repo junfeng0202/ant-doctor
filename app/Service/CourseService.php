@@ -46,8 +46,8 @@ class CourseService extends Service
 		event(new CourseHit($item));
 
 		$item->chapters = $this->cacheSections($id, $item->section);//章节
-		$info = (new CourseResource($item)); // dd($info->active_price);
-		$info->buyStatus = $this->memberCourseStatus($id);
+		$item->buyStatus = $this->memberCourseStatus($id);
+		$info = new CourseResource($item); //dd();
 
 		$recommends = $this->courseRepository->recommend($except_id = $item->id, $item->disease_id);
 		$recommends = CourseResource::collection($recommends);
@@ -101,7 +101,7 @@ class CourseService extends Service
 		$audio = (new CourseSectionRepository)->getById($audio_id);
 		if (!$audio) throw new ModelNotFoundException();
 
-		if(!$audio->is_free || !$this->memberCourseStatus($audio_id)) throw new ApiException('请先购买');
+		if(!$audio->is_free && !$this->memberCourseStatus($audio_id)) throw new ApiException('请先购买');
 
 		return ['title' => $audio->title, 'fileID' => $audio->source_id, 'appID' => config('config.appID')];
 	}

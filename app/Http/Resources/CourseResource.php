@@ -26,6 +26,7 @@ class CourseResource extends Resource
 	        'price' => $this->price,
 	        'active_price' => $this->when($this->in_active, $this->active_price),
         	'image'=>$this->image,
+	        'buyStatus'=> $this->when(isset($this->buyStatus), $this->buyStatus),
         	'brief'=>$this->when(!$this->index, $this->brief),
 	        'count'=>$this->audio_count,
 	        'timer'=>$this->whenLoaded('section',function(){

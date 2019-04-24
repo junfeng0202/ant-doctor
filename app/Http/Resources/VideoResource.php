@@ -26,6 +26,7 @@ class VideoResource extends Resource
 			'image' => $this->image,
 			'price' => $this->price,
 			'active_price' => $this->when($this->in_active, $this->active_price),
+			'buyStatus'=> $this->when(isset($this->buyStatus), $this->buyStatus),
 			'section' => VideoSectionResource::collection($this->whenLoaded('section')),
 			'created_time'=> $this->created_at->format('Y/m/d')
         ];

@@ -23,8 +23,8 @@ class CreateNotify extends Migration
 		    $table->decimal('receipt_amount', 5,2)->default('0.00')->comment('实收金额');
 		    $table->decimal('point_amount', 5,2)->default('0.00')->comment('集分宝金额');
 		    $table->string('app_id', 32)->default('')->comment('开发者的app_id');
-		    $table->decimal('buyer_pay_amount', 5,2)->default('')->comment('付款金额');
-		    $table->timestamp('gmt_payment')->default('0.00')->comment('订单金额');
+		    $table->decimal('buyer_pay_amount', 5,2)->default('0.00')->comment('交易付款时间');
+		    $table->timestamp('gmt_payment')->default(null)->nullable()->comment('交易付款时间');
 		    $table->timestamp('gmt_create')->default(null)->nullable()->comment('交易创建时间');
 		    $table->string('charset',20)->default('')->comment('编码格式');
 		    $table->timestamp('notify_time')->default(null)->nullable()->comment('通知时间');
