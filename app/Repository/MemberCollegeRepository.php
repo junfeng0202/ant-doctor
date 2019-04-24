@@ -14,4 +14,8 @@ class MemberCollegeRepository
 			->where('expired_at', '>', Carbon::now())
 			->exists();
 	}
+
+	public function create($data){
+		return MemberCollege::create($data);
+	}
 }

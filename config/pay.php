@@ -20,13 +20,13 @@ return [
         // optional，默认 warning；日志路径为：sys_get_temp_dir().'/logs/yansongda.pay.log'
         'log' => [
             'file' => storage_path('logs/alipay.log'),
-        //  'level' => 'debug'
+            'level' => 'debug'
         //  'type' => 'single', // optional, 可选 daily.
         //  'max_file' => 30,
         ],
 
         // optional，设置此参数，将进入沙箱模式
-        // 'mode' => 'dev',
+        'mode' => 'dev',
     ],
 
     'wechat' => [
@@ -57,7 +57,7 @@ return [
         // optional，默认 warning；日志路径为：sys_get_temp_dir().'/logs/yansongda.pay.log'
         'log' => [
             'file' => storage_path('logs/wechat.log'),
-        //  'level' => 'debug'
+            'level' => 'debug'
         //  'type' => 'single', // optional, 可选 daily.
         //  'max_file' => 30,
         ],
@@ -65,6 +65,6 @@ return [
         // optional
         // 'dev' 时为沙箱模式
         // 'hk' 时为东南亚节点
-        // 'mode' => 'dev',
+	    'mode' => 'dev',
     ],
 ];

@@ -37,7 +37,7 @@ class PayService
 		$order = $this->repository->getOrderByID($request->id);
 		$type = $request->pay_type;
 
-		if (!$order || in_array($type, [Order::ALIPAY, Order::WECHAT])) throw new ApiException('参数错误');
+		if (!$order || !in_array($type, [Order::ALIPAY, Order::WECHAT])) throw new ApiException('参数错误');
 
 		if ($type == Order::ALIPAY) {
 			$data = [
@@ -80,9 +80,13 @@ class PayService
 		$ali = Pay::alipay();
 		try {
 			$data = $ali->verify();
+			Log::error('回调进入', $data->toArray());
 			if ($data->trade_status == 'TRADE_SUCCESS' && $this->charge_succeeded($data, Order::ALIPAY)) {
 				return $ali->success();
+			} else {
+				return false;
 			}
+
 		} catch (\Exception $err) {
 			Log::error('Ali-notify error', ['msg' => $err->getMessage()]);
 		}
@@ -97,8 +101,11 @@ class PayService
 		$wechat = Pay::wechat();
 		try {
 			$data = $wechat->verify();
-			if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $this->charge_succeeded($data, Order::WECHAT))
+			if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $this->charge_succeeded($data, Order::WECHAT)) {
 				return $wechat->success();
+			} else {
+				return false;
+			}
 		} catch (\Exception $err) {
 			Log::error('Wechat-notify error', ['msg' => $err->getMessage()]);
 		}
@@ -115,7 +122,7 @@ class PayService
 			return false;
 		}
 
-		if ($order->process_status != Order::WAIT_PAY) {
+		if ($order->status != Order::WAIT_PAY) {
 			return true;
 		}
 
@@ -126,11 +133,12 @@ class PayService
 		}
 
 		//保存支付信息
-		DB::transaction(function () use ($order, $type) {
+		DB::transaction(function () use ($order, $type, $data) {
 			// 更新订单状态
 			$this->repository->updateById($order->id, ['status' => Order::PAYED, 'pay_at' => Carbon::now(), 'pay_type' => $type]);
 			// 添加用户购买状态
 			$this->getOrderSuccessStrategy($order->goods_type)->addMemberOrder($order->member_id, $order->detail->goods_id);
+			$this->repository->notifyDateStore($type, $data->toArray());
 		});
 		return true;
 	}

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Frontend\V1;
 
 use App\Http\Controllers\ApiController;
@@ -40,7 +41,7 @@ class LoginController extends ApiController
 	{
 		$user = $this->memberService->register($request);
 
-		$token=JWTAuth::fromUser($user);
+		$token = JWTAuth::fromUser($user);
 		return $this->setIndex(11)->apiReturn($this->respondWithToken($token));
 
 	}
@@ -88,8 +89,8 @@ class LoginController extends ApiController
 	{
 		$user = $this->memberService->loginByOpenid($request);
 		return $this->apiReturn([
-			'access_token'=> auth()->tokenById($user->id),
-			'user'=>$user
+			'access_token' => auth()->tokenById($user->id),
+			'user' => $user
 		]);
 	}
 

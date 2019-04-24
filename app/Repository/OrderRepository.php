@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 
+use App\Models\AlipayNotify;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\WechatNotify;
 
 class OrderRepository
 {
@@ -82,5 +84,15 @@ class OrderRepository
 	public function updateById($id, $data)
 	{
 		return Order::whereId($id)->update($data);
+	}
+
+
+	public function notifyDateStore($type, $data)
+	{
+		if($type == Order::ALIPAY){
+			AlipayNotify::create($data);
+		} else{
+			WechatNotify::create($data);
+		}
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1'], function () {
-	Route::post('/aliNotify', 'PayChatController@aliNotify');
+	Route::post('/aliNotify', 'PayController@aliNotify');
 	Route::post('/wechatNotify', 'PayController@wechatNotify');
 });
 
@@ -34,8 +34,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 		// 支付页面
 		Route::post('order/topay/{id}', 'OrderController@orderInfo');
 
-		Route::get('pay', 'PayController@index');
-		Route::post('pay/success', 'PayController@success');
 	});
 
 
@@ -64,5 +62,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 	Route::get('college/{id}', 'CollegeController@info')->name('college.info');
 	Route::get('college/sectionContents/{sectionId}', 'CollegeController@sectionContents')->name('college.sectionContents');
 	Route::get('college/card/{id}', 'CollegeController@collegeCard');
+
+	Route::get('pay', 'PayController@index');
+	Route::post('pay/success', 'PayController@success');
 
 });
