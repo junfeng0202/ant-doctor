@@ -62,7 +62,7 @@ class OrderRepository
 	{
 		$order = Order::query();
 		if($status) $order->where('status', $status);
-		return $order->with('detail')->where('member_id', $member_id)->paginate($limit);
+		return $order->with('detail')->where('member_id', $member_id)->latest('id')->paginate($limit);
 	}
 
 	/**

@@ -61,4 +61,9 @@ class Course extends Model
 			return false;
 		}
 	}
+
+	public function getSoldPriceAttribute()
+	{
+		return $this->in_active ? $this->active_prcie : $this->price;
+	}
 }

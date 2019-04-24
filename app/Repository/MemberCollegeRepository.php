@@ -15,6 +15,11 @@ class MemberCollegeRepository
 			->exists();
 	}
 
+	public function contentInBuyedCollege($member_id, $content_id, $type)
+	{
+		return MemberCollege::from('member_college a')->Join('college_section_contents b', 'a.college_id', '=', 'b.college_id')->where(['a.member_id' => $member_id, 'b.contentable_id' => $content_id, 'b.contentable_type'=>$type])->exists();
+	}
+
 	public function create($data){
 		return MemberCollege::create($data);
 	}

@@ -7,10 +7,12 @@ use App\Exceptions\ApiException;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseSectionResource;
+use App\Models\CollegeSection;
 use App\Models\CourseSection;
 use App\Repository\CourseDoctorRepository;
 use App\Repository\CourseRepository;
 use App\Repository\CourseSectionRepository;
+use App\Repository\MemberCollegeRepository;
 use App\Repository\MemberCourseRepository;
 use App\Repository\MemberStudyRepository;
 use Barryvdh\Debugbar\Controllers\BaseController;
@@ -101,7 +103,7 @@ class CourseService extends Service
 		$audio = (new CourseSectionRepository)->getById($audio_id);
 		if (!$audio) throw new ModelNotFoundException();
 
-		if(!$audio->is_free && !$this->memberCourseStatus($audio_id)) throw new ApiException('请先购买');
+		if(!$audio->is_free && $audio->course->sold_price && !$this->memberCourseStatus($audio_id)) throw new ApiException('请先购买');
 
 		return ['title' => $audio->title, 'fileID' => $audio->source_id, 'appID' => config('config.appID')];
 	}
@@ -147,6 +149,15 @@ class CourseService extends Service
 	protected function memberCourseStatus($id)
 	{
 		$user = Auth::user();
-		return $user ? (new MemberCourseRepository())->buyStatus($user->id, $id) : false;
+		$courseStatus = $user ? (new MemberCourseRepository())->buyStatus($user->id, $id) : false;
+		if($courseStatus) {
+			return true;
+		} else {
+			if((new MemberCollegeRepository())->contentInBuyedCollege($user->id, $id, CollegeSection::COURSE)){
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 }

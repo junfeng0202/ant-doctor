@@ -66,4 +66,13 @@ class Video extends Model
 			return false;
 		}
 	}
+
+	/**
+	 * 用户当前的购买价格
+	 * @return mixed
+	 */
+	public function getSoldPriceAttribute()
+	{
+		return $this->in_active ? $this->active_prcie : $this->price;
+	}
 }

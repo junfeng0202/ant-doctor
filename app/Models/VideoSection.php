@@ -13,6 +13,11 @@ class VideoSection extends Model
     	return $this->hasMany(self::class, 'pid');
     }
 
+    public function video()
+    {
+    	return $this->belongsTo(Video::class);
+    }
+
 	public function getDurationTimeAttribute()
 	{
 		return numberToTime($this->attributes['duration']);

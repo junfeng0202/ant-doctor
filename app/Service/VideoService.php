@@ -8,7 +8,9 @@ use App\Exceptions\ApiException;
 use App\Http\Resources\VideoResource;
 use App\Http\Resources\VideoSectionResource;
 use App\Models\back\DoctorVideo;
+use App\Models\CollegeSection;
 use App\Repository\CourseSectionRepository;
+use App\Repository\MemberCollegeRepository;
 use App\Repository\MemberVideoRepository;
 use App\Repository\VideoRepository;
 use App\Repository\VideoSectionRepository;
@@ -55,7 +57,7 @@ class VideoService extends Service
 		if (!$section) throw new ModelNotFoundException();
 		event(new VideoSectionHit($section));
 
-		if(!$section->is_free && !$this->memberVideoStatus($id)) throw new ApiException('请先购买');
+		if(!$section->is_free && $section->video->sold_price && !$this->memberVideoStatus($id)) throw new ApiException('请先购买');
 
 		return ['title' => $section->title, 'video_url' => $section->url];
 	}
@@ -122,6 +124,15 @@ class VideoService extends Service
 	protected function memberVideoStatus($id)
 	{
 		$user = Auth::user();
-		return $user ? (new MemberVideoRepository())->buyStatus($user->id, $id) : false;
+		$videoStatus = $user ? (new MemberVideoRepository())->buyStatus($user->id, $id) : false;
+		if($videoStatus) {
+			return true;
+		} else {
+			if((new MemberCollegeRepository())->contentInBuyedCollege($user->id, $id, CollegeSection::VIDEO)){
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 }

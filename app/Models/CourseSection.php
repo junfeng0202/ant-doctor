@@ -26,4 +26,9 @@ class CourseSection extends Model
 		return numberToTime($this->attributes['duration']);
 	}
 
+	public function course()
+	{
+		return $this->belongsTo(Course::class);
+	}
+
 }

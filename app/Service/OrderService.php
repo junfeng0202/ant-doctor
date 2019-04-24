@@ -96,7 +96,7 @@ class OrderService
 				'number' => orderNumber(),
 				'member_id' => $this->user->id,
 				'goods_type' => $type,
-				'amount' => $this->goodsInfo->in_active ? $this->goodsInfo->active_price : $this->goodsInfo->price,
+				'amount' => $this->goodsInfo->sold_price,
 				'status' => Order::WAIT_PAY,
 				'place_at' => Carbon::now(),
 			];
