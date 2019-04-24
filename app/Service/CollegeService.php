@@ -222,7 +222,7 @@ class CollegeService extends Service
 	public function cardInfo($id)
 	{
 		$college = $this->repository->getById($id);
-		if(!$college->sold_on || !$this->memberCollegeStatus($id)) {
+		if(!$college->sold_on || $this->memberCollegeStatus($id)) {
 			throw new ApiException('您已拥有该学习卡，或学习卡已关闭');
 		}
 		return new CollegeResource($college);
