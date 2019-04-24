@@ -70,13 +70,13 @@ class CourseService extends Service
 		//更新基本信息
 		$course = $this->courseRepository->BackUpdateOrCreate($request->all());
 		$course->doctor()->sync($request->doctor_ids);
-		return ;
+		return;
 	}
 
 	//后天添加章节
 	public function BackAddSection($course_id, $param)
 	{
-		DB::transaction(function () use($param, $course_id) {
+		DB::transaction(function () use ($param, $course_id) {
 			$param['course_id'] = $course_id;
 			$courseSection = new CourseSectionRepository();
 			$courseSection->BackUpdateOreCreate($param);
@@ -103,7 +103,7 @@ class CourseService extends Service
 		$audio = (new CourseSectionRepository)->getById($audio_id);
 		if (!$audio) throw new ModelNotFoundException();
 
-		if(!$audio->is_free && $audio->course->sold_price && !$this->memberCourseStatus($audio_id)) throw new ApiException('请先购买');
+		if (!$audio->is_free && $audio->course->sold_price && !$this->memberCourseStatus($audio_id)) throw new ApiException('请先购买');
 
 		return ['title' => $audio->title, 'fileID' => $audio->source_id, 'appID' => config('config.appID')];
 	}
@@ -149,15 +149,18 @@ class CourseService extends Service
 	protected function memberCourseStatus($id)
 	{
 		$user = Auth::user();
-		$courseStatus = $user ? (new MemberCourseRepository())->buyStatus($user->id, $id) : false;
-		if($courseStatus) {
+		if (!$user) {
+			return false;
+
+		} else if ((new MemberCourseRepository())->buyStatus($user->id, $id)) {
 			return true;
+
+		} else if ((new MemberCollegeRepository())->contentInBuyedCollege($user->id, $id, CollegeSection::COURSE)) {
+			return true;
+
 		} else {
-			if((new MemberCollegeRepository())->contentInBuyedCollege($user->id, $id, CollegeSection::COURSE)){
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
 	}
+
 }

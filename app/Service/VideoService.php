@@ -57,7 +57,7 @@ class VideoService extends Service
 		if (!$section) throw new ModelNotFoundException();
 		event(new VideoSectionHit($section));
 
-		if(!$section->is_free && $section->video->sold_price && !$this->memberVideoStatus($id)) throw new ApiException('请先购买');
+		if (!$section->is_free && $section->video->sold_price && !$this->memberVideoStatus($id)) throw new ApiException('请先购买');
 
 		return ['title' => $section->title, 'video_url' => $section->url];
 	}
@@ -124,15 +124,17 @@ class VideoService extends Service
 	protected function memberVideoStatus($id)
 	{
 		$user = Auth::user();
-		$videoStatus = $user ? (new MemberVideoRepository())->buyStatus($user->id, $id) : false;
-		if($videoStatus) {
+		if (!$user) {
+			return false;
+
+		} else if ((new MemberVideoRepository())->buyStatus($user->id, $id)) {
 			return true;
+
+		} else if ((new MemberCollegeRepository())->contentInBuyedCollege($user->id, $id, CollegeSection::VIDEO)) {
+			return true;
+
 		} else {
-			if((new MemberCollegeRepository())->contentInBuyedCollege($user->id, $id, CollegeSection::VIDEO)){
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
 	}
 }
