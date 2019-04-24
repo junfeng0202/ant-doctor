@@ -103,7 +103,7 @@ class CourseService extends Service
 		$audio = (new CourseSectionRepository)->getById($audio_id);
 		if (!$audio) throw new ModelNotFoundException();
 
-		if (!$audio->is_free && $audio->course->sold_price && !$this->memberCourseStatus($audio_id)) throw new ApiException('请先购买');
+		if (!$audio->is_free && $audio->course->sold_price && !$this->memberCourseStatus($audio->course_id)) throw new ApiException('请先购买');
 
 		return ['title' => $audio->title, 'fileID' => $audio->source_id, 'appID' => config('config.appID')];
 	}

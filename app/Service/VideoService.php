@@ -57,7 +57,7 @@ class VideoService extends Service
 		if (!$section) throw new ModelNotFoundException();
 		event(new VideoSectionHit($section));
 
-		if (!$section->is_free && $section->video->sold_price && !$this->memberVideoStatus($id)) throw new ApiException('请先购买');
+		if (!$section->is_free && $section->video->sold_price && !$this->memberVideoStatus($section->video_id)) throw new ApiException('请先购买');
 
 		return ['title' => $section->title, 'video_url' => $section->url];
 	}
