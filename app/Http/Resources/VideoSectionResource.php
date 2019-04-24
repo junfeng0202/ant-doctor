@@ -22,7 +22,8 @@ class VideoSectionResource extends Resource
 			'is_free' => $this->is_free,
 			'audio_url' => $this->when($this->is_free, $this->url),
 			'timer' => $this->duration_time,
-			'section_num' => $this->section_num
+			'section_num' => $this->section_num,
+			'created_time'=> $this->created_at->format('Y/m/d')
 		];
 	}
 }

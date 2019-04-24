@@ -27,7 +27,7 @@ class VideoResource extends Resource
 			'price' => $this->price,
 			'active_price' => $this->when($this->in_active, $this->active_price),
 			'section' => VideoSectionResource::collection($this->whenLoaded('section')),
-			'update_time' => $this->updated_at->format('Y/m/d')
+			'created_time'=> $this->created_at->format('Y/m/d')
         ];
 	}
 }
