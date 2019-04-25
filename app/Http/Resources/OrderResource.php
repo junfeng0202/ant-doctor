@@ -20,6 +20,7 @@ class OrderResource extends JsonResource
 			'total_amount' => $this->amount,
 			'status' => $this->status,
 			'detail' => new OrderDetailResource($this->when('detail', $this->detail)),
+			'created_at' => $this->created_at->format('Y-m-d H:i:s'),
 		];
 	}
 }

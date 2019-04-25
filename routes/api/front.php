@@ -33,6 +33,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 		Route::post('order/video/{id}', 'OrderController@createVideoOrder');
 		// 支付页面
 		Route::post('order/topay/{id}', 'OrderController@orderInfo');
+		Route::post('order/cancel', 'OrderController@cancelOrder');
 
 	});
 

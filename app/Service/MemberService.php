@@ -224,8 +224,8 @@ class MemberService extends Service
 	 */
 	public function orders(Request $request)
 	{
-//		$member = Auth::user();
-		$orders = (new OrderRepository())->getUserOrders(1, $request->get('show_num', 20), $request->get('status', 0));
+		$member = Auth::user();
+		$orders = (new OrderRepository())->getUserOrders($member->id, $request->get('show_num', 20), $request->get('status', 0));
 		return OrderResource::collection($orders);
 	}
 

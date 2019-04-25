@@ -20,9 +20,9 @@ class Order extends Model
     const ALIPAY = 1;
     const WECHAT = 2;
 
-    protected $fillable = ['number', 'member_id', 'amount', 'status', 'goods_type', 'place_at', 'pay_at', 'pay_type'];
+    protected $fillable = ['number', 'member_id', 'amount', 'status', 'goods_type', 'pay_at', 'pay_type'];
 
-    protected $dates = ['place_at','pay_at'];
+    protected $dates = ['pay_at'];
 
     public function detail()
     {

@@ -28,9 +28,11 @@ class OrderService
 		$this->user = Auth::user();
 	}
 
+
 	/**
 	 * 提交讲堂学习卡订单
 	 * @param $id
+	 * @return mixed
 	 * @throws ApiException
 	 */
 	public function submitCollegeCardOrder($id)
@@ -42,9 +44,11 @@ class OrderService
 		return $this->createOrder(Order::COLLEGE);
 	}
 
+
 	/**
 	 * 提交课程订单
 	 * @param $id
+	 * @return mixed
 	 * @throws ApiException
 	 */
 	public function submitCourseOrder($id)
@@ -56,9 +60,11 @@ class OrderService
 		return $this->createOrder(Order::COURSE);
 	}
 
+
 	/**
 	 * 提交音频订单
 	 * @param $id
+	 * @return mixed
 	 * @throws ApiException
 	 */
 	public function submitVideoOrder($id)
@@ -71,6 +77,12 @@ class OrderService
 	}
 
 
+	/**
+	 * 订单详情
+	 * @param $id
+	 * @return OrderResource
+	 * @throws ApiException
+	 */
 	public function orderDetail($id)
 	{
 		$orderDetail = $this->orderRepository->getOrderDetail($id);
@@ -79,6 +91,17 @@ class OrderService
 		}
 		return new OrderResource($orderDetail);
 
+	}
+
+	public function cancel()
+	{
+		$member = Auth::user();
+		$id = request()->get('id');
+		$order = $this->orderRepository->getOrderByID($id);
+		if (!$order) throw new ApiException('订单不存在');
+		if ($order->member_id != $member->id) throw new ApiException('无权限');
+		if ($order->status != Order::WAIT_PAY) throw new ApiException('订单状态错误');
+		return $this->orderRepository->updateById($id, ['status' => Order::CANCEL]);
 	}
 
 	/**
@@ -98,7 +121,6 @@ class OrderService
 				'goods_type' => $type,
 				'amount' => $this->goodsInfo->sold_price,
 				'status' => Order::WAIT_PAY,
-				'place_at' => Carbon::now(),
 			];
 			$order = $this->orderRepository->create($data);
 
@@ -117,8 +139,13 @@ class OrderService
 			DB::rollBack();
 			throw $exception;
 		}
-
-
 	}
 
+
+	/*======================  后台  ======================*/
+
+	public function backList()
+	{
+		return $this->orderRepository->backList(request()->all());
+	}
 }

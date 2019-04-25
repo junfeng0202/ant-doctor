@@ -36,6 +36,12 @@ class OrderController extends ApiController
 		return $this->apiReturn($this->service->orderDetail($id));
 	}
 
+	public function cancelOrder()
+	{
+		$index = $this->service->cancel() ? 1 : 0;
+		return $this->setIndex($index)->apiReturn();
+	}
+
 
 
 }

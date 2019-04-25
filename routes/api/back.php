@@ -73,6 +73,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Backend\V1', 'prefix' => 'bac
 			Route::post('/college-section-content/{conentId}/delete', 'CollegeController@contentDelete')->name('collegeContentDel');
 			//反馈列表
 			Route::post('/feedback/list', 'FeedbackController@getList')->name('feedbackList');
+			// 订单列表
+			Route::post('/order/list', 'OrderController@index')->name('orderList');
 		});
 
 
