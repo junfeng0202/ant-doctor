@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('hit:sync')->dailyAt('4:00');
          $schedule->command('liveStatus:change')->everyTenMinutes()->between('7:00','24:00');
+         $schedule->command('cancel:orders')->everyTenMinutes();
     }
 
     /**
