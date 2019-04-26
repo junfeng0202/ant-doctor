@@ -31,7 +31,7 @@ return [
 
     'wechat' => [
         // 公众号 APPID
-        'app_id' => env('WECHAT_APP_ID', ''),
+        'app_id' => env('WECHAT_V_APP_ID', ''),
 
         // 小程序 APPID
         'miniapp_id' => env('WECHAT_MINIAPP_ID', ''),
@@ -65,6 +65,6 @@ return [
         // optional
         // 'dev' 时为沙箱模式
         // 'hk' 时为东南亚节点
-	    'mode' => 'dev',
+	    // 'mode' => 'dev',
     ],
 ];

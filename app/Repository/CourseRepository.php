@@ -117,9 +117,9 @@ class CourseRepository
 			->get();
 	}
 
-	public function BackUpdateOrCreate($data)
+	public function BackUpdateOrCreate($id, $data)
 	{
-		return Course::updateOrCreate(['id' => $data['id']], $data);
+		return Course::updateOrCreate(['id' => $id], $data);
 	}
 
 

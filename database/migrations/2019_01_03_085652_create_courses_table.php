@@ -15,11 +15,11 @@ class CreateCoursesTable extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('hits')->comment('点击量');
+            $table->unsignedInteger('hits')->default(0)->comment('点击量');
             $table->string('title', 200)->default('')->comment('课程标题');
 	        $table->unsignedInteger('disease_id')->comment('所属病种');
-	        $table->string('image')->comment('视频封面');
-	        $table->text('brief')->comment('视频简介');
+	        $table->string('image')->default('')->comment('视频封面');
+	        $table->text('brief')->nullable()->comment('视频简介');
 	        $table->float('sort',5,2)->default(0)->comment('排序');
 	        $table->tinyInteger('enable')->default(1)->comment('状态 0.禁用 1.启用');
             $table->timestamps();
