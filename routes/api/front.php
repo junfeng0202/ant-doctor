@@ -28,7 +28,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Frontend\V1','prefix' => 'v1'],
 		Route::post('user/orders', 'MemberController@orders');
 
 		// 提交订单
-		Route::any('order/college/{id}', 'OrderController@createCollegeOrder');
+		Route::post('order/college/{id}', 'OrderController@createCollegeOrder');
 		Route::post('order/course/{id}', 'OrderController@createCourseOrder');
 		Route::post('order/video/{id}', 'OrderController@createVideoOrder');
 		// 支付页面

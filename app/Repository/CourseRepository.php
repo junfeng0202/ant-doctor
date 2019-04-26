@@ -97,6 +97,11 @@ class CourseRepository
 		}])->find($id);
 	}
 
+	public function courseInfo($id)
+	{
+		return Course::find($id);
+	}
+
 	public function recommend($except_id, $disease, $limit = 4)
 	{
 		return Course::where('disease_id', $disease)

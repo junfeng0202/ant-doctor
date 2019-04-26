@@ -50,6 +50,6 @@ class College extends Model
 	 */
 	public function getSoldPriceAttribute()
 	{
-		return $this->in_active ? $this->active_prcie : $this->price;
+		return $this->in_active ? $this->active_price : $this->price;
 	}
 }

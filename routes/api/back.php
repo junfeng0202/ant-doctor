@@ -99,7 +99,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Backend\V1', 'prefix' => 'bac
 
 		Route::post('/college-section/info/{sectionId}', 'CollegeController@sectionInfo');
 
-		Route::post('/college-section-content/{sectionId}/ids', 'CollegeController@contentIds')->name('collegeCreate');
+		Route::post('/college-section-content/{sectionId}/ids', 'CollegeController@contentIds');
+
+		Route::post('/order/statistics', 'OrderController@statistics');
 
 	});
 });

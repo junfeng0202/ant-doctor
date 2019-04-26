@@ -56,7 +56,7 @@ class OrderService
 		if ((new MemberCourseRepository())->buyStatus($this->user->id, $id)) {
 			throw new ApiException('你已经拥有了该课程，请勿重复购买');
 		}
-		$this->goodsInfo = (new CourseRepository())->getById($id);
+		$this->goodsInfo = (new CourseRepository())->courseInfo($id);
 		return $this->createOrder(Order::COURSE);
 	}
 
@@ -72,7 +72,7 @@ class OrderService
 		if ((new MemberVideoRepository())->buyStatus($this->user->id, $id)) {
 			throw new ApiException('你已经拥有了该音频，请勿重复购买');
 		}
-		$this->goodsInfo = (new VideoRepository())->getById($id);
+		$this->goodsInfo = (new VideoRepository())->BackById($id);
 		return $this->createOrder(Order::VIDEO);
 	}
 
@@ -146,6 +146,48 @@ class OrderService
 
 	public function backList()
 	{
-		return $this->orderRepository->backList(request()->all());
+		$query = $this->handleCondition();
+		return $this->orderRepository->backList($query, request()->get('limit', 20));
+	}
+
+	public function statistics()
+	{
+		$query = $this->handleCondition();
+		$total = $this->orderRepository->total($query);
+		$payedTotal = $this->orderRepository->payedTotal($query);
+		$payedAmount = $this->orderRepository->payedAmount($query);
+		return ['total'=> $total, 'payedTotal'=> $payedTotal, 'payedAmount'=> $payedAmount];
+	}
+
+	protected function handleCondition()
+	{
+		$condition = request()->all();
+		$query = $this->orderRepository->query();
+		// 商品类型
+		if($goods_type = $condition['goods_type']){
+			$query->where('goods_type', (int)$goods_type);
+		}
+		// 支付状态
+		if($status = $condition['status']){
+			$query->where('status', (int)$status);
+		}
+		// 属于用户
+		if(isset($condition['phone']) && $phone = $condition['phone']){
+			$query->whereHas('member', function ($member) use($phone) {
+				return $member->where('phone','LIKE', $phone.'%');
+			});
+		}
+		// 订单号
+		if(isset($condition['number']) && $number = $condition['number']){
+			$query->where('number', $number);
+		}
+
+		if(isset($condition['created_at']) && $condition['created_at']){
+			$query->whereBetween('created_at', $condition['created_at']);
+		}
+		if(isset($condition['pay_at']) && $condition['pay_at']){
+			$query->whereBetween('pay_at', $condition['pay_at']);
+		}
+		return $query;
 	}
 }

@@ -20,4 +20,9 @@ class OrderController extends ApiController
 		return $this->apiReturn($this->service->backList());
 	}
 
+	public function statistics()
+	{
+		return $this->apiReturn($this->service->statistics());
+	}
+
 }
