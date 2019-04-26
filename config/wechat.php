@@ -55,11 +55,11 @@ return [
     ],
 
     /*
-     * 公众号
+     * 蚂蚁照护
      */
     'official_account' => [
         'default' => [
-            'app_id' => env('WECHAT_APPID', ''),         // AppID
+            'app_id' => env('WECHAT_APP_ID', ''),         // AppID
             'secret' => env('WECHAT_SECRET', ''),    // AppSecret
             'token' => env('WECHAT_TOKEN', ''),           // Token
             'aes_key' => env('WECHAT_AES_KEY', ''),                 // EncodingAESKey
@@ -73,6 +73,16 @@ return [
             'oauth' => [
                 'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_userinfo'))),
                 'callback' => env('WECHAT_CALLBACK',''),
+            ],
+        ],
+	    'v' => [
+            'app_id' => env('WECHAT_V_APP_ID', ''),         // AppID
+            'secret' => env('WECHAT_V_SECRET', ''),    // AppSecret
+            'token' => env('WECHAT_V_TOKEN', ''),           // Token
+            'aes_key' => env('WECHAT_V_AES_KEY', ''),                 // EncodingAESKey
+            'oauth' => [
+                'scopes'   => '',
+                'callback' => '',
             ],
         ],
     ],

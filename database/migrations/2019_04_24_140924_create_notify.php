@@ -50,7 +50,7 @@ class CreateNotify extends Migration
 		    $table->string('bank_type', 20)->default('')->comment('付款银行');
 		    $table->unsignedInteger('cash_fee')->default(0)->comment('现金支付金额');
 		    $table->string('fee_type', 10)->default('')->comment('货币种类');
-		    $table->unsignedTinyInteger('is_subscribe')->default(0)->comment('是否关注公众账号');
+		    $table->string('is_subscribe',10)->default('')->comment('是否关注公众账号');
 		    $table->string('openid', 32)->default('');
 		    $table->string('nonce_str', 32)->default('');
 		    $table->string('time_end',20)->default('')->comment('支付完成时间');

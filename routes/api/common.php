@@ -7,6 +7,9 @@ Route::group(['namespace'=>'App\Http\Controllers\Common'], function (){
 	Route::group(['prefix'=>'v1'], function () {
 		Route::get('wechat/getCode', 'WeChatController@getCode');
 		Route::post('wechat/user', 'WeChatController@user');
+		// 医学V授权
+		Route::get('wechat/getVCode', 'WeChatController@getVCode');
+		Route::post('wechat/userV', 'WeChatController@userV');
 
 		Route::get('disease', 'CommonController@disease');
 		Route::post('topDisease', 'CommonController@topDisease');

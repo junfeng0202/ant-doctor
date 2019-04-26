@@ -15,8 +15,8 @@ class AlertCourseAudioCollege0422 extends Migration
     {
     	// 课程售价
 	    Schema::table('courses',function (Blueprint $tabel){
-		    $tabel->addColumn('smallInteger','price')->unsigned()->default(0)->comment('售价');
-		    $tabel->addColumn('smallInteger','active_price')->unsigned()->default(0)->comment('活动价');
+		    $tabel->addColumn('decimal','price', ['total'=>6, 'places'=>2])->unsigned()->default('0.00')->comment('售价');
+		    $tabel->addColumn('decimal','active_price', ['total'=>6, 'places'=>2])->unsigned()->default('0.00')->comment('活动价');
 		    $tabel->addColumn('tinyInteger','active_on')->unsigned()->default(0)->comment('是否开启活动');
 		    $tabel->addColumn('timestamp','active_start_at')->default(null)->nullable()->comment('活动开始时间');
 		    $tabel->addColumn('timestamp','active_end_at')->default(null)->nullable()->comment('活动结束时间');
@@ -30,8 +30,8 @@ class AlertCourseAudioCollege0422 extends Migration
 	    //音频售价
 	    Schema::table('videos',function (Blueprint $tabel){
 		    $tabel->addColumn('smallInteger','audio_count')->unsigned()->default(0)->comment('音频数');
-		    $tabel->addColumn('smallInteger','price')->unsigned()->default(0)->comment('售价');
-		    $tabel->addColumn('smallInteger','active_price')->unsigned()->default(0)->comment('活动价');
+		    $tabel->addColumn('decimal','price', ['total'=>6, 'places'=>2])->unsigned()->default('0.00')->comment('售价');
+		    $tabel->addColumn('decimal','active_price', ['total'=>6, 'places'=>2])->unsigned()->default('0.00')->comment('活动价');
 		    $tabel->addColumn('tinyInteger','active_on')->unsigned()->default(0)->comment('是否开启活动');
 		    $tabel->addColumn('timestamp','active_start_at')->default(null)->nullable()->comment('活动开始时间');
 		    $tabel->addColumn('timestamp','active_end_at')->default(null)->nullable()->comment('活动结束时间');
@@ -45,8 +45,8 @@ class AlertCourseAudioCollege0422 extends Migration
 	    //讲堂售价
 	    Schema::table('colleges',function (Blueprint $tabel) {
 		    $tabel->addColumn('tinyInteger','sold_on')->unsigned()->default(0)->comment('是否销售学习卡');
-		    $tabel->addColumn('smallInteger','price')->unsigned()->default(0)->comment('售价');
-		    $tabel->addColumn('smallInteger','active_price')->unsigned()->default(0)->comment('活动价');
+		    $tabel->addColumn('decimal','price', ['total'=>6, 'places'=>2])->unsigned()->default('0.00')->comment('售价');
+		    $tabel->addColumn('decimal','active_price', ['total'=>6, 'places'=>2])->unsigned()->default('0.00')->comment('活动价');
 		    $tabel->addColumn('tinyInteger','active_on')->unsigned()->default(0)->comment('是否开启活动');
 		    $tabel->addColumn('timestamp','active_start_at')->default(null)->nullable()->comment('活动开始时间');
 		    $tabel->addColumn('timestamp','active_end_at')->default(null)->nullable()->comment('活动结束时间');

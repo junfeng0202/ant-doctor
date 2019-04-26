@@ -51,11 +51,19 @@ class WeChatController extends ApiController
 		return $this->apiReturn($buttons);
 	}
 
+	/**
+	 * 蚂蚁照护 -- 用户授权，获取code
+	 * @return mixed
+	 */
 	public function getCode()
 	{
 		return $this->app->oauth->scopes(['snsapi_userinfo'])->redirect();
 	}
 
+	/**
+	 * 蚂蚁照护 -- 获取用户信息
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function user()
 	{
 		$user = $this->app->oauth->user();
@@ -64,6 +72,27 @@ class WeChatController extends ApiController
 			'nickname'=> $user->getNickname(),
 			'avatar'=> $user->getAvatar(),
 			'gender'=> $user->getOriginal()['sex'],
+		]);
+	}
+
+	/**
+	 * 医学V -- 用户授权，获取code
+	 * @return mixed
+	 */
+	public function getVCode()
+	{
+		return app('wechat.official_account.v')->scopes(['snsapi_base'])->redirect();
+	}
+
+	/**
+	 * 医学V -- 获取用户信息
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function userV()
+	{
+		$user = $this->app->oauth->user();
+		return $this->apiReturn([
+			'openid'=> $user->getId(),
 		]);
 	}
 

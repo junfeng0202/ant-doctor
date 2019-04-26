@@ -50,13 +50,19 @@ class PayService
 			$data = [
 				'out_trade_no' => $order->number,
 				'body' => '蚂蚁医生科普版',
-				'total_fee' => $order->amount * 100,
-				'openid' => $order->member->openid,
+				'total_fee' => $order->amount * 100
 			];
-			return Pay::wechat()->mp($data);
+			if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') === false) {
+				$data['spbill_create_ip'] = $this->get_client_ip();
+				return Pay::wechat()->wap($data);
+			} else {
+				$data['openid'] =  $order->member->openid;
+				$res = Pay::wechat()->mp($data);
+				return ['code'=> 200, 'data'=>$res, 'msg'=> ''];
+			}
+			
 		}
 	}
-
 
 	/**
 	 * 支付成功
@@ -141,6 +147,23 @@ class PayService
 			$this->repository->notifyDateStore($type, $data->toArray());
 		});
 		return true;
+	}
+
+	/**
+	 * 获取客户端IP
+	 * @return string
+	 */
+	function get_client_ip() {
+		if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
+			$ip = getenv('HTTP_CLIENT_IP');
+		} elseif(getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
+			$ip = getenv('HTTP_X_FORWARDED_FOR');
+		} elseif(getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
+			$ip = getenv('REMOTE_ADDR');
+		} elseif(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+		return preg_match ( '/[\d\.]{7,15}/', $ip, $matches ) ? $matches [0] : '';
 	}
 
 	protected function getOrderSuccessStrategy($type): IOrderSuccess

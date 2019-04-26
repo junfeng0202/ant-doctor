@@ -65,10 +65,10 @@ class CourseService extends Service
 		return $item;
 	}
 
-	public function BackUpdateOreCreate($request)
+	public function BackUpdateOreCreate(Request $request)
 	{
 		//更新基本信息
-		$course = $this->courseRepository->BackUpdateOrCreate($request->all());
+		$course = $this->courseRepository->BackUpdateOrCreate($request->id,$request->except('id'));
 		$course->doctor()->sync($request->doctor_ids);
 		return;
 	}
