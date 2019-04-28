@@ -83,6 +83,7 @@ class WeChatController extends ApiController
 	{
 		$id = $request->id;
 		return app('wechat.official_account.v')->oauth->scopes(['snsapi_base'])->redirect(env('WECHAT_V_CALLBACK').'?orderId='.$id);
+
 	}
 
 	/**
