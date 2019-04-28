@@ -13,8 +13,10 @@ use App\Repository\MemberVideoRepository;
 use App\Repository\OrderRepository;
 use App\Repository\VideoRepository;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yansongda\LaravelPay\Facades\Pay;
 
 class OrderService
 {
@@ -157,6 +159,35 @@ class OrderService
 		$payedTotal = $this->orderRepository->payedTotal($query);
 		$payedAmount = $this->orderRepository->payedAmount($query);
 		return ['total'=> $total, 'payedTotal'=> $payedTotal, 'payedAmount'=> $payedAmount];
+	}
+
+	public function refund($id)
+	{
+		$order = $this->orderRepository->getOrderByID($id);
+		if(!$order) throw new ModelNotFoundException('订单不存在');
+		if ($order->pay_type === Order::ALIPAY) {
+			$order = [
+				'out_trade_no' => $order->number,
+				'refund_amount' => $order->amount,
+			];
+			$result = Pay::alipay()->refund($order);
+			if($result->code == 10000) {
+				return $this->orderRepository->updateById($id, ['refund_at'=> Carbon::now()]);
+			}
+		} else {
+			$order = [
+				'out_trade_no' => $order->number,
+				'out_refund_no' => 'p-'.date('YmdHis'),
+				'total_fee' => $order->amount * 100,
+				'refund_fee' => $order->amount * 100,
+				'refund_desc' => '蚂蚁医生科普版--退款',
+			];
+			$result = Pay::wechat()->refund($order);
+			if($result->return_code == 'SUCCESS' && $result->return_msg == 'OK') {
+				return $this->orderRepository->updateById($id, ['refund_at'=> Carbon::now()]);
+			}
+		}
+		return false;
 	}
 
 	protected function handleCondition()

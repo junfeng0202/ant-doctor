@@ -25,4 +25,14 @@ class OrderController extends ApiController
 		return $this->apiReturn($this->service->statistics());
 	}
 
+	public function refund($id)
+	{
+		if ($this->service->refund($id)) {
+			$index = 1;
+		} else {
+			$index = 106;
+		}
+		return $this->setIndex($index)->apiReturn();
+	}
+
 }

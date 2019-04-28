@@ -82,7 +82,7 @@ return [
             'aes_key' => env('WECHAT_V_AES_KEY', ''),                 // EncodingAESKey
             'oauth' => [
                 'scopes'   => '',
-                'callback' => '',
+                // 'callback' => env('WECHAT_V_CALLBACK',''),
             ],
         ],
     ],

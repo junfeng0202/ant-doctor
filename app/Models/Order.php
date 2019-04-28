@@ -22,7 +22,7 @@ class Order extends Model
 
     protected $fillable = ['number', 'member_id', 'amount', 'status', 'goods_type', 'pay_at', 'pay_type'];
 
-    protected $dates = ['pay_at'];
+    protected $dates = ['pay_at', 'refund_at'];
 
     public function detail()
     {

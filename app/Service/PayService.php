@@ -56,7 +56,7 @@ class PayService
 				$data['spbill_create_ip'] = $this->get_client_ip();
 				return Pay::wechat()->wap($data);
 			} else {
-				$openid = app('wechat.official_account.v')->oauth->user()->getId();
+				$openid = app('wechat.official_account.v')->oauth->user()->id;
 				$data['openid'] =  $openid;
 				$res = Pay::wechat()->mp($data);
 				return ['code'=> 200, 'data'=>$res, 'msg'=> ''];

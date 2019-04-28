@@ -79,9 +79,10 @@ class WeChatController extends ApiController
 	 * 医学V -- 用户授权，获取code
 	 * @return mixed
 	 */
-	public function getVCode()
+	public function getVCode(Request $request)
 	{
-		return app('wechat.official_account.v')->scopes(['snsapi_base'])->redirect();
+		$id = $request->id;
+		return app('wechat.official_account.v')->oauth->scopes(['snsapi_base'])->redirect(env('WECHAT_V_CALLBACK').'?orderId='.$id);
 	}
 
 	/**

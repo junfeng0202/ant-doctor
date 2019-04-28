@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
 	        $table->unsignedTinyInteger('goods_type')->default(0)->comment('商品类型');
             $table->unsignedTinyInteger('status')->default(1)->comment('订单状态 1.待支付 2.已支付 3.已取消');
             $table->timestamp('pay_at')->default(null)->nullable()->comment('支付时间');
+            $table->timestamp('refund_at')->default(null)->nullable()->comment('退款时间');
             $table->unsignedTinyInteger('pay_type')->default(0)->comment('支付方式 1.支付宝 2.微信');
             $table->timestamps();
         });
