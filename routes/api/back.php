@@ -75,7 +75,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Backend\V1', 'prefix' => 'bac
 			Route::post('/feedback/list', 'FeedbackController@getList')->name('feedbackList');
 			// 订单列表
 			Route::post('/order/list', 'OrderController@index')->name('orderList');
-			Route::post('/order/refund', 'OrderController@refund')->name('orderRefund');
+			Route::post('/order/refund/{id}', 'OrderController@refund')->name('orderRefund');
 		});
 
 
