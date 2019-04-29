@@ -123,14 +123,14 @@ class CourseRepository
 	}
 
 
-	public function BackEdit()
-	{
-
-	}
-
 	public function BackCount()
 	{
 		return Course::enable()->count();
+	}
+
+	public function incrSold($id)
+	{
+		return Course::whereId($id)->increment('sold');
 	}
 
 }

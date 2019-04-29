@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Video extends Model
 {
 
-	protected $fillable = ['hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'audio_count', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at'];
+	protected $fillable = ['hits', 'title', 'disease_id', 'image', 'brief', 'sort', 'enable', 'audio_count', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at', 'sold'];
 
 	public function doctor()
 	{

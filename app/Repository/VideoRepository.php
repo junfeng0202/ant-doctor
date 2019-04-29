@@ -87,4 +87,9 @@ class VideoRepository
 		return Video::enable()->count();
 	}
 
+	public function incrSold($id)
+	{
+		return Video::whereId($id)->increment('sold');
+	}
+
 }

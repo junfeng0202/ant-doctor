@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Redis;
 
 class College extends Model
 {
-	public $fillable = ['title', 'brief', 'image', 'enable', 'sort', 'sold_on', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at'];
+	public $fillable = ['title', 'brief', 'image', 'enable', 'sort', 'sold_on', 'price', 'active_price', 'active_on', 'active_start_at', 'active_end_at', 'sold'];
 
 	public function section()
 	{

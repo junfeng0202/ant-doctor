@@ -138,4 +138,9 @@ class CollegeRepository
 	{
 		return CollegeSectionContent::where('college_section_id', $sectionId)->with('contentable')->latest($sort)->latest('id')->paginate($size);
 	}
+
+	public function incrSold($id)
+	{
+		return College::whereId($id)->increment('sold');
+	}
 }

@@ -20,6 +20,7 @@ class AlertCourseAudioCollege0422 extends Migration
 		    $tabel->addColumn('tinyInteger','active_on')->unsigned()->default(0)->comment('是否开启活动');
 		    $tabel->addColumn('timestamp','active_start_at')->default(null)->nullable()->comment('活动开始时间');
 		    $tabel->addColumn('timestamp','active_end_at')->default(null)->nullable()->comment('活动结束时间');
+		    $tabel->addColumn('integer','sold')->default(0)->unsigned()->comment('销量');
 	    });
 
 	    //课程章节试看
@@ -35,6 +36,7 @@ class AlertCourseAudioCollege0422 extends Migration
 		    $tabel->addColumn('tinyInteger','active_on')->unsigned()->default(0)->comment('是否开启活动');
 		    $tabel->addColumn('timestamp','active_start_at')->default(null)->nullable()->comment('活动开始时间');
 		    $tabel->addColumn('timestamp','active_end_at')->default(null)->nullable()->comment('活动结束时间');
+		    $tabel->addColumn('integer','sold')->default(0)->unsigned()->comment('销量');
 	    });
 
 	    //音频试听
@@ -50,6 +52,7 @@ class AlertCourseAudioCollege0422 extends Migration
 		    $tabel->addColumn('tinyInteger','active_on')->unsigned()->default(0)->comment('是否开启活动');
 		    $tabel->addColumn('timestamp','active_start_at')->default(null)->nullable()->comment('活动开始时间');
 		    $tabel->addColumn('timestamp','active_end_at')->default(null)->nullable()->comment('活动结束时间');
+		    $tabel->addColumn('integer','sold')->default(0)->unsigned()->comment('销量');
 	    });
     }
 
