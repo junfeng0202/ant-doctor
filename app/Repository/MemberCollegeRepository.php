@@ -24,4 +24,9 @@ class MemberCollegeRepository
 	public function create($data){
 		return MemberCollege::create($data);
 	}
+
+	public function del($id)
+	{
+		return MemberCollege::destroy($id);
+	}
 }

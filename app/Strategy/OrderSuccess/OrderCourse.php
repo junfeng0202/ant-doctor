@@ -13,5 +13,10 @@ class OrderCourse implements IOrderSuccess
 		(new MemberCourseRepository())->create(['member_id' => $member_id, 'course_id' => $goods_id, 'expired_at' => Carbon::now()->addYear()]);
 		(new CourseRepository())->incrSold($goods_id);
 	}
+
+	public function orderRefund($goods_id)
+	{
+		(new MemberCourseRepository())->del($goods_id);
+	}
 }
 

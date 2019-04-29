@@ -13,5 +13,10 @@ class OrderVideo implements IOrderSuccess
 		(new MemberVideoRepository())->create(['member_id'=>$member_id, 'video_id'=>$goods_id, 'expired_at'=>Carbon::now()->addYear()]);
 		(new VideoRepository())->incrSold($goods_id);
 	}
+
+	public function orderRefund($goods_id)
+	{
+		(new MemberVideoRepository())->del($goods_id);
+	}
 }
 

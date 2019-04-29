@@ -19,4 +19,9 @@ class MemberCourseRepository
 	{
 		return MemberCourse::create($data);
 	}
+
+	public function del($id)
+	{
+		return MemberCourse::destroy($id);
+	}
 }

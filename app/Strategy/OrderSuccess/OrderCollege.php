@@ -12,5 +12,10 @@ class OrderCollege implements IOrderSuccess
 		(new MemberCollegeRepository())->create(['member_id' => $member_id, 'college_id' => $goods_id, 'expired_at' => Carbon::now()->addYear()]);
 		(new CollegeRepository())->incrSold($goods_id);
 	}
+
+	public function orderRefund($goods_id)
+	{
+		(new MemberCollegeRepository())->del($goods_id);
+	}
 }
 

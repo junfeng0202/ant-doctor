@@ -19,4 +19,9 @@ class MemberVideoRepository
 	{
 		return MemberVideo::create($data);
 	}
+
+	public function del($id)
+	{
+		return MemberVideo::destroy($id);
+	}
 }

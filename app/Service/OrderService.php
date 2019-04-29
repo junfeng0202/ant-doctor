@@ -163,7 +163,7 @@ class OrderService
 
 	public function refund($id)
 	{
-		$order = $this->orderRepository->getOrderByID($id);
+		$order = $this->orderRepository->getOrderDetail($id);
 		if(!$order) throw new ModelNotFoundException('订单不存在');
 		if ($order->pay_type === Order::ALIPAY) {
 			$order = [
@@ -172,6 +172,7 @@ class OrderService
 			];
 			$result = Pay::alipay()->refund($order);
 			if($result->code == 10000) {
+				(new PayService(null))->getOrderSuccessStrategy($order->goods_type)->orderRefund($order->detail->goods_id);
 				return $this->orderRepository->updateById($id, ['refund_at'=> Carbon::now()]);
 			}
 		} else {
@@ -184,6 +185,7 @@ class OrderService
 			];
 			$result = Pay::wechat()->refund($order);
 			if($result->return_code == 'SUCCESS' && $result->return_msg == 'OK') {
+				(new PayService(null))->getOrderSuccessStrategy($order->goods_type)->orderRefund($order->detail->goods_id);
 				return $this->orderRepository->updateById($id, ['refund_at'=> Carbon::now()]);
 			}
 		}

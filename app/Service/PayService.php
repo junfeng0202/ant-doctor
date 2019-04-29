@@ -167,7 +167,7 @@ class PayService
 		return preg_match ( '/[\d\.]{7,15}/', $ip, $matches ) ? $matches [0] : '';
 	}
 
-	protected function getOrderSuccessStrategy($type): IOrderSuccess
+	public function getOrderSuccessStrategy($type): IOrderSuccess
 	{
 		switch ($type) {
 			case Order::COURSE:
