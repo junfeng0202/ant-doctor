@@ -4,22 +4,17 @@ namespace App\Service;
 
 use App\Events\CourseHit;
 use App\Exceptions\ApiException;
-use App\Http\Controllers\ApiController;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseSectionResource;
 use App\Models\CollegeSection;
-use App\Models\CourseSection;
-use App\Repository\CourseDoctorRepository;
 use App\Repository\CourseRepository;
 use App\Repository\CourseSectionRepository;
 use App\Repository\MemberCollegeRepository;
 use App\Repository\MemberCourseRepository;
 use App\Repository\MemberStudyRepository;
-use Barryvdh\Debugbar\Controllers\BaseController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -85,7 +80,7 @@ class CourseService extends Service
 				'id' => $course_id,
 				'audio_count' => $courseSection->sectionVideoCount($course_id)
 			);
-			$this->courseRepository->BackUpdateOrCreate($data);
+			$this->courseRepository->BackUpdateOrCreate($course_id, $data);
 		});
 
 
