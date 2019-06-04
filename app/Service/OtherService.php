@@ -14,6 +14,12 @@ class OtherService
 	const FRONTEND = 1;
 	const BACKEND = 2;
 
+	/**
+	 * 发送短信
+	 * @param $request
+	 * @return bool
+	 * @throws ApiException
+	 */
 	public function sendSms($request)
 	{
 		if (($phone = $request->phone) && preg_match('/^1[356789]\d{9}$/', $phone)) {
@@ -56,6 +62,12 @@ class OtherService
 		}
 	}
 
+	/**
+	 * 缓存发送次数
+	 * @param $key
+	 * @param $val
+	 * @param int $expire
+	 */
 	public function _cacheData($key, $val, $expire = 0)
 	{
 		if (!Redis::exists($key)) {

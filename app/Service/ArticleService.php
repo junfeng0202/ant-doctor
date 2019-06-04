@@ -45,15 +45,26 @@ class ArticleService extends Service
 		return new ArticleResource($item);
 	}
 
-    //后端接口-图文列表
-    public function BackList($limit,$kw){
+
+	/**
+	 * 图文列表
+	 * @param $limit
+	 * @param $kw
+	 * @return array
+	 */
+	public function BackList($limit, $kw){
         $items = $this->articleRepository->BackPaginate($limit,null,$kw);
         $handerResult = ArticleResource::collection($items);
         return ['data'=>$handerResult, 'meta'=>['total'=>$items->total()]];
     }
 
-    //后端接口-图文详情
-    public function BackInfo($id){
+
+	/**
+	 * 图文详情
+	 * @param $id
+	 * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+	 */
+	public function BackInfo($id){
         $item = $this->articleRepository->BackById($id);
 
         if(!$item){
@@ -64,7 +75,11 @@ class ArticleService extends Service
     }
 
 
-    public function BackUpdateOreCreate($param){
+	/**
+	 * 更新
+	 * @param $param
+	 */
+	public function BackUpdateOreCreate($param){
         $data = array(
             'title' => $param['title'],
             'disease_id' => $param['disease_id'],
@@ -84,13 +99,21 @@ class ArticleService extends Service
 
     }
 
-    //统计总数
-    public function BackCount(){
+	/**
+	 * 统计总数
+	 * @return mixed
+	 */
+	public function BackCount(){
         $res = $this->articleRepository->BackCount();
         return $res;
     }
 
-    public function delete($id){
+	/**
+	 * 删除
+	 * @param $id
+	 * @return int
+	 */
+	public function delete($id){
         return $this->articleRepository->BackDelete($id);
     }
 

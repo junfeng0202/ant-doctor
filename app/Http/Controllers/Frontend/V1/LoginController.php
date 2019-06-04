@@ -31,12 +31,22 @@ class LoginController extends ApiController
 		return $this->setIndex(10)->apiReturn($this->respondWithToken($token));
 	}
 
+	/**
+	 * forget user's password
+	 * @param MemberRequest $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function forget(MemberRequest $request)
 	{
 		$this->memberService->forget($request);
 		return $this->setIndex(105)->apiReturn();
 	}
 
+	/**
+	 * user register
+	 * @param MemberRequest $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function register(MemberRequest $request)
 	{
 		$user = $this->memberService->register($request);
@@ -99,7 +109,7 @@ class LoginController extends ApiController
 	 *
 	 * @param  string $token
 	 *
-	 * @return \Illuminate\Http\JsonResponse
+	 * @return array
 	 */
 	protected function respondWithToken($token)
 	{

@@ -16,22 +16,42 @@ class CourseController extends ApiController
 
 	}
 
+	/**
+	 * 课程列表
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function index(Request $request)
 	{
 		$data = $this->courseService->index($request);
 		return $this->apiReturn($data);
 	}
 
+	/**
+	 * 课程详情
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function info($id)
 	{
 		return $this->apiReturn($this->courseService->info($id));
 	}
 
+	/**
+	 * 课程下面的视频信息
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function audio($id)
 	{
 		return $this->apiReturn($this->courseService->audio($id));
 	}
 
+	/**
+	 * 学习记录
+	 * @param StudyLogRequest $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function study(StudyLogRequest $request)
 	{
 		$this->courseService->study($request);

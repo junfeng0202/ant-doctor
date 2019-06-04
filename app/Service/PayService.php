@@ -118,6 +118,12 @@ class PayService
 		}
 	}
 
+	/**
+	 * 支付成功回调处理
+	 * @param $data
+	 * @param $type
+	 * @return bool
+	 */
 	protected function charge_succeeded($data, $type)
 	{
 
@@ -167,6 +173,11 @@ class PayService
 		return preg_match ( '/[\d\.]{7,15}/', $ip, $matches ) ? $matches [0] : '';
 	}
 
+	/**
+	 * 根据类型返回不同订单对象
+	 * @param $type
+	 * @return IOrderSuccess
+	 */
 	public function getOrderSuccessStrategy($type): IOrderSuccess
 	{
 		switch ($type) {

@@ -16,12 +16,21 @@ class IndexController extends ApiController
 
 	}
 
+	/**
+	 * 首页内容内部
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function index()
 	{
 		$data = $this->indexService->index();
 		return $this->apiReturn($data);
 	}
 
+	/**
+	 * 首页搜索
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function search(Request $request)
 	{
 		$data = $this->indexService->search($request);

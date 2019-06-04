@@ -48,22 +48,35 @@ class DiseaseService extends Service
 		];
 	}
 
-	//==================================后端接口===============================================
-	//病种列表
+
+	/**
+	 * 病种列表
+	 * @return array
+	 */
 	public function BackListTree()
 	{
 		$items = $this->diseaseRepository->getAll(false)->toArray();
 		return $this->arrToTree($items);
 	}
 
-	//banner列表详情
+
+	/**
+	 * banner详情
+	 * @param $id
+	 * @return mixed
+	 */
 	public function BackInfo($id)
 	{
 		$item = $this->diseaseRepository->BackById($id);
 		return $item;
 	}
 
-	//更新banner列表
+
+	/**
+	 * 更新banner
+	 * @param $param
+	 * @return mixed
+	 */
 	public function BackUpdateOreCreate($param)
 	{
 		$id = $param['id'];
@@ -71,10 +84,13 @@ class DiseaseService extends Service
 		return $this->diseaseRepository->BackUpdateOreCreate($id, $param);
 	}
 
+	/**
+	 * 删除
+	 * @param $id
+	 */
 	public function delete($id)
 	{
-		return $this->diseaseRepository->BackDelete($id);
+		$this->diseaseRepository->BackDelete($id);
 	}
 
-	//==================================后端接口===============================================
 }

@@ -95,6 +95,11 @@ class OrderService
 
 	}
 
+	/**
+	 * 取消订单
+	 * @return mixed
+	 * @throws ApiException
+	 */
 	public function cancel()
 	{
 		$member = Auth::user();
@@ -144,14 +149,20 @@ class OrderService
 	}
 
 
-	/*======================  后台  ======================*/
-
+	/**
+	 * 后台列表
+	 * @return mixed
+	 */
 	public function backList()
 	{
 		$query = $this->handleCondition();
 		return $this->orderRepository->backList($query, request()->get('limit', 20));
 	}
 
+	/**
+	 * 统计订单数据
+	 * @return array
+	 */
 	public function statistics()
 	{
 		$query = $this->handleCondition();
@@ -161,6 +172,11 @@ class OrderService
 		return ['total'=> $total, 'payedTotal'=> $payedTotal, 'payedAmount'=> $payedAmount];
 	}
 
+	/**
+	 * 退款
+	 * @param $id
+	 * @return bool|mixed
+	 */
 	public function refund($id)
 	{
 		$order = $this->orderRepository->getOrderDetail($id);
@@ -192,6 +208,10 @@ class OrderService
 		return false;
 	}
 
+	/**
+	 * 处理请求条件
+	 * @return \Illuminate\Database\Eloquent\Builder
+	 */
 	protected function handleCondition()
 	{
 		$condition = request()->all();

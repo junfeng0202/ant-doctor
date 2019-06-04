@@ -16,15 +16,25 @@ class BannersService extends Service
 		$this->bannersRepository = $bannersRepository;
 	}
 
-	//==================================后端接口===============================================
-    //banner列表
-    public function BackList($limit,$kw){
+
+	/**
+	 * banner列表
+	 * @param $limit
+	 * @param $kw
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
+	public function BackList($limit, $kw){
         $items = $this->bannersRepository->BackPaginate($limit,null,$kw);
         return $items;
     }
 
-    //banner列表详情
-    public function BackInfo($id){
+
+	/**
+	 * banner详情
+	 * @param $id
+	 * @return mixed
+	 */
+	public function BackInfo($id){
         $item = $this->bannersRepository->BackById($id);
 
         if(!$item){
@@ -34,13 +44,15 @@ class BannersService extends Service
         return $item;
     }
 
-    //更新banner列表
-    public function BackUpdateOreCreate($param){
+	/**
+	 * 更新banner
+	 * @param $param
+	 */
+	public function BackUpdateOreCreate($param){
         $data = array(
             'image' => $param['image'],
             'link' => $param['link']?$param['link']:'',
             'position' => $param['position'],
-            'image' => $param['image'],
             'sort' => $param['sort'],
             'enable' => isset($param['enable'])?$param['enable']:1,
         );
@@ -55,11 +67,14 @@ class BannersService extends Service
 
     }
 
-    public function delete($id){
+	/**
+	 * delete banner
+	 * @param $id
+	 * @return int
+	 */
+	public function delete($id){
         return $this->bannersRepository->BackDelete($id);
     }
-
-    //==================================后端接口===============================================
 
 
 }

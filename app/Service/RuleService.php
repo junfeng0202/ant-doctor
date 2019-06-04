@@ -14,6 +14,10 @@ class RuleService extends Service
 		$this->repository = $repository;
 	}
 
+	/**
+	 * 权限列表
+	 * @return array
+	 */
 	public function getList()
 	{
 		$rules = $this->repository->getList()->toArray();
@@ -21,6 +25,11 @@ class RuleService extends Service
 		return $res;
 	}
 
+	/**
+	 * 保存
+	 * @param $request
+	 * @return $this|\Illuminate\Database\Eloquent\Model
+	 */
 	public function save($request)
 	{
 		$id = $request->id;
@@ -35,6 +44,11 @@ class RuleService extends Service
 		}
 	}
 
+	/**
+	 * 删除
+	 * @param $id
+	 * @return int
+	 */
 	public function delete($id)
 	{
 		return $this->repository->delete($id);

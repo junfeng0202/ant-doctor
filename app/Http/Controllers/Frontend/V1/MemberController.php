@@ -17,6 +17,10 @@ class MemberController extends ApiController
 
 	}
 
+	/**
+	 * get user info
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function user()
 	{
 		$data = $this->memberService->getUser();
@@ -58,6 +62,11 @@ class MemberController extends ApiController
 		return $this->apiReturn();
 	}
 
+	/**
+	 * user's orders list
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function orders(Request $request)
 	{
 		return $this->apiReturn($this->memberService->orders($request));

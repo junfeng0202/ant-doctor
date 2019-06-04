@@ -16,12 +16,22 @@ class LiveService extends Service
 		$this->liveRepository = $liveRepository;
 	}
 
+	/**
+	 * 直播列表
+	 * @param $request
+	 * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+	 */
 	public function index($request)
 	{
 		$items = $this->liveRepository->liveList($request->get('show_num', 8), $request->get('sort', 'sort'));
 		return LiveResource::collection($items);
 	}
 
+	/**
+	 * 详情
+	 * @param $id
+	 * @return LiveResource
+	 */
 	public function info($id)
 	{
 		$item = $this->liveRepository->getById($id);
@@ -33,7 +43,12 @@ class LiveService extends Service
 	}
 
 
-	//后端接口-图文列表
+	/**
+	 * 图文列表
+	 * @param $limit
+	 * @param $kw
+	 * @return array
+	 */
 	public function BackList($limit, $kw)
 	{
 		$items = $this->liveRepository->BackPaginate($limit, null, $kw);//dd($items);
@@ -41,7 +56,12 @@ class LiveService extends Service
 		return ['data' => $handlerResult, 'meta' => ['total' => $items->total()]];
 	}
 
-	//后端接口-图文详情
+
+	/**
+	 * 图文详情
+	 * @param $id
+	 * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+	 */
 	public function BackInfo($id)
 	{
 		$item = $this->liveRepository->BackById($id);
@@ -52,6 +72,10 @@ class LiveService extends Service
 	}
 
 
+	/**
+	 * 更新
+	 * @param $param
+	 */
 	public function BackUpdateOreCreate($param)
 	{
 		$data = array(
@@ -64,10 +88,10 @@ class LiveService extends Service
 			'end_at' => $param['live_time'][1],
 			'sort' => $param['sort'],
 			'status' => intval($param['status']),
-//            'enable' => isset($param['enable'])?$param['enable']:1,
+			//'enable' => isset($param['enable'])?$param['enable']:1,
 			//'hits' => isset($param['hits'])?$param['hits']:0
 		);
-//        dd($data);
+
 		if (isset($param['id']) && $param['id'] != '') {
 			$data['id'] = $param['id'];
 		} else {
@@ -80,6 +104,11 @@ class LiveService extends Service
 
     }
 
+	/**
+	 * 删除
+	 * @param $id
+	 * @return int
+	 */
 	public function delete($id)
 	{
 		return $this->liveRepository->BackDelete($id);

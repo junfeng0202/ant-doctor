@@ -32,6 +32,12 @@ class MemberService extends Service
 		$this->memberRepository = $memberRepository;
 	}
 
+	/**
+	 * 登入
+	 * @param $request
+	 * @return mixed
+	 * @throws ApiException
+	 */
 	public function login($request)
 	{
 		if ($user = $this->memberRepository->getUserByPhone($request->username)) {
@@ -49,6 +55,12 @@ class MemberService extends Service
 		}
 	}
 
+	/**
+	 * 老账号登入
+	 * @param $request
+	 * @return mixed
+	 * @throws ApiException
+	 */
 	protected function loginFormDoc($request)
 	{
 		if ($this->memberRepository->phoneExist($request->username)) {
@@ -77,6 +89,12 @@ class MemberService extends Service
 
 	}
 
+	/**
+	 * 通过openid登入
+	 * @param $request
+	 * @return MemberResource
+	 * @throws ApiException
+	 */
 	public function loginByOpenid($request)
 	{
 		$openid = $request->openid;
@@ -88,6 +106,10 @@ class MemberService extends Service
 		}
 	}
 
+	/**
+	 * 忘记密码
+	 * @param $request
+	 */
 	public function forget($request)
 	{
 		$phone = $request->username;
@@ -106,6 +128,12 @@ class MemberService extends Service
 		}
 	}
 
+	/**
+	 * 注册
+	 * @param $request
+	 * @return mixed
+	 * @throws ApiException
+	 */
 	public function register($request)
 	{
 		$phone = $request->username;
@@ -146,6 +174,10 @@ class MemberService extends Service
 
 	}
 
+	/**
+	 * 获取用户信息
+	 * @return mixed
+	 */
 	public function getUser()
 	{
 		$member = JWTAuth::parseToken()->touser();
@@ -158,6 +190,10 @@ class MemberService extends Service
 		return json_decode(Redis::get($key));
 	}
 
+	/**
+	 * 更新
+	 * @param $request
+	 */
 	public function updateInfo($request)
 	{
 		DB::transaction(function () use ($request) {
@@ -288,20 +324,29 @@ class MemberService extends Service
 	}
 
 
-	//====================================后台===============================
-	//用户列表
+
+
+	/**
+	 * 用户列表
+	 * @param $limit
+	 * @param $kw
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
 	public function BackList($limit, $kw)
 	{
 		$items = $this->memberRepository->BackPaginate($limit, null, $kw);
 		return $items;
 	}
 
-	//统计用户总数
+
+	/**
+	 * 统计用户总数
+	 * @return mixed
+	 */
 	public function BackUserCount()
 	{
 		$res = $this->memberRepository->BackCount();
 		return $res;
 	}
-	//====================================后台===============================
 
 }

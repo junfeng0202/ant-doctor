@@ -17,11 +17,21 @@ class RoleService
 		$this->repository = $repository;
 	}
 
+	/**
+	 * 角色列表
+	 * @param $request
+	 * @return mixed
+	 */
 	public function getList($request)
 	{
 		return $this->repository->getList($request->get('limit',20));
 	}
 
+	/**
+	 * 角色信息
+	 * @param $id
+	 * @return mixed
+	 */
 	public function info($id)
 	{
 		return $this->repository->getById($id);
@@ -43,6 +53,11 @@ class RoleService
 	}
 
 
+	/**
+	 * 角色权限
+	 * @param $id
+	 * @return mixed
+	 */
 	public function getRules($id)
 	{
 		$role = $this->repository->getById($id);
@@ -51,6 +66,10 @@ class RoleService
 		return $role->permissions()->pluck('id');
 	}
 
+	/**
+	 * 保存角色权限
+	 * @param $request
+	 */
 	public function saveRules($request)
 	{
 		$id = $request->id;
@@ -63,6 +82,11 @@ class RoleService
 		return ;
 	}
 
+	/**
+	 * 删除角色
+	 * @param $id
+	 * @return int
+	 */
 	public function delete($id)
 	{
 		return $this->repository->delete($id);

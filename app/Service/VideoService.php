@@ -26,12 +26,22 @@ class VideoService extends Service
 	}
 
 
+	/**
+	 * frontend video list
+	 * @param Request $request
+	 * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+	 */
 	public function paginate(Request $request)
 	{
 		$items = $this->videoRepository->paginate($request->get('show_num', 8), $request->get('disease', 0), $request->get('keyword', ''));
 		return VideoResource::collection($items);
 	}
 
+	/**
+	 * video info
+	 * @param $id
+	 * @return VideoResource
+	 */
 	public function info($id)
 	{
 		$item = $this->videoRepository->getById($id);
@@ -43,10 +53,12 @@ class VideoService extends Service
 		return $video;
 	}
 
+
 	/**
 	 * 获取音频链接
 	 * @param $id
 	 * @return array
+	 * @throws ApiException
 	 */
 	public function section($id)
 	{
@@ -60,12 +72,22 @@ class VideoService extends Service
 	}
 
 
-	//后段服务
+	/**
+	 * backend video list
+	 * @param $limit
+	 * @param $kw
+	 * @return mixed
+	 */
 	public function BackList($limit, $kw)
 	{
 		return $this->videoRepository->BackPaginate($limit, 'sort', $kw);
 	}
 
+	/**
+	 * backend video detail
+	 * @param $id
+	 * @return mixed
+	 */
 	public function BackInfo($id)
 	{
 		$item = $this->videoRepository->BackById($id);
@@ -78,6 +100,10 @@ class VideoService extends Service
 		return $item;
 	}
 
+	/**
+	 * update video info
+	 * @param $param
+	 */
 	public function BackUpdateOreCreate($param)
 	{
 		//更新基本信息
@@ -86,7 +112,12 @@ class VideoService extends Service
 
 	}
 
-	//后台添加章节
+
+	/**
+	 * 添加音频小节
+	 * @param $audio
+	 * @param $request
+	 */
 	public function BackAddSection($audio, $request)
 	{
 		$id = $request->id;
@@ -102,12 +133,22 @@ class VideoService extends Service
 		(new VideoSectionRepository())->BackUpdateOreCreate($id, $data);
 	}
 
+	/**
+	 * 音频小节信息
+	 * @param $id
+	 * @param $request
+	 * @return mixed
+	 */
 	public function BackSections($id, $request)
 	{
 		return (new VideoSectionRepository())->getByVideoId($id, $request->get('limit', 20));
 	}
 
-	//统计总数
+
+	/**
+	 * 音频总数
+	 * @return mixed
+	 */
 	public function BackCount()
 	{
 		$res = $this->videoRepository->BackCount();

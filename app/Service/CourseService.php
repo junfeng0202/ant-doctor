@@ -29,12 +29,22 @@ class CourseService extends Service
 	}
 
 
+	/**
+	 * 课程列表
+	 * @param $request
+	 * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+	 */
 	public function index($request)
 	{
 		$items = $this->courseRepository->paginate($request->get('show_num', 8), $request->get('sort', 'sort'), $request->get('disease', 0), $request->get('keyword', ''));
 		return CourseResource::collection($items);
 	}
 
+	/**
+	 * 课程详情
+	 * @param $id
+	 * @return array
+	 */
 	public function info($id)
 	{
 		$item = $this->courseRepository->getById($id);
@@ -51,6 +61,11 @@ class CourseService extends Service
 		return ['info' => $info, 'recommend' => $recommends];
 	}
 
+	/**
+	 * 后台课程详情
+	 * @param $id
+	 * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+	 */
 	public function BackInfo($id)
 	{
 		$item = $this->courseRepository->BackById($id);
@@ -60,6 +75,10 @@ class CourseService extends Service
 		return $item;
 	}
 
+	/**
+	 * 更新
+	 * @param Request $request
+	 */
 	public function BackUpdateOreCreate(Request $request)
 	{
 		//更新基本信息
@@ -68,7 +87,12 @@ class CourseService extends Service
 		return;
 	}
 
-	//后天添加章节
+
+	/**
+	 * 添加章节
+	 * @param $course_id
+	 * @param $param
+	 */
 	public function BackAddSection($course_id, $param)
 	{
 		DB::transaction(function () use ($param, $course_id) {
@@ -86,6 +110,12 @@ class CourseService extends Service
 
 	}
 
+	/**
+	 *  课程章节列表
+	 * @param Request $request
+	 * @param $id
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
 	public function BackSections(Request $request, $id)
 	{
 		$items = (new CourseSectionRepository())->BackById($id, $request->get('limit', 20));
@@ -93,6 +123,12 @@ class CourseService extends Service
 	}
 
 
+	/**
+	 * 视频信息
+	 * @param $audio_id
+	 * @return array
+	 * @throws ApiException
+	 */
 	public function audio($audio_id)
 	{
 		$audio = (new CourseSectionRepository)->getById($audio_id);
@@ -104,6 +140,10 @@ class CourseService extends Service
 	}
 
 
+	/**
+	 * study log
+	 * @param $request
+	 */
 	public function study($request)
 	{
 		$data = $request->only('course_id', 'course_section_id', 'time', 'end');
@@ -124,6 +164,12 @@ class CourseService extends Service
 		return CourseSectionResource::collection($section);
 	}
 
+	/**
+	 * 后台列表
+	 * @param $limit
+	 * @param $kw
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
 	public function BackList($limit, $kw)
 	{
 		return $this->courseRepository->BackPaginate($limit, null, $kw);

@@ -16,15 +16,25 @@ class DoctorService extends Service
 		$this->doctorRepository = $doctorRepository;
 	}
 
-	//==================================后端接口===============================================
-    //讲者列表
-    public function BackList($limit,$kw){
+
+	/**
+	 * 讲者列表
+	 * @param $limit
+	 * @param $kw
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
+	public function BackList($limit, $kw){
         $items = $this->doctorRepository->BackPaginate($limit,null,$kw);
         return $items;
     }
 
-    //讲者详情
-    public function BackInfo($id){
+
+	/**
+	 * 讲者详情
+	 * @param $id
+	 * @return mixed
+	 */
+	public function BackInfo($id){
         $item = $this->doctorRepository->BackById($id);
 
         if(!$item){
@@ -34,8 +44,12 @@ class DoctorService extends Service
         return $item;
     }
 
-    //更新讲者
-    public function BackUpdateOreCreate($param){
+
+	/**
+	 * 更新讲者
+	 * @param $param
+	 */
+	public function BackUpdateOreCreate($param){
         $data = array(
             'name' => $param['name'],
             'identify' => $param['identify'],
@@ -53,10 +67,7 @@ class DoctorService extends Service
         }
         //更新基本信息
        $this->doctorRepository->BackUpdateOreCreate($data);
-
-
     }
-    //==================================后端接口===============================================
 
 
 }

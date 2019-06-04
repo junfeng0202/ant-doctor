@@ -15,11 +15,19 @@ class ConfigService extends Service
 	}
 
 
+	/**
+	 * 更新微信公众号菜单
+	 * @param $data
+	 */
 	public function updateWeChatMenu($data)
 	{
 		$this->configRepository->updateOrCreate('wechatMenu', json_encode($data));
 	}
 
+	/**
+	 * 获取菜单列表
+	 * @return mixed
+	 */
 	public function getWeChatMenu()
 	{
 		$menu = $this->configRepository->getValueByKey('wechatMenu');

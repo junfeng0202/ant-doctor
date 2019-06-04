@@ -32,13 +32,20 @@ class UploadService
 			)
 		);
 	}
+
+
 	protected function _hex2bin($data) {
 		$len = strlen($data);
 		return pack("H" . $len, $data);
 	}
 
 
-	// obj 转 query string
+	/**
+	 * obj 转 query string
+	 * @param $obj
+	 * @param bool $notEncode
+	 * @return string
+	 */
 	protected function json2str($obj, $notEncode = false) {
 		ksort($obj);
 		$arr = array();
@@ -48,7 +55,14 @@ class UploadService
 		return join('&', $arr);
 	}
 
-	// 计算临时密钥用的签名
+	/**
+	 * 计算临时密钥用的签名
+	 * @param $opt
+	 * @param $key
+	 * @param $method
+	 * @param $domain
+	 * @return string
+	 */
 	protected function getSignature($opt, $key, $method, $domain) {
 		$formatString = $method . $domain . '/v2/index.php?' . $this->json2str($opt, 1);
 		$sign = hash_hmac('sha1', $formatString, $key);
@@ -56,7 +70,11 @@ class UploadService
 		return $sign;
 	}
 
-	// 获取临时密钥
+
+	/**
+	 * 获取临时密钥
+	 * @return mixed|string
+	 */
 	public function getTempKeys() {
 		$ShortBucketName = substr($this->config['bucket'],0, strripos($this->config['bucket'], '-'));
 		$AppId = substr($this->config['bucket'], 1 + strripos($this->config['bucket'], '-'));

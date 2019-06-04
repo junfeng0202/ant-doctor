@@ -16,6 +16,10 @@ class AreaService extends Service
 	}
 
 
+	/**
+	 * 城市列表
+	 * @return array
+	 */
 	public function province()
 	{
 		$items = $this->areaRepository->province();

@@ -38,6 +38,11 @@ class UserService
 		return $user;
 	}
 
+	/**
+	 * 保存
+	 * @param $id
+	 * @param $data
+	 */
 	public function save($id, $data)
 	{
 		if (isset($data['password']) && $data['password'] !== '') {
@@ -51,6 +56,11 @@ class UserService
 	}
 
 
+	/**
+	 * 保存用户权限
+	 * @param $id
+	 * @param $rules
+	 */
 	public function setUserRule($id, $rules)
 	{
 		$res = $rules->where('api_name', '!=', '')->pluck('api_name')->all();
