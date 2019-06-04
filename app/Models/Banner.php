@@ -10,7 +10,9 @@ class Banner extends Model
     use SoftDeletes;
 
     const INDEX = 0;
-    protected $dates = ['deleted_at'];
+
+	protected $fillable = ['image', 'link', 'position', 'image', 'sort', 'enable'];
+	protected $dates = ['deleted_at'];
 
 	/**
 	 * 动态条件--广告位置

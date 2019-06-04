@@ -3,8 +3,6 @@
 namespace App\Service;
 
 use App\Http\Resources\LiveResource;
-use App\Models\back\DoctorLive;
-use App\Models\back\DoctorVideo;
 use App\Repository\LiveRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

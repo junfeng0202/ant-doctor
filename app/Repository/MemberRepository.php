@@ -3,50 +3,92 @@
 namespace App\Repository;
 
 use App\Models\Member;
-use App\Models\back\Member as BackMember;
 
 class MemberRepository
 {
+	/**
+	 * create a member
+	 * @param $data
+	 * @return mixed
+	 */
 	public function create($data)
 	{
 		return Member::create($data);
 	}
 
+	/**
+	 * get member info by id
+	 * @param $id
+	 * @return mixed
+	 */
 	public function getById($id)
 	{
 		return Member::find($id);
 	}
 
+	/**
+	 * update member
+	 * @param $id
+	 * @param $data
+	 * @return mixed
+	 */
 	public function update($id, $data)
 	{
 		return Member::whereId($id)->update($data);
 	}
 
+	/**
+	 * update member info by phone
+	 * @param $phone
+	 * @param $data
+	 * @return mixed
+	 */
 	public function updateByPhone($phone, $data)
 	{
 		return Member::where(['phone'=> $phone])->update($data);
 	}
 
+	/**
+	 * check member exists by phone
+	 * @param $phone
+	 * @return mixed
+	 */
 	public function phoneExist($phone)
 	{
 		return Member::where('phone', $phone)->exists();
 	}
 
+	/**
+	 * get member by phone
+	 * @param $phone
+	 * @return mixed
+	 */
 	public function getUserByPhone($phone)
 	{
 		return Member::where('phone',$phone)->first();
 	}
 
+	/**
+	 * get member by wechat'openid
+	 * @param $openid
+	 * @return mixed
+	 */
 	public function getUserByOpenid($openid)
 	{
 		return Member::where('openid',$openid)->first();
 	}
 
-//=============================================后台=====================================================
-    //后台-用户列表
-    public function BackPaginate($page=10, $sort='sort',$kw=null)
+
+	/**
+	 * member list
+	 * @param int $page
+	 * @param string $sort
+	 * @param null $kw
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
+	public function BackPaginate($page=10, $sort='sort', $kw=null)
     {
-        $query =BackMember::query();
+        $query =Member::query();
         $query->latest($sort);
         //搜索条件
         //用户昵称
@@ -71,9 +113,14 @@ class MemberRepository
         $users = $query->with(['city','province','memberDisease'])->paginate($page);
         return $users;
     }
-    public function BackCount(){
+
+
+	/**
+	 * get count of members
+	 * @return mixed
+	 */
+	public function BackCount(){
 	    return Member::count();
     }
-//=============================================后台=====================================================
 
 }

@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Models\Article;
-use App\Models\back\Article as BackArticle;
 use Illuminate\Support\Facades\DB;
 
 class ArticleRepository
@@ -80,7 +79,7 @@ class ArticleRepository
 	//后台-图文列表
 	public function BackPaginate($page = 10, $sort = 'sort', $kw)
 	{
-		$video = BackArticle::query();
+		$video = Article::query();
 		$video->latest($sort);
 		//搜索条件
 		//标题
@@ -104,13 +103,13 @@ class ArticleRepository
 	//后台-图文信息
 	public function BackById($id)
 	{
-		return BackArticle::with(['disease:id,name'])->find($id);
+		return Article::with(['disease:id,name'])->find($id);
 	}
 
 	//后台-图文更新
 	public function BackUpdateOrCreate($data)
 	{
-		return BackArticle::updateOrCreate(['id' => $data['id']], $data);
+		return Article::updateOrCreate(['id' => $data['id']], $data);
 	}
 
 	public function BackCount()
@@ -120,7 +119,6 @@ class ArticleRepository
 
 	public function BackDelete($id)
 	{
-		$info = Article::find($id);
-		return $info->delete($id);
+		return Article::destroy($id);
 	}
 }

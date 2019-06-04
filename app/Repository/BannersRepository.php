@@ -3,40 +3,66 @@
 namespace App\Repository;
 
 use App\Models\Banner;
-use App\Models\back\Banner as BackBanner;
 
 
 class BannersRepository
 {
-	//根据banners位置获取banner
-	public function getBanners($position=0)
+
+	/**
+	 * get frontend banners
+	 * @param int $position
+	 * @return mixed
+	 */
+	public function getBanners($position = 0)
 	{
 		return Banner::enable()->latest('sort')->position($position)->get();
 	}
 
-	//==================================后台================================================
-    //后台-banner列表
-    public function BackPaginate($page=10, $sort='sort',$kw)
-    {
-        $query =BackBanner::query();
-        $query->latest($sort);
-        return $query->paginate($page);
-    }
-    //后台-banner列表信息
-    public function BackById($id){
-        return BackBanner::find($id);
-    }
+	/**
+	 * get banner list with paginate
+	 * @param int $page
+	 * @param string $sort
+	 * @param $kw
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+	 */
+	public function BackPaginate($page = 10, $sort = 'sort', $kw)
+	{
+		$query = Banner::query();
+		$query->latest($sort);
+		return $query->paginate($page);
+	}
 
-    //后台-banner列表更新
-    public function BackUpdateOreCreate($data){
-        return BackBanner::updateOrCreate(['id'=>$data['id']],$data);
-    }
 
-    public function BackDelete($id){
-	    $info = BackBanner::find($id);
-	    return $info->delete($id);
-    }
-	//==================================后台================================================
+	/**
+	 * get banner info
+	 * @param $id
+	 * @return mixed
+	 */
+	public function BackById($id)
+	{
+		return Banner::find($id);
+	}
+
+
+	/**
+	 * edit banner info
+	 * @param $data
+	 * @return mixed
+	 */
+	public function BackUpdateOreCreate($data)
+	{
+		return Banner::updateOrCreate(['id' => $data['id']], $data);
+	}
+
+	/**
+	 * delete banner by id
+	 * @param $id
+	 * @return int
+	 */
+	public function BackDelete($id)
+	{
+		return Banner::destroy($id);
+	}
 
 
 }
